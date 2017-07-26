@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xgh.mng.dao.write.ISysRoleDaoW">
+
+	<resultMap id="sysRoleMap" type="com.xgh.mng.entity.SysRole">
+		<result column="id" javaType="long" jdbcType="BIGINT" property="id"/>
+		<result column="nid" javaType="long" jdbcType="BIGINT" property="nid"/>
+		<result column="inst_id" javaType="long" jdbcType="BIGINT" property="instId"/>
+		<result column="unit_id" javaType="long" jdbcType="BIGINT" property="unitId"/>
+		<result column="role_code" javaType="string" jdbcType="VARCHAR" property="roleCode"/>
+		<result column="role_name" javaType="string" jdbcType="VARCHAR" property="roleName"/>
+		<result column="role_desc" javaType="string" jdbcType="VARCHAR" property="roleDesc"/>
+		<result column="is_sys" javaType="long" jdbcType="BIGINT" property="isSys"/>
+		<result column="is_privilege" javaType="long" jdbcType="BIGINT" property="isPrivilege"/>
+		<result column="level" javaType="int" jdbcType="INTEGER" property="level"/>
+		<result column="ord" javaType="long" jdbcType="BIGINT" property="ord"/>
+		<result column="create_date" javaType="date" jdbcType="TIMESTAMP" property="createDate"/>
+		<result column="update_date" javaType="date" jdbcType="TIMESTAMP" property="updateDate"/>
+		<result column="status" javaType="int" jdbcType="INTEGER" property="status"/>
+		<result column="remark" javaType="string" jdbcType="VARCHAR" property="remark"/>
+	</resultMap>
+
+	<insert id="add" parameterType="com.xgh.mng.entity.SysRole">
+		<selectKey keyProperty="id" order="AFTER" resultType="long">
+			SELECT max(id) AS value from tb_sys_role
+		</selectKey>
+		insert into tb_sys_role
+		(
+		nid,
+		inst_id,
+		unit_id,
+		role_code,
+		role_name,
+		role_desc,
+		is_sys,
+		is_privilege,
+		level,
+		ord,
+		create_date,
+		update_date,
+		status,
+		remark
+		)
+		values (
+		#{nid,jdbcType=BIGINT},
+		#{instId,jdbcType=BIGINT},
+		#{unitId,jdbcType=BIGINT},
+		#{roleCode,jdbcType=VARCHAR},
+		#{roleName,jdbcType=VARCHAR},
+		#{roleDesc,jdbcType=VARCHAR},
+		#{isSys,jdbcType=BIGINT},
+		#{isPrivilege,jdbcType=BIGINT},
+		#{level,jdbcType=INTEGER},
+		#{ord,jdbcType=BIGINT},
+		#{createDate,jdbcType=TIMESTAMP},
+		#{updateDate,jdbcType=TIMESTAMP},
+		#{status,jdbcType=INTEGER},
+		#{remark,jdbcType=VARCHAR}
+		)
+	</insert>
+
+	<update id="update" parameterType="com.xgh.mng.entity.SysRole">
+		update tb_sys_role
+		set
+		nid = #{nid,jdbcType=BIGINT},
+		inst_id = #{instId,jdbcType=BIGINT},
+		unit_id = #{unitId,jdbcType=BIGINT},
+		role_code = #{roleCode,jdbcType=VARCHAR},
+		role_name = #{roleName,jdbcType=VARCHAR},
+		role_desc = #{roleDesc,jdbcType=VARCHAR},
+		is_sys = #{isSys,jdbcType=BIGINT},
+		is_privilege = #{isPrivilege,jdbcType=BIGINT},
+		level = #{level,jdbcType=INTEGER},
+		ord = #{ord,jdbcType=BIGINT},
+		create_date = #{createDate,jdbcType=TIMESTAMP},
+		update_date = #{updateDate,jdbcType=TIMESTAMP},
+		status = #{status,jdbcType=INTEGER},
+		remark = #{remark,jdbcType=VARCHAR}
+		where id = #{id}
+	</update>
+
+	<delete id="deleteById" parameterType="long">
+		delete from
+		tb_sys_role
+		where
+		id = #{id}
+	</delete>
+
+	<delete id="deleteByNid" parameterType="long">
+		delete from
+		tb_sys_role
+		where
+		nid = #{nid}
+	</delete>
+</mapper>

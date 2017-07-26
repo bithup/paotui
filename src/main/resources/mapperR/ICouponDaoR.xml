@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xgh.paotui.dao.read.ICouponDaoR">
+
+	<!--实体映射-->
+	<resultMap id="couponResultMap" type="com.xgh.paotui.entity.Coupon">
+		<!--唯一id-->
+		<id property="id" column="id" />
+		<!--代金券使用客户id-->
+		<result property="customerId" column="customer_id" javaType="long" jdbcType="BIGINT" />
+		<!--使用订单id-->
+		<result property="orderId" column="order_id" javaType="long" jdbcType="BIGINT" />
+		<!--代金券名称-->
+		<result property="couponName" column="coupon_name" javaType="String" jdbcType="VARCHAR" />
+		<!--代金券金额(单位：元)-->
+		<result property="moneyAmount" column="money_amount" javaType="BigDecimal" jdbcType="DECIMAL" />
+		<!--抵扣金额(单位：元)-->
+		<result property="useAmount" column="use_amount" javaType="BigDecimal" jdbcType="DECIMAL" />
+		<!--有效期开始日期-->
+		<result property="startDate" column="start_date" javaType="Date" jdbcType="TIMESTAMP" />
+		<!--有效期结束日期-->
+		<result property="endDate" column="end_date" javaType="Date" jdbcType="TIMESTAMP" />
+		<!--代金券状态（1：未使用 2：已使用 3：已失效 ）-->
+		<result property="useStatus" column="use_status" javaType="int" jdbcType="INTEGER" />
+		<!--使用时间-->
+		<result property="updateDate" column="update_date" javaType="Date" jdbcType="TIMESTAMP" />
+		<!--扩展1-->
+		<result property="data1" column="data_1" javaType="long" jdbcType="BIGINT" />
+		<!--扩展2-->
+		<result property="data2" column="data_2" javaType="int" jdbcType="INTEGER" />
+		<!--扩展3-->
+		<result property="data3" column="data_3" javaType="String" jdbcType="VARCHAR" />
+		<!--扩展4-->
+		<result property="data4" column="data_4" javaType="String" jdbcType="VARCHAR" />
+		<!--扩展5-->
+		<result property="data5" column="data_5" javaType="String" jdbcType="VARCHAR" />
+		<!--状态（1：正常 2：已删除）-->
+		<result property="status" column="status" javaType="int" jdbcType="INTEGER" />
+	</resultMap>
+
+
+	<!-- 通用查询结果列-->
+	<sql id="Base_Column_List">
+		 id as id,
+	customer_id	 as customerId,
+	order_id	 as orderId,
+	coupon_name	 as couponName,
+	money_amount	 as moneyAmount,
+	use_amount	 as useAmount,
+	start_date	 as startDate,
+	end_date	 as endDate,
+	use_status	 as useStatus,
+	update_date	 as updateDate,
+	data_1	 as data1,
+	data_2	 as data2,
+	data_3	 as data3,
+	data_4	 as data4,
+	data_5	 as data5,
+	status	 as status
+	</sql>
+
+	<!-- 查询（根据主键ID查询） -->
+	<select id="get" resultMap="couponResultMap" parameterType="java.lang.Long">
+		 SELECT
+		 <include refid="Base_Column_List" />
+		 FROM tb_coupon
+		 WHERE  status = 1  and id = #{id}
+	</select>
+
+	<!-- 查询（根据查询条件查询） -->
+	<select id="getList" resultMap="couponResultMap" parameterType="hashmap">
+		 SELECT
+		 <include refid="Base_Column_List" />
+		 FROM tb_coupon
+		 WHERE   status = 1 
+	</select>
+
+	<!-- 查询（根据查询条件分页查询） -->
+	<select id="getListPage" resultMap="couponResultMap" parameterType="hashmap">
+		 SELECT
+		 <include refid="Base_Column_List" />
+		 FROM tb_coupon
+		 WHERE   status = 1 
+		 limit ${(page-1)*pagesize},${pagesize} 
+	</select>
+
+	<!-- 查询（根据查询条件分页查询） -->
+	<select id="getListMapPage" resultType="hashmap"  parameterType="hashmap">
+		 SELECT
+		 <include refid="Base_Column_List" />
+		 FROM tb_coupon
+		 WHERE   status = 1
+		<if test="page!=null and page!='' and pagesize!='' and pagesize!=''">
+		limit ${(page-1)*pagesize},${pagesize}
+		</if>
+	</select>
+
+	<!-- 查询记录总数量（根据查询条件查询记录总数量） -->
+	<select id="getRows" resultType="long" parameterType="hashmap">
+		 SELECT 
+		 count(*)  
+		 FROM tb_coupon
+		 WHERE   status = 1 
+	</select>
+
+
+	<!--接口-->
+	<select id="getCouponList" resultType="hashmap"  parameterType="hashmap">
+		SELECT
+		<include refid="Base_Column_List" />
+		FROM tb_coupon
+		WHERE   status = 1
+		AND customer_id	= ${customerId}
+		<if test="useStatus!=null and useStatus!=''">
+			AND use_status = ${useStatus}
+		</if>
+	</select>
+</mapper>
+

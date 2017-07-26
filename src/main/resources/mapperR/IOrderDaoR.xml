@@ -1,0 +1,570 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xgh.paotui.dao.read.IOrderDaoR">
+
+	<!--实体映射-->
+	<resultMap id="orderResultMap" type="com.xgh.paotui.entity.Order">
+		<!---->
+		<id property="id" column="id" />
+		<!--订单类型：1、帮送；2、帮取；3、帮买；4：代排队-->
+		<result property="orderType" column="order_type" javaType="int" jdbcType="INTEGER" />
+		<!--订单编号-->
+		<result property="orderNo" column="order_no" javaType="String" jdbcType="VARCHAR" />
+		<!--下单人id-->
+		<result property="customerId" column="customer_id" javaType="long" jdbcType="BIGINT" />
+		<!--下单人名字-->
+		<result property="customerName" column="customer_name" javaType="String" jdbcType="VARCHAR" />
+		<!--下单人电话-->
+		<result property="customerPhone" column="customer_phone" javaType="String" jdbcType="VARCHAR" />
+		<!--接单人id-->
+		<result property="deliveryManId" column="delivery_man_id" javaType="long" jdbcType="BIGINT" />
+		<!--接单人名称-->
+		<result property="deliveryManName" column="delivery_man_name" javaType="String" jdbcType="VARCHAR" />
+		<!--接单人电话-->
+		<result property="deliveryManPhone" column="delivery_man_phone" javaType="String" jdbcType="VARCHAR" />
+		<!--接单人头像路径-->
+		<result property="deliveryManHeadImage" column="delivery_man_head_image" javaType="String" jdbcType="VARCHAR" />
+		<!--抢单时间-->
+		<result property="deliveryOrderTime" column="delivery_order_time" javaType="Date" jdbcType="TIMESTAMP" />
+		<!--下单工具：1、微信；2、android；3、ios-->
+		<result property="shippingFrom" column="shipping_from" javaType="int" jdbcType="INTEGER" />
+		<!--订单经度；帮买：发货地；帮取：取货地；帮买：买货地；代排队：排队地-->
+		<result property="longitude" column="longitude" javaType="Double" jdbcType="DOUBLE" />
+		<!--订单纬度；帮买：发货地；帮取：取货地；帮买：买货地；代排队：排队地-->
+		<result property="latitude" column="latitude" javaType="Double" jdbcType="DOUBLE" />
+		<!--帮送、帮取：备注留言；-->
+		<result property="remark" column="remark" javaType="String" jdbcType="VARCHAR" />
+		<!--下单城市id-->
+		<result property="orderCity" column="order_city" javaType="long" jdbcType="BIGINT" />
+		<!--下单城市名称-->
+		<result property="orderCityName" column="order_city_name" javaType="String" jdbcType="VARCHAR" />
+		<!--订单预约类型：1、立即订单；2：预约订单-->
+		<result property="bookingType" column="booking_type" javaType="int" jdbcType="INTEGER" />
+		<!--预约时间-->
+		<result property="bookingTime" column="booking_time" javaType="Date" jdbcType="TIMESTAMP" />
+		<!--原始跑腿费-->
+		<result property="originalFreight" column="original_freight" javaType="BigDecimal" jdbcType="DECIMAL" />
+		<!--实际跑腿费-->
+		<result property="actualFreight" column="actual_freight" javaType="BigDecimal" jdbcType="DECIMAL" />
+		<!--是否使用优惠券：1、使用；0：未使用-->
+		<result property="isUseCoupons" column="is_use_coupons" javaType="int" jdbcType="INTEGER" />
+		<!--使用的优惠券id-->
+		<result property="useCouponsId" column="use_coupons_id" javaType="long" jdbcType="BIGINT" />
+		<!--优惠券优惠金额-->
+		<result property="couponsMoney" column="coupons_money" javaType="BigDecimal" jdbcType="DECIMAL" />
+		<!--小费，打赏费-->
+		<result property="tips" column="tips" javaType="BigDecimal" jdbcType="DECIMAL" />
+		<!--小费第三方支付返回的支付订单号-->
+		<result property="tipsTransactionId" column="tips_transaction_id" javaType="String" jdbcType="VARCHAR" />
+		<!--下单时间-->
+		<result property="createTime" column="create_time" javaType="Date" jdbcType="TIMESTAMP" />
+		<!--特殊要求（帮送、帮买、帮取使用）-->
+		<result property="specialRequire" column="special_require" javaType="String" jdbcType="VARCHAR" />
+		<!--跑腿费支付方式，1：余额支付；2：微信支付；3、支付宝支付-->
+		<result property="payType" column="pay_type" javaType="int" jdbcType="INTEGER" />
+		<!--跑腿费第三方支付返回的支付订单号-->
+		<result property="payTransactionId" column="pay_transaction_id" javaType="String" jdbcType="VARCHAR" />
+		<!--收货验证码（帮送、帮取、帮买）;验证码（代排队）-->
+		<result property="smsCode" column="sms_code" javaType="String" jdbcType="VARCHAR" />
+		<!--签收时间-->
+		<result property="signTime" column="sign_time" javaType="Date" jdbcType="TIMESTAMP" />
+		<!--订单中跑客当前操作步骤-->
+		<result property="actionStep" column="action_step" javaType="int" jdbcType="INTEGER" />
+		<!--订单取消原因-->
+		<result property="orderCancelReason" column="order_cancel_reason" javaType="String" jdbcType="VARCHAR" />
+		<!--订单状态；1：等待支付；2：等待接单；3、等待取货；4、进行中；5、待收货；6、已完成；9：已取消-->
+		<result property="orderStatus" column="order_status" javaType="int" jdbcType="INTEGER" />
+		<!--评价状态；1、已评价；2、未评价；3：订单未到评价状态-->
+		<result property="evaluationStatus" column="evaluation_status" javaType="int" jdbcType="INTEGER" />
+		<!--状态（1：正常 2：已删除）-->
+		<result property="status" column="status" javaType="int" jdbcType="INTEGER" />
+		<!--扩展1-->
+		<result property="data1" column="data_1" javaType="long" jdbcType="BIGINT" />
+		<!--扩展2-->
+		<result property="data2" column="data_2" javaType="int" jdbcType="INTEGER" />
+		<!--扩展3-->
+		<result property="data3" column="data_3" javaType="String" jdbcType="VARCHAR" />
+		<!--扩展4-->
+		<result property="data4" column="data_4" javaType="String" jdbcType="VARCHAR" />
+		<!--扩展5-->
+		<result property="data5" column="data_5" javaType="String" jdbcType="VARCHAR" />
+	</resultMap>
+
+
+	<!-- 通用查询结果列-->
+	<sql id="Base_Column_List">
+		 id as id,
+	order_type	 as orderType,
+	order_no	 as orderNo,
+	customer_id	 as customerId,
+	customer_name	 as customerName,
+	customer_phone	 as customerPhone,
+	delivery_man_id	 as deliveryManId,
+	delivery_man_name	 as deliveryManName,
+	delivery_man_phone	 as deliveryManPhone,
+	delivery_man_head_image	 as deliveryManHeadImage,
+	delivery_order_time	 as deliveryOrderTime,
+	shipping_from	 as shippingFrom,
+	longitude	 as longitude,
+	latitude	 as latitude,
+	remark	 as remark,
+	order_city	 as orderCity,
+	order_city_name	 as orderCityName,
+	booking_type	 as bookingType,
+	booking_time	 as bookingTime,
+	original_freight	 as originalFreight,
+	actual_freight	 as actualFreight,
+	is_use_coupons	 as isUseCoupons,
+	use_coupons_id	 as useCouponsId,
+	coupons_money	 as couponsMoney,
+	tips	 as tips,
+	tips_transaction_id	 as tipsTransactionId,
+	create_time	 as createTime,
+	special_require	 as specialRequire,
+	pay_type	 as payType,
+	pay_transaction_id	 as payTransactionId,
+	sms_code	 as smsCode,
+	sign_time	 as signTime,
+	action_step	 as actionStep,
+	order_cancel_reason	 as orderCancelReason,
+	order_status	 as orderStatus,
+	evaluation_status	 as evaluationStatus,
+	status	 as status,
+	data_1	 as data1,
+	data_2	 as data2,
+	data_3	 as data3,
+	data_4	 as data4,
+	data_5	 as data5
+	</sql>
+
+	<!-- 查询（根据主键ID查询） -->
+	<select id="get" resultMap="orderResultMap" parameterType="java.lang.Long">
+		 SELECT
+		 <include refid="Base_Column_List" />
+		 FROM tb_order
+		 WHERE  status = 1  and id = #{id}
+	</select>
+
+	<!-- 查询（根据查询条件查询） -->
+	<select id="getList" resultMap="orderResultMap" parameterType="hashmap">
+		 SELECT
+		 <include refid="Base_Column_List" />
+		 FROM tb_order
+		 WHERE   status = 1
+		<if test="orderNo!=null and orderNo!=''">
+			and order_no = ${orderNo}
+		</if>
+		<if test="deliveryManId!=null and deliveryManId!=''">
+			and delivery_man_id = ${deliveryManId}
+		</if>
+
+		<if test="orderStatusList!=null and orderStatusList!=''">
+			and order_status  in  (${orderStatusList})
+		</if>
+
+	</select>
+
+	<!-- 查询（根据查询条件分页查询） -->
+	<select id="getListPage" resultMap="orderResultMap" parameterType="hashmap">
+		 SELECT
+		 <include refid="Base_Column_List" />
+		 FROM tb_order
+		 WHERE   status = 1 
+		 limit ${(page-1)*pagesize},${pagesize} 
+	</select>
+
+	<!-- 查询（根据查询条件分页查询） -->
+	<select id="getListMapPage" resultType="hashmap"  parameterType="hashmap">
+		 SELECT
+		 <include refid="Base_Column_List" />
+		 FROM tb_order
+		 WHERE   status = 1 
+		 limit ${(page-1)*pagesize},${pagesize} 
+	</select>
+
+	<!-- 查询记录总数量（根据查询条件查询记录总数量） -->
+	<select id="getRows" resultType="long" parameterType="hashmap">
+		 SELECT 
+		 count(*)  
+		 FROM tb_order
+		 WHERE   status = 1 
+	</select>
+
+
+
+	<!-- 查询（根据查询条件查询订单信息） -->
+	<select id="getOrderInfoList" resultType="hashmap"  parameterType="hashmap">
+		SELECT
+			od.id as id,
+			od.order_type	 as orderType,
+			od.order_no	 as orderNo,
+			od.customer_id	 as customerId,
+			od.customer_name	 as customerName,
+			od.customer_phone	 as customerPhone,
+			od.delivery_man_id	 as deliveryManId,
+			od.delivery_man_name	 as deliveryManName,
+			od.delivery_man_phone	 as deliveryManPhone,
+			od.delivery_man_head_image	 as deliveryManHeadImage,
+			od.delivery_order_time	 as deliveryOrderTime,
+			od.shipping_from	 as shippingFrom,
+			od.longitude	 as longitude,
+			od.latitude	 as latitude,
+			od.remark	 as remark,
+			od.order_city	 as orderCity,
+			od.order_city_name	 as orderCityName,
+			od.booking_type	 as bookingType,
+			od.booking_time	 as bookingTime,
+			od.original_freight	 as originalFreight,
+			od.actual_freight	 as actualFreight,
+			od.is_use_coupons	 as isUseCoupons,
+			od.use_coupons_id	 as useCouponsId,
+			od.coupons_money	 as couponsMoney,
+			od.tips	 as tips,
+			od.tips_transaction_id	 as tipsTransactionId,
+			od.create_time	 as createTime,
+			od.special_require	 as specialRequire,
+			od.pay_type	 as payType,
+			od.pay_transaction_id	 as payTransactionId,
+			od.sms_code	 as smsCode,
+			od.sign_time	 as signTime,
+			od.action_step	 as actionStep,
+			od.order_cancel_reason	 as orderCancelReason,
+			od.order_status	 as orderStatus,
+			od.evaluation_status	 as evaluationStatus,
+			od.status	 as status,
+			od.data_1	 as orderData1,
+			od.data_2	 as orderData2,
+			od.data_3	 as orderData3,
+			od.data_4	 as orderData4,
+			od.data_5	 as orderData5,
+
+			og.id as orderGoodsId,
+			og.location_address_a	 as locationAddressA,
+			og.location_address_name_a	 as locationAddressNameA,
+			og.detail_address_a	 as detailAddressA,
+			og.longitude_a	 as longitudeA,
+			og.latitude_a	 as latitudeA,
+			og.mobile_phone_a	 as mobilePhoneA,
+			og.linkman_name_a	 as linkmanNameA,
+			og.location_address_b	 as locationAddressB,
+			og.location_address_name_b	 as locationAddressNameB,
+			og.detail_address_b	 as detailAddressB,
+			og.longitude_b	 as longitudeB,
+			og.latitude_b	 as latitudeB,
+			og.mobile_phone_b	 as mobilePhoneB,
+			og.linkman_name_b	 as linkmanNameB,
+			og.goods_type_id	 as goodsTypeId,
+			og.goods_type_name	 as goodsTypeName,
+			og.buy_require	 as buyRequire,
+			og.buy_link_phone	 as buyLinkPhone,
+			og.is_konw_price	 as isKonwPrice,
+			og.buy_price	 as buyPrice,
+			og.is_near_buy	 as isNearBuy,
+			og.add_pay_money	 as addPayMoney,
+			og.add_pay_time	 as addPayTime,
+			og.add_pay_transaction_id	 as addPayTransactionId,
+			og.total_distance	 as totalDistance,
+			og.total_time	 as totalTime,
+			og.data_1	 as orderGoodsData1,
+			og.data_2	 as orderGoodsData2,
+			og.data_3	 as orderGoodsData3,
+			og.data_4	 as orderGoodsData4,
+			og.data_5	 as orderGoodsData5,
+
+			ol.location_address	 as lineupLocationAddress,
+			ol.location_address_name	 as lineupLocationAddressName,
+			ol.detail_address	 as lineupDetailAddress,
+			ol.longitude	 as lineupLongitude,
+			ol.latitude	 as lineupLatitude,
+			ol.lineup_require	 as lineupRequire,
+			ol.lineup_duration	 as lineupDuration,
+			ol.lineup_phone	 as lineupPhone,
+			ol.add_pay_money	 as lineupAddPayMoney,
+			ol.add_pay_duration	 as lineupAddPayDuration,
+			ol.add_pay_time	 as lineupAddPayTime,
+			ol.add_pay_transaction_id	 as lineupDAddPayTransactionId,
+			ol.lineup_begin_time	 as lineupBeginTime,
+			ol.lineup_end_time	 as lineupEndTime,
+			ol.lineup_real_duration	 as lineupRealDuration,
+			ol.lineup_real_money	 as lineupRealMoney,
+			ol.data_1	 as lineupData1,
+			ol.data_2	 as lineupDdata2,
+			ol.data_3	 as lineupDdata3,
+			ol.data_4	 as lineupDdata4,
+			ol.data_5	 as lineupDdata5
+		FROM tb_order od
+		left join  tb_order_goods og on (od.id=og.order_id)
+		left join  tb_order_lineup ol on (od.id=ol.order_id)
+		WHERE   od.status = 1
+		<if test="id!=null and id!=''">
+			and od.id=#{id}
+		</if>
+		<if test="orderNo!=null and orderNo!=''">
+			and od.order_no = ${orderNo}
+		</if>
+
+		<if test="orderType!=null and orderType!=''">
+			and od.order_type = ${orderType}
+		</if>
+		<if test="orderStatus!=null and orderStatus!=''">
+			and od.order_status = ${orderStatus}
+		</if>
+		<if test="orderStatusList!=null and orderStatusList!=''">
+			and od.order_status  in  (${orderStatusList})
+		</if>
+
+		<if test="customerId!=null and customerId!=''">
+			and od.customer_id = ${customerId}
+		</if>
+
+
+		<if test="customerName!=null and customerName!=''">
+			and od.customer_name LIKE CONCAT('%', #{customerName}, '%')
+		</if>
+		<if test="deliveryManId!=null and deliveryManId!=''">
+			and od.delivery_man_id = ${deliveryManId}
+		</if>
+
+		<if test="deliveryManName!=null and deliveryManName!=''">
+			and od.delivery_man_name LIKE CONCAT('%', #{deliveryManName}, '%')
+		</if>
+
+		<if test="orderCity!=null and orderCity!=''">
+			and od.order_city = ${orderCity}
+		</if>
+		<if test="page!=null and page!=''  and pagesize!=null and pagesize!=''">
+			limit ${(page-1)*pagesize},${pagesize}
+		</if>
+	</select>
+
+
+	<!-- 我的订单接口 -->
+	<select id="getMyOrder" resultType="hashmap"  parameterType="hashmap">
+		SELECT
+		od.id as id,
+		od.order_type	 as orderType,
+		od.order_no	 as orderNo,
+		od.customer_id	 as customerId,
+		od.customer_name	 as customerName,
+		od.customer_phone	 as customerPhone,
+		od.delivery_man_id	 as deliveryManId,
+		od.delivery_man_name	 as deliveryManName,
+		od.delivery_man_phone	 as deliveryManPhone,
+		od.delivery_man_head_image	 as deliveryManHeadImage,
+		od.delivery_order_time	 as deliveryOrderTime,
+		od.shipping_from	 as shippingFrom,
+		od.longitude	 as longitude,
+		od.latitude	 as latitude,
+		od.remark	 as remark,
+		od.order_city	 as orderCity,
+		od.order_city_name	 as orderCityName,
+		od.booking_type	 as bookingType,
+		od.booking_time	 as bookingTime,
+		od.original_freight	 as originalFreight,
+		od.actual_freight	 as actualFreight,
+		od.is_use_coupons	 as isUseCoupons,
+		od.use_coupons_id	 as useCouponsId,
+		od.coupons_money	 as couponsMoney,
+		od.tips	 as tips,
+		od.tips_transaction_id	 as tipsTransactionId,
+		od.create_time	 as createTime,
+		od.special_require	 as specialRequire,
+		od.pay_type	 as payType,
+		od.pay_transaction_id	 as payTransactionId,
+		od.sms_code	 as smsCode,
+		od.sign_time	 as signTime,
+		od.action_step	 as actionStep,
+		od.order_cancel_reason	 as orderCancelReason,
+		od.order_status	 as orderStatus,
+		od.evaluation_status	 as evaluationStatus,
+		od.status	 as status,
+		od.data_1	 as orderData1,
+		od.data_2	 as orderData2,
+		od.data_3	 as orderData3,
+		od.data_4	 as orderData4,
+		od.data_5	 as orderData5,
+
+		og.id as orderGoodsId,
+		og.location_address_a	 as locationAddressA,
+		og.location_address_name_a	 as locationAddressNameA,
+		og.detail_address_a	 as detailAddressA,
+		og.longitude_a	 as longitudeA,
+		og.latitude_a	 as latitudeA,
+		og.mobile_phone_a	 as mobilePhoneA,
+		og.linkman_name_a	 as linkmanNameA,
+		og.location_address_b	 as locationAddressB,
+		og.location_address_name_b	 as locationAddressNameB,
+		og.detail_address_b	 as detailAddressB,
+		og.longitude_b	 as longitudeB,
+		og.latitude_b	 as latitudeB,
+		og.mobile_phone_b	 as mobilePhoneB,
+		og.linkman_name_b	 as linkmanNameB,
+		og.goods_type_id	 as goodsTypeId,
+		og.goods_type_name	 as goodsTypeName,
+		og.buy_require	 as buyRequire,
+		og.buy_link_phone	 as buyLinkPhone,
+		og.is_konw_price	 as isKonwPrice,
+		og.buy_price	 as buyPrice,
+		og.is_near_buy	 as isNearBuy,
+		og.add_pay_money	 as addPayMoney,
+		og.add_pay_time	 as addPayTime,
+		og.add_pay_transaction_id	 as addPayTransactionId,
+		og.total_distance	 as totalDistance,
+		og.total_time	 as totalTime,
+		og.data_1	 as orderGoodsData1,
+		og.data_2	 as orderGoodsData2,
+		og.data_3	 as orderGoodsData3,
+		og.data_4	 as orderGoodsData4,
+		og.data_5	 as orderGoodsData5,
+
+		ol.location_address	 as lineupLocationAddress,
+		ol.location_address_name	 as lineupLocationAddressName,
+		ol.detail_address	 as lineupDetailAddress,
+		ol.longitude	 as lineupLongitude,
+		ol.latitude	 as lineupLatitude,
+		ol.lineup_require	 as lineupRequire,
+		ol.lineup_duration	 as lineupDuration,
+		ol.lineup_phone	 as lineupPhone,
+		ol.add_pay_money	 as lineupAddPayMoney,
+		ol.add_pay_duration	 as lineupAddPayDuration,
+		ol.add_pay_time	 as lineupAddPayTime,
+		ol.add_pay_transaction_id	 as lineupDAddPayTransactionId,
+		ol.lineup_begin_time	 as lineupBeginTime,
+		ol.lineup_end_time	 as lineupEndTime,
+		ol.lineup_real_duration	 as lineupRealDuration,
+		ol.lineup_real_money	 as lineupRealMoney,
+		ol.data_1	 as lineupData1,
+		ol.data_2	 as lineupDdata2,
+		ol.data_3	 as lineupDdata3,
+		ol.data_4	 as lineupDdata4,
+		ol.data_5	 as lineupDdata5
+		FROM tb_order od
+		left join  tb_order_goods og on (od.id=og.order_id)
+		left join  tb_order_lineup ol on (od.id=ol.order_id)
+		WHERE   od.status = 1
+		<if test="customerId!=null and customerId!=''">
+		and od.customer_id = ${customerId}
+		</if>
+		<if test="orderStatus!=null and orderStatus!=''">
+			and od.order_status = ${orderStatus}
+		</if>
+		<if test="orderId!=null and orderId!=''">
+			and od.id = ${orderId}
+		</if>
+		<if test="page!=null and page!=''  and pagesize!=null and pagesize!=''">
+			limit ${(page-1)*pagesize},${pagesize}
+		</if>
+	</select>
+
+
+	<select id="getTodayAchievement" resultType="hashmap"  parameterType="hashmap">
+		SELECT
+		od.id as id,
+		od.order_type	 as orderType,
+		od.order_no	 as orderNo,
+		od.customer_id	 as customerId,
+		od.customer_name	 as customerName,
+		od.customer_phone	 as customerPhone,
+		od.delivery_man_id	 as deliveryManId,
+		od.delivery_man_name	 as deliveryManName,
+		od.delivery_man_phone	 as deliveryManPhone,
+		od.delivery_man_head_image	 as deliveryManHeadImage,
+		od.delivery_order_time	 as deliveryOrderTime,
+		od.shipping_from	 as shippingFrom,
+		od.longitude	 as longitude,
+		od.latitude	 as latitude,
+		od.remark	 as remark,
+		od.order_city	 as orderCity,
+		od.order_city_name	 as orderCityName,
+		od.booking_type	 as bookingType,
+		od.booking_time	 as bookingTime,
+		od.original_freight	 as originalFreight,
+		od.actual_freight	 as actualFreight,
+		od.is_use_coupons	 as isUseCoupons,
+		od.use_coupons_id	 as useCouponsId,
+		od.coupons_money	 as couponsMoney,
+		od.tips	 as tips,
+		od.tips_transaction_id	 as tipsTransactionId,
+		od.create_time	 as createTime,
+		od.special_require	 as specialRequire,
+		od.pay_type	 as payType,
+		od.pay_transaction_id	 as payTransactionId,
+		od.sms_code	 as smsCode,
+		od.sign_time	 as signTime,
+		od.action_step	 as actionStep,
+		od.order_cancel_reason	 as orderCancelReason,
+		od.order_status	 as orderStatus,
+		od.evaluation_status	 as evaluationStatus,
+		od.status	 as status,
+		od.data_1	 as orderData1,
+		od.data_2	 as orderData2,
+		od.data_3	 as orderData3,
+		od.data_4	 as orderData4,
+		od.data_5	 as orderData5,
+
+		og.id as orderGoodsId,
+		og.location_address_a	 as locationAddressA,
+		og.location_address_name_a	 as locationAddressNameA,
+		og.detail_address_a	 as detailAddressA,
+		og.longitude_a	 as longitudeA,
+		og.latitude_a	 as latitudeA,
+		og.mobile_phone_a	 as mobilePhoneA,
+		og.linkman_name_a	 as linkmanNameA,
+		og.location_address_b	 as locationAddressB,
+		og.location_address_name_b	 as locationAddressNameB,
+		og.detail_address_b	 as detailAddressB,
+		og.longitude_b	 as longitudeB,
+		og.latitude_b	 as latitudeB,
+		og.mobile_phone_b	 as mobilePhoneB,
+		og.linkman_name_b	 as linkmanNameB,
+		og.goods_type_id	 as goodsTypeId,
+		og.goods_type_name	 as goodsTypeName,
+		og.buy_require	 as buyRequire,
+		og.buy_link_phone	 as buyLinkPhone,
+		og.is_konw_price	 as isKonwPrice,
+		og.buy_price	 as buyPrice,
+		og.is_near_buy	 as isNearBuy,
+		og.add_pay_money	 as addPayMoney,
+		og.add_pay_time	 as addPayTime,
+		og.add_pay_transaction_id	 as addPayTransactionId,
+		og.total_distance	 as totalDistance,
+		og.total_time	 as totalTime,
+		og.data_1	 as orderGoodsData1,
+		og.data_2	 as orderGoodsData2,
+		og.data_3	 as orderGoodsData3,
+		og.data_4	 as orderGoodsData4,
+		og.data_5	 as orderGoodsData5,
+
+		ol.location_address	 as lineupLocationAddress,
+		ol.location_address_name	 as lineupLocationAddressName,
+		ol.detail_address	 as lineupDetailAddress,
+		ol.longitude	 as lineupLongitude,
+		ol.latitude	 as lineupLatitude,
+		ol.lineup_require	 as lineupRequire,
+		ol.lineup_duration	 as lineupDuration,
+		ol.lineup_phone	 as lineupPhone,
+		ol.add_pay_money	 as lineupAddPayMoney,
+		ol.add_pay_duration	 as lineupAddPayDuration,
+		ol.add_pay_time	 as lineupAddPayTime,
+		ol.add_pay_transaction_id	 as lineupDAddPayTransactionId,
+		ol.lineup_begin_time	 as lineupBeginTime,
+		ol.lineup_end_time	 as lineupEndTime,
+		ol.lineup_real_duration	 as lineupRealDuration,
+		ol.lineup_real_money	 as lineupRealMoney,
+		ol.data_1	 as lineupData1,
+		ol.data_2	 as lineupDdata2,
+		ol.data_3	 as lineupDdata3,
+		ol.data_4	 as lineupDdata4,
+		ol.data_5	 as lineupDdata5
+		FROM tb_order od
+		left join  tb_order_goods og on (od.id=og.order_id)
+		left join  tb_order_lineup ol on (od.id=ol.order_id)
+		WHERE od.status = 1
+		AND od.order_status = 5
+		AND od.delivery_man_id = ${deliveryManId}
+		and od.sign_time &gt;= '${today1}'
+		and od.sign_time &lt; '${today2}'
+	</select>
+
+</mapper>

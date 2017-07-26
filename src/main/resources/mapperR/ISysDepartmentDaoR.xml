@@ -1,0 +1,273 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xgh.mng.dao.read.ISysDepartmentDaoR">
+
+	<resultMap id="sysDepartmentMap" type="com.xgh.mng.entity.SysDepartment">
+		<result column="id" javaType="long" jdbcType="BIGINT" property="id"/>
+		<result column="parent_id" javaType="long" jdbcType="BIGINT" property="parentId"/>
+		<result column="nid" javaType="long" jdbcType="BIGINT" property="nid"/>
+		<result column="parent_nid" javaType="long" jdbcType="BIGINT" property="parentNid"/>
+		<result column="inst_id" javaType="long" jdbcType="BIGINT" property="instId"/>
+		<result column="inst_nid" javaType="long" jdbcType="BIGINT" property="instNid"/>
+		<result column="inst_code" javaType="string" jdbcType="VARCHAR" property="instCode"/>
+		<result column="unit_id" javaType="long" jdbcType="BIGINT" property="unitId"/>
+		<result column="unit_nid" javaType="long" jdbcType="BIGINT" property="unitNid"/>
+		<result column="unit_code" javaType="string" jdbcType="VARCHAR" property="unitCode"/>
+		<result column="dept_code" javaType="string" jdbcType="VARCHAR" property="deptCode"/>
+		<result column="dept_leader" javaType="long" jdbcType="BIGINT" property="deptLeader"/>
+		<result column="dept_name" javaType="string" jdbcType="VARCHAR" property="deptName"/>
+		<result column="dept_short_name" javaType="string" jdbcType="VARCHAR" property="deptShortName"/>
+		<result column="dept_desc" javaType="string" jdbcType="VARCHAR" property="deptDesc"/>
+		<result column="dept_type" javaType="long" jdbcType="BIGINT" property="deptType"/>
+		<result column="position" javaType="string" jdbcType="VARCHAR" property="position"/>
+		<result column="gps_longitude" javaType="double" jdbcType="DOUBLE" property="gpsLongitude"/>
+		<result column="gps_latitude" javaType="double" jdbcType="DOUBLE" property="gpsLatitude"/>
+		<result column="is_has_shop" javaType="long" jdbcType="BIGINT" property="isHasShop"/>
+		<result column="ord" javaType="long" jdbcType="BIGINT" property="ord"/>
+		<result column="create_date" javaType="date" jdbcType="TIMESTAMP" property="createDate"/>
+		<result column="update_date" javaType="date" jdbcType="TIMESTAMP" property="updateDate"/>
+		<result column="status" javaType="int" jdbcType="INTEGER" property="status"/>
+		<result column="remark" javaType="string" jdbcType="VARCHAR" property="remark"/>
+		<result column="data_1" javaType="string" jdbcType="VARCHAR" property="data1"/>
+		<result column="data_2" javaType="string" jdbcType="VARCHAR" property="data2"/>
+	</resultMap>
+
+	<resultMap id="sysDepartmentMap2" type="java.util.Map">
+		<result column="id" javaType="long" jdbcType="BIGINT" property="ID"/>
+		<result column="parent_id" javaType="long" jdbcType="BIGINT" property="PARENT_ID"/>
+		<result column="nid" javaType="long" jdbcType="BIGINT" property="NID"/>
+		<result column="parent_nid" javaType="long" jdbcType="BIGINT" property="PARENT_NID"/>
+		<result column="inst_id" javaType="long" jdbcType="BIGINT" property="INST_ID"/>
+		<result column="inst_nid" javaType="long" jdbcType="BIGINT" property="INST_NID"/>
+		<result column="inst_code" javaType="string" jdbcType="VARCHAR" property="INST_CODE"/>
+		<result column="unit_id" javaType="long" jdbcType="BIGINT" property="UNIT_ID"/>
+		<result column="unit_nid" javaType="long" jdbcType="BIGINT" property="UNIT_NID"/>
+		<result column="unit_code" javaType="string" jdbcType="VARCHAR" property="UNIT_CODE"/>
+		<result column="dept_code" javaType="string" jdbcType="VARCHAR" property="DEPT_CODE"/>
+		<result column="dept_leader" javaType="long" jdbcType="BIGINT" property="DEPT_LEADER"/>
+		<result column="dept_name" javaType="string" jdbcType="VARCHAR" property="DEPT_NAME"/>
+		<result column="dept_short_name" javaType="string" jdbcType="VARCHAR" property="DEPT_SHORT_NAME"/>
+		<result column="dept_desc" javaType="string" jdbcType="VARCHAR" property="DEPT_DESC"/>
+		<result column="dept_type" javaType="long" jdbcType="BIGINT" property="DEPT_TYPE"/>
+		<result column="position" javaType="string" jdbcType="VARCHAR" property="POSITION"/>
+		<result column="gps_longitude" javaType="double" jdbcType="DOUBLE" property="GPS_LONGITUDE"/>
+		<result column="gps_latitude" javaType="double" jdbcType="DOUBLE" property="GPS_LATITUDE"/>
+		<result column="is_has_shop" javaType="long" jdbcType="BIGINT" property="IS_HAS_SHOP"/>
+		<result column="ord" javaType="long" jdbcType="BIGINT" property="ORD"/>
+		<result column="create_date" javaType="date" jdbcType="TIMESTAMP" property="CREATE_DATE"/>
+		<result column="update_date" javaType="date" jdbcType="TIMESTAMP" property="UPDATE_DATE"/>
+		<result column="status" javaType="int" jdbcType="INTEGER" property="STATUS"/>
+		<result column="remark" javaType="string" jdbcType="VARCHAR" property="REMARK"/>
+		<result column="data_1" javaType="string" jdbcType="VARCHAR" property="DATA_1"/>
+		<result column="data_2" javaType="string" jdbcType="VARCHAR" property="DATA_2"/>
+	</resultMap>
+
+	<select id="get" parameterType="long" resultMap="sysDepartmentMap">
+		select * from tb_sys_department where id = #{id}
+	</select>
+
+	<select id="getList" parameterType="com.xgh.mng.entity.SysDepartment"
+			resultMap="sysDepartmentMap">
+		select * from
+		tb_sys_department
+		<trim prefix="WHERE" prefixOverrides="AND |OR ">
+
+			<if test="id!= null">
+				and id = #{id}
+			</if>
+			<if test="parentId!= null">
+				and parent_id = #{parentId}
+			</if>
+			<if test="nid!= null">
+				and nid = #{nid}
+			</if>
+			<if test="parentNid!= null">
+				and parent_nid = #{parentNid}
+			</if>
+			<if test="instId!= null">
+				and inst_id = #{instId}
+			</if>
+			<if test="instNid!= null">
+				and inst_nid = #{instNid}
+			</if>
+			<if test="instCode!= null and instCode!=''">
+				and inst_code = #{instCode}
+			</if>
+			<if test="unitId!= null">
+				and unit_id = #{unitId}
+			</if>
+			<if test="unitNid!= null">
+				and unit_nid = #{unitNid}
+			</if>
+			<if test="unitCode!= null and unitCode!=''">
+				and unit_code = #{unitCode}
+			</if>
+			<if test="deptCode!= null and deptCode!=''">
+				and dept_code = #{deptCode}
+			</if>
+			<if test="deptLeader!= null">
+				and dept_leader = #{deptLeader}
+			</if>
+			<if test="deptName!= null and deptName!=''">
+				and dept_name = #{deptName}
+			</if>
+			<if test="deptShortName!= null and deptShortName!=''">
+				and dept_short_name = #{deptShortName}
+			</if>
+			<if test="deptDesc!= null and deptDesc!=''">
+				and dept_desc = #{deptDesc}
+			</if>
+			<if test="deptType!= null">
+				and dept_type = #{deptType}
+			</if>
+			<if test="position!= null and position!=''">
+				and position = #{position}
+			</if>
+			<if test="gpsLongitude!= null and gpsLongitude!=''">
+				and gps_longitude = #{gpsLongitude}
+			</if>
+			<if test="gpsLatitude!= null and gpsLatitude!=''">
+				and gps_latitude = #{gpsLatitude}
+			</if>
+			<if test="isHasShop!= null">
+				and is_has_shop = #{isHasShop}
+			</if>
+			<if test="ord!= null">
+				and ord = #{ord}
+			</if>
+			<if test="createDate!= null and createDate!=''">
+				and create_date = #{createDate}
+			</if>
+			<if test="updateDate!= null and updateDate!=''">
+				and update_date = #{updateDate}
+			</if>
+			<if test="status!= null">
+				and status = #{status}
+			</if>
+			<if test="remark!= null and remark!=''">
+				and remark = #{remark}
+			</if>
+			<if test="data1!= null and data1!=''">
+				and data_1 = #{data1}
+			</if>
+			<if test="data2!= null and data2!=''">
+				and data_2 = #{data2}
+			</if>
+		</trim>
+	</select>
+
+
+	<select id="getListPage" parameterType="hashmap" resultMap="sysDepartmentMap">
+		SELECT
+		*
+		FROM
+		tb_sys_department
+		where parent_id = #{parentId} and unit_id = #{unitId} and status = 1
+		order by ord desc
+		limit ${(page-1)*pagesize},${pagesize}
+	</select>
+
+	<select id="getRows" parameterType="hashmap" resultType="long">
+		SELECT
+		count(*)
+		FROM
+		tb_sys_department
+		where parent_id = #{parentId} and unit_id = #{unitId} and status = 1
+	</select>
+
+	<select id="getDeptByUserId" parameterType="hashmap" resultMap="sysDepartmentMap">
+		SELECT
+		d.*
+		FROM tb_sys_dept_user du
+		JOIN tb_sys_department d ON du.dept_id = d.id
+		where du.user_id = #{userId} and d.status = 1
+	</select>
+
+	<select id="getChildTreeData" parameterType="hashmap" resultType="hashmap">
+		select
+		id,
+		parent_id as pid,
+		dept_name as text,
+		dept_code as code,
+		dept_type as type
+		from
+		tb_sys_department
+		where parent_id = #{parentId} and unit_id = #{unitId} and status = 1
+		order by ord
+	</select>
+
+
+	<select id="getChildDepartmentRows" parameterType="long" resultType="long">
+		select
+		count(id)
+		from
+		tb_sys_department
+		where parent_id = #{parentId} and status = 1
+	</select>
+
+	<select id="getUserRowsByDeptId" parameterType="long" resultType="long">
+		SELECT
+		count(du.id)
+		FROM
+		tb_sys_dept_user du
+		JOIN tb_sys_user u ON du.user_id = u.id
+		where u.status = 1 and du.dept_id = #{deptId}
+	</select>
+
+	<select id="getListMap" parameterType="hashmap" resultMap="sysDepartmentMap2">
+		SELECT
+		*
+		FROM
+		tb_sys_department
+		where parent_id = #{parentId} and unit_id = #{unitId} and status = 1
+		order by ord
+		limit ${(page-1)*pagesize},${pagesize}
+	</select>
+	<select id="getListRows" parameterType="hashmap" resultType="long">
+		SELECT
+		count(id)
+		FROM
+		tb_sys_department
+		where parent_id = #{parentId} and unit_id = #{unitId} and status = 1
+	</select>
+
+
+	<select id="getSelectDialogDepartmentList" parameterType="hashmap" resultType="hashmap">
+		SELECT
+		id as ID,
+		dept_code AS DEPT_CODE,
+		dept_name AS DEPT_NAME
+		FROM
+		tb_sys_department
+		WHERE
+		unit_id = #{unitId}
+		AND status = 1
+		<choose>
+			<when test="isCascade == 'no'">
+				and parent_id = #{deptId}
+			</when>
+			<otherwise>
+				and dept_code like #{deptCode}
+			</otherwise>
+		</choose>
+		<if test="searchName!=null">
+			and dept_name like #{searchName}
+		</if>
+		ORDER BY ord
+	</select>
+
+
+	<select id="getUserIdsByDeptCodes" parameterType="hashmap" resultType="long">
+
+		SELECT
+		DISTINCT user_id
+		FROM
+		tb_sys_dept_user
+		WHERE
+		dept_code in
+		<foreach close=")" collection="list" item="id" open="("
+				 separator=",">#{id}
+		</foreach>
+	</select>
+</mapper>

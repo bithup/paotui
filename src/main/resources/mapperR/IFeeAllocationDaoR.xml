@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xgh.paotui.dao.read.IFeeAllocationDaoR">
+
+	<!--实体映射-->
+	<resultMap id="feeAllocationResultMap" type="com.xgh.paotui.entity.FeeAllocation">
+		<!--唯一id-->
+		<id property="id" column="id" />
+		<!--开通城市id-->
+		<result property="openCityId" column="open_city_id" javaType="long" jdbcType="BIGINT" />
+		<!--佣金分配方式（1：按比例； 2：按单量）-->
+		<result property="allocationType" column="allocation_type" javaType="int" jdbcType="INTEGER" />
+		<!--按比例：跑客分配比例-->
+		<result property="runProportion" column="run_proportion" javaType="BigDecimal" jdbcType="DECIMAL" />
+		<!--按比例：众包分配比例-->
+		<result property="crowdsourcingProportion" column="crowdsourcing_proportion" javaType="BigDecimal" jdbcType="DECIMAL" />
+		<!--按单量：跑客每单费用-->
+		<result property="runOrderFee" column="run_order_fee" javaType="BigDecimal" jdbcType="DECIMAL" />
+		<!--按单量：众包每单费用-->
+		<result property="crowdsourcingOrderFee" column="crowdsourcing_order_fee" javaType="BigDecimal" jdbcType="DECIMAL" />
+		<!--创建时间-->
+		<result property="createDate" column="create_date" javaType="Date" jdbcType="TIMESTAMP" />
+		<!--修改时间-->
+		<result property="updateDate" column="update_date" javaType="Date" jdbcType="TIMESTAMP" />
+		<!--状态（1：正常 2：已删除）-->
+		<result property="status" column="status" javaType="int" jdbcType="INTEGER" />
+		<!--扩展1-->
+		<result property="data1" column="data_1" javaType="long" jdbcType="BIGINT" />
+		<!--扩展2-->
+		<result property="data2" column="data_2" javaType="int" jdbcType="INTEGER" />
+		<!--扩展3-->
+		<result property="data3" column="data_3" javaType="String" jdbcType="VARCHAR" />
+		<!--扩展4-->
+		<result property="data4" column="data_4" javaType="String" jdbcType="VARCHAR" />
+		<!--扩展5-->
+		<result property="data5" column="data_5" javaType="String" jdbcType="VARCHAR" />
+	</resultMap>
+
+
+	<!-- 通用查询结果列-->
+	<sql id="Base_Column_List">
+		 id as id,
+	open_city_id	 as openCityId,
+	allocation_type	 as allocationType,
+	run_proportion	 as runProportion,
+	crowdsourcing_proportion	 as crowdsourcingProportion,
+	run_order_fee	 as runOrderFee,
+	crowdsourcing_order_fee	 as crowdsourcingOrderFee,
+	create_date	 as createDate,
+	update_date	 as updateDate,
+	status	 as status,
+	data_1	 as data1,
+	data_2	 as data2,
+	data_3	 as data3,
+	data_4	 as data4,
+	data_5	 as data5
+	</sql>
+
+	<!-- 查询（根据主键ID查询） -->
+	<select id="get" resultMap="feeAllocationResultMap" parameterType="java.lang.Long">
+		 SELECT
+		 <include refid="Base_Column_List" />
+		 FROM tb_fee_allocation
+		 WHERE  status = 1  and id = #{id}
+	</select>
+
+	<!-- 查询（根据查询条件查询） -->
+	<select id="getList" resultMap="feeAllocationResultMap" parameterType="hashmap">
+		 SELECT
+		 <include refid="Base_Column_List" />
+		 FROM tb_fee_allocation
+		 WHERE   status = 1 
+	</select>
+
+	<!-- 查询（根据查询条件分页查询） -->
+	<select id="getListPage" resultMap="feeAllocationResultMap" parameterType="hashmap">
+		 SELECT
+		 <include refid="Base_Column_List" />
+		 FROM tb_fee_allocation
+		 WHERE   status = 1
+		<if test="openCityId!=null and openCityId!=''">
+			and open_city_id = ${openCityId}
+		</if>
+		 limit ${(page-1)*pagesize},${pagesize} 
+	</select>
+
+	<!-- 查询（根据查询条件分页查询） -->
+	<select id="getListMapPage" resultType="hashmap"  parameterType="hashmap">
+		 SELECT
+		 <include refid="Base_Column_List" />
+		 FROM tb_fee_allocation
+		 WHERE   status = 1 
+		 limit ${(page-1)*pagesize},${pagesize} 
+	</select>
+
+	<!-- 查询记录总数量（根据查询条件查询记录总数量） -->
+	<select id="getRows" resultType="long" parameterType="hashmap">
+		 SELECT 
+		 count(*)  
+		 FROM tb_fee_allocation
+		 WHERE   status = 1
+		<if test="openCityId!=null and openCityId!=''">
+			and open_city_id = ${openCityId}
+		</if>
+	</select></mapper>

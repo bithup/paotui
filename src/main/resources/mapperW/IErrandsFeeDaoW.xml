@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xgh.paotui.dao.write.IErrandsFeeDaoW">
+
+	<!--实体映射-->
+	<resultMap id="errandsFeeResultMap" type="com.xgh.paotui.entity.ErrandsFee">
+		<!--唯一id-->
+		<id property="id" column="id" />
+		<!--开通城市id-->
+		<result property="openCityId" column="open_city_id" javaType="long" jdbcType="BIGINT" />
+		<!--起步公里数-->
+		<result property="startMileage" column="start_mileage" javaType="int" jdbcType="INTEGER" />
+		<!--起步费-->
+		<result property="startFee" column="start_fee" javaType="BigDecimal" jdbcType="DECIMAL" />
+		<!--超出里程数-->
+		<result property="exceedMileage" column="exceed_mileage" javaType="int" jdbcType="INTEGER" />
+		<!--超出费用-->
+		<result property="exceedFee" column="exceed_fee" javaType="BigDecimal" jdbcType="DECIMAL" />
+		<!--夜间加收费用的开始时刻-->
+		<result property="nightStartTime" column="night_start_time" javaType="String" jdbcType="VARCHAR" />
+		<!--夜间加收费用的截止时刻-->
+		<result property="nightEndTime" column="night_end_time" javaType="String" jdbcType="VARCHAR" />
+		<!--夜间每单加收费用-->
+		<result property="nightAddFee" column="night_add_fee" javaType="BigDecimal" jdbcType="DECIMAL" />
+		<!--排队起步时间-->
+		<result property="queueStartTime" column="queue_start_time" javaType="int" jdbcType="INTEGER" />
+		<!--排队起步时间内费用-->
+		<result property="queueStartFee" column="queue_start_fee" javaType="BigDecimal" jdbcType="DECIMAL" />
+		<!--排队超出起步时间外的时间-->
+		<result property="queueExceedTime" column="queue_exceed_time" javaType="int" jdbcType="INTEGER" />
+		<!--排队超出起步时间外得费用(每多少时间多少钱）-->
+		<result property="queueExceedFee" column="queue_exceed_fee" javaType="BigDecimal" jdbcType="DECIMAL" />
+		<!--创建时间-->
+		<result property="createDate" column="create_date" javaType="Date" jdbcType="TIMESTAMP" />
+		<!--修改时间-->
+		<result property="updateDate" column="update_date" javaType="Date" jdbcType="TIMESTAMP" />
+		<!--状态（1：正常 2：已删除）-->
+		<result property="status" column="status" javaType="int" jdbcType="INTEGER" />
+		<!--扩展1-->
+		<result property="data1" column="data_1" javaType="long" jdbcType="BIGINT" />
+		<!--扩展2-->
+		<result property="data2" column="data_2" javaType="int" jdbcType="INTEGER" />
+		<!--扩展3-->
+		<result property="data3" column="data_3" javaType="String" jdbcType="VARCHAR" />
+		<!--扩展4-->
+		<result property="data4" column="data_4" javaType="String" jdbcType="VARCHAR" />
+		<!--扩展5-->
+		<result property="data5" column="data_5" javaType="String" jdbcType="VARCHAR" />
+	</resultMap>
+
+
+	<!--删除：根据主键ID逻辑删除-->
+	<delete id="delete" parameterType="java.lang.Long">
+		 update tb_errands_fee
+		 set status=2  WHERE id = #{id}
+	</delete>
+
+	<!-- 添加 -->
+	<insert id="add" parameterType="com.xgh.paotui.entity.ErrandsFee">
+		 INSERT INTO tb_errands_fee
+ 		(id,open_city_id,start_mileage,start_fee,exceed_mileage,exceed_fee,night_start_time,night_end_time,night_add_fee,queue_start_time,queue_start_fee,queue_exceed_time,queue_exceed_fee,create_date,update_date,status,data_1,data_2,data_3,data_4,data_5) 
+		 VALUES 
+ 		(#{id},#{openCityId},#{startMileage},#{startFee},#{exceedMileage},#{exceedFee},#{nightStartTime},#{nightEndTime},#{nightAddFee},#{queueStartTime},#{queueStartFee},#{queueExceedTime},#{queueExceedFee},#{createDate},#{updateDate},#{status},#{data1},#{data2},#{data3},#{data4},#{data5}) 
+	</insert>
+
+	<!-- 修 改-->
+	<update id="update" parameterType="com.xgh.paotui.entity.ErrandsFee">
+		 UPDATE tb_errands_fee
+		 SET 
+			 open_city_id = #{openCityId},
+			 start_mileage = #{startMileage},
+			 start_fee = #{startFee},
+			 exceed_mileage = #{exceedMileage},
+			 exceed_fee = #{exceedFee},
+			 night_start_time = #{nightStartTime},
+			 night_end_time = #{nightEndTime},
+			 night_add_fee = #{nightAddFee},
+			 queue_start_time = #{queueStartTime},
+			 queue_start_fee = #{queueStartFee},
+			 queue_exceed_time = #{queueExceedTime},
+			 queue_exceed_fee = #{queueExceedFee},
+			 create_date = #{createDate},
+			 update_date = #{updateDate},
+			 status = #{status},
+			 data_1 = #{data1},
+			 data_2 = #{data2},
+			 data_3 = #{data3},
+			 data_4 = #{data4},
+			 data_5 = #{data5}
+		 WHERE id = #{id}
+	</update>
+
+</mapper>

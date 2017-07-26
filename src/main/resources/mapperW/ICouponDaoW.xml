@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xgh.paotui.dao.write.ICouponDaoW">
+
+	<!--实体映射-->
+	<resultMap id="couponResultMap" type="com.xgh.paotui.entity.Coupon">
+		<!--唯一id-->
+		<id property="id" column="id" />
+		<!--代金券使用客户id-->
+		<result property="customerId" column="customer_id" javaType="long" jdbcType="BIGINT" />
+		<!--使用订单id-->
+		<result property="orderId" column="order_id" javaType="long" jdbcType="BIGINT" />
+		<!--代金券名称-->
+		<result property="couponName" column="coupon_name" javaType="String" jdbcType="VARCHAR" />
+		<!--代金券金额(单位：元)-->
+		<result property="moneyAmount" column="money_amount" javaType="BigDecimal" jdbcType="DECIMAL" />
+		<!--抵扣金额(单位：元)-->
+		<result property="useAmount" column="use_amount" javaType="BigDecimal" jdbcType="DECIMAL" />
+		<!--有效期开始日期-->
+		<result property="startDate" column="start_date" javaType="Date" jdbcType="TIMESTAMP" />
+		<!--有效期结束日期-->
+		<result property="endDate" column="end_date" javaType="Date" jdbcType="TIMESTAMP" />
+		<!--代金券状态（1：未使用 2：已使用 3：已失效 ）-->
+		<result property="useStatus" column="use_status" javaType="int" jdbcType="INTEGER" />
+		<!--使用时间-->
+		<result property="updateDate" column="update_date" javaType="Date" jdbcType="TIMESTAMP" />
+		<!--扩展1-->
+		<result property="data1" column="data_1" javaType="long" jdbcType="BIGINT" />
+		<!--扩展2-->
+		<result property="data2" column="data_2" javaType="int" jdbcType="INTEGER" />
+		<!--扩展3-->
+		<result property="data3" column="data_3" javaType="String" jdbcType="VARCHAR" />
+		<!--扩展4-->
+		<result property="data4" column="data_4" javaType="String" jdbcType="VARCHAR" />
+		<!--扩展5-->
+		<result property="data5" column="data_5" javaType="String" jdbcType="VARCHAR" />
+		<!--状态（1：正常 2：已删除）-->
+		<result property="status" column="status" javaType="int" jdbcType="INTEGER" />
+	</resultMap>
+
+
+	<!--删除：根据主键ID逻辑删除-->
+	<delete id="delete" parameterType="java.lang.Long">
+		 update tb_coupon
+		 set status=2  WHERE id = #{id}
+	</delete>
+
+	<!-- 添加 -->
+	<insert id="add" parameterType="com.xgh.paotui.entity.Coupon">
+		 INSERT INTO tb_coupon
+ 		(id,customer_id,order_id,coupon_name,money_amount,use_amount,start_date,end_date,use_status,update_date,data_1,data_2,data_3,data_4,data_5,status) 
+		 VALUES 
+ 		(#{id},#{customerId},#{orderId},#{couponName},#{moneyAmount},#{useAmount},#{startDate},#{endDate},#{useStatus},#{updateDate},#{data1},#{data2},#{data3},#{data4},#{data5},#{status}) 
+	</insert>
+
+	<!-- 修 改-->
+	<update id="update" parameterType="com.xgh.paotui.entity.Coupon">
+		 UPDATE tb_coupon
+		 SET 
+			 customer_id = #{customerId},
+			 order_id = #{orderId},
+			 coupon_name = #{couponName},
+			 money_amount = #{moneyAmount},
+			 use_amount = #{useAmount},
+			 start_date = #{startDate},
+			 end_date = #{endDate},
+			 use_status = #{useStatus},
+			 update_date = #{updateDate},
+			 data_1 = #{data1},
+			 data_2 = #{data2},
+			 data_3 = #{data3},
+			 data_4 = #{data4},
+			 data_5 = #{data5},
+			 status = #{status}
+		 WHERE id = #{id}
+	</update>
+
+</mapper>

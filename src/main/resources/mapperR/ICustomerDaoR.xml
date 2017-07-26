@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xgh.paotui.dao.read.ICustomerDaoR">
+	<!--实体映射-->
+	<resultMap id="customerResultMap" type="com.xgh.paotui.entity.Customer">
+		<!---->
+		<id property="id" column="id" />
+		<!--账户登录名，默认是手机号-->
+		<result property="loginName" column="login_name" javaType="String" jdbcType="VARCHAR" />
+		<!--密码-->
+		<result property="password" column="password" javaType="String" jdbcType="VARCHAR" />
+		<!--昵称-->
+		<result property="nickName" column="nick_name" javaType="String" jdbcType="VARCHAR" />
+		<!--头像url-->
+		<result property="headPicUrl" column="head_pic_url" javaType="String" jdbcType="VARCHAR" />
+		<!--真实名字-->
+		<result property="realName" column="real_name" javaType="String" jdbcType="VARCHAR" />
+		<!--身份证号码-->
+		<result property="idCardNo" column="id_card_no" javaType="String" jdbcType="VARCHAR" />
+		<!--性别-->
+		<result property="sex" column="sex" javaType="String" jdbcType="VARCHAR" />
+		<!--手机号-->
+		<result property="mobilePhone" column="mobile_phone" javaType="String" jdbcType="VARCHAR" />
+		<!--账户余额-->
+		<result property="balance" column="balance" javaType="BigDecimal" jdbcType="DECIMAL" />
+		<!--微信名-->
+		<result property="weixinLoginName" column="weixin_login_name" javaType="String" jdbcType="VARCHAR" />
+		<!--注册时间-->
+		<result property="registerTime" column="register_time" javaType="Date" jdbcType="TIMESTAMP" />
+		<!--城市，可从微信中获取-->
+		<result property="belongCity" column="belong_city" javaType="String" jdbcType="VARCHAR" />
+		<!--最新一次发货地址-->
+		<result property="newestDeliverAddress" column="newest_deliver_address" javaType="String" jdbcType="VARCHAR" />
+		<!--令牌，身份认证-->
+		<result property="token" column="token" javaType="String" jdbcType="VARCHAR" />
+		<!--状态（1：正常 2：已删除）-->
+		<result property="status" column="status" javaType="int" jdbcType="INTEGER" />
+		<!--扩展1-->
+		<result property="data1" column="data_1" javaType="long" jdbcType="BIGINT" />
+		<!--扩展2-->
+		<result property="data2" column="data_2" javaType="int" jdbcType="INTEGER" />
+		<!--扩展3-->
+		<result property="data3" column="data_3" javaType="String" jdbcType="VARCHAR" />
+		<!--扩展4-->
+		<result property="data4" column="data_4" javaType="String" jdbcType="VARCHAR" />
+		<!--扩展5-->
+		<result property="data5" column="data_5" javaType="String" jdbcType="VARCHAR" />
+	</resultMap>
+
+	<!-- 通用查询结果列-->
+	<sql id="Base_Column_List">
+	id as id,
+	login_name	 as loginName,
+	password	 as password,
+	nick_name	 as nickName,
+	head_pic_url	 as headPicUrl,
+	real_name	 as realName,
+	id_card_no	 as idCardNo,
+	sex	 as sex,
+	mobile_phone	 as mobilePhone,
+	balance	 as balance,
+	weixin_login_name	 as weixinLoginName,
+	register_time	 as registerTime,
+	belong_city	 as belongCity,
+	newest_deliver_address	 as  newestDeliverAddress,
+	token	 as token,
+	status	 as status,
+	data_1	 as data1,
+	data_2	 as data2,
+	data_3	 as data3,
+	data_4	 as data4,
+	data_5	 as data5
+	</sql>
+
+	<!-- 查询（根据主键ID查询） -->
+	<select id="get" resultMap="customerResultMap" parameterType="java.lang.Long">
+		 SELECT
+		 <include refid="Base_Column_List" />
+		 FROM tb_customer
+		 WHERE  status = 1  and id = #{id}
+	</select>
+
+	<!-- 查询（根据查询条件查询） -->
+	<select id="getList" resultMap="customerResultMap" parameterType="hashmap">
+		 SELECT
+		 <include refid="Base_Column_List" />
+		 FROM tb_customer
+		 WHERE   status = 1
+		<if test="loginName!=null and loginName!=''">
+			and login_name = #{loginName}
+		</if>
+
+		<if test="token!=null and token!=''">
+			and token = #{token}
+		</if>
+
+	</select>
+
+	<!-- 查询（根据查询条件分页查询） -->
+	<select id="getListPage" resultMap="customerResultMap" parameterType="hashmap">
+		SELECT
+		<include refid="Base_Column_List" />
+		FROM tb_customer
+		WHERE   status = 1
+		<if test="loginName!=null and loginName!=''">
+			and login_name LIKE CONCAT('%', #{loginName}, '%')
+		</if>
+		<if test="belongCity!=null and belongCity!=''">
+			and belong_city LIKE CONCAT('%', #{belongCity}, '%')
+		</if>
+		<if test="page!=null and page!=''and pagesize!=''and pagesize!=''">
+		limit ${(page-1)*pagesize},${pagesize}
+		</if>
+	</select>
+
+	<!-- 查询（根据查询条件分页查询） -->
+	<select id="getListMapPage" resultType="hashmap"  parameterType="hashmap">
+		 SELECT
+		 <include refid="Base_Column_List" />
+		 FROM tb_customer
+		 WHERE   status = 1
+		 limit ${(page-1)*pagesize},${pagesize} 
+	</select>
+
+	<!-- 查询记录总数量（根据查询条件查询记录总数量） -->
+	<select id="getRows" resultType="long" parameterType="hashmap">
+		 SELECT 
+		 count(*)
+		 FROM tb_customer
+		 WHERE   status = 1
+		<if test="loginName!=null and loginName!=''">
+			and login_name LIKE CONCAT('%', #{loginName}, '%')
+		</if>
+		<if test="belongCity!=null and belongCity!=''">
+			and belong_city LIKE CONCAT('%', #{belongCity}, '%')
+		</if>
+	</select>
+
+
+
+	<!-- 登录 -->
+	<select id="login" parameterType="hashmap" resultMap="customerResultMap">
+		select * from tb_customer
+		where login_name = #{loginName}
+		AND status = 1<!--状态：正常-->
+		limit 0,1
+	</select>
+</mapper>

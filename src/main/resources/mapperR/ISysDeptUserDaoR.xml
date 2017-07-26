@@ -1,0 +1,183 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xgh.mng.dao.read.ISysDeptUserDaoR">
+
+	<resultMap id="sysDeptUserMap" type="com.xgh.mng.entity.SysDeptUser">
+		<result column="id" javaType="long" jdbcType="BIGINT" property="id"/>
+		<result column="nid" javaType="long" jdbcType="BIGINT" property="nid"/>
+		<result column="dept_id" javaType="long" jdbcType="BIGINT" property="deptId"/>
+		<result column="dept_nid" javaType="long" jdbcType="BIGINT" property="deptNid"/>
+		<result column="dept_code" javaType="string" jdbcType="VARCHAR" property="deptCode"/>
+		<result column="user_id" javaType="long" jdbcType="BIGINT" property="userId"/>
+		<result column="user_nid" javaType="long" jdbcType="BIGINT" property="userNid"/>
+		<result column="ord" javaType="long" jdbcType="BIGINT" property="ord"/>
+		<result column="user_level" javaType="long" jdbcType="BIGINT" property="userLevel"/>
+		<result column="status" javaType="int" jdbcType="INTEGER" property="status"/>
+		<result column="remark" javaType="string" jdbcType="VARCHAR" property="remark"/>
+	</resultMap>
+
+	<resultMap id="sysDeptUserMap2" type="java.util.Map">
+		<result column="id" javaType="long" jdbcType="BIGINT" property="ID"/>
+		<result column="nid" javaType="long" jdbcType="BIGINT" property="NID"/>
+		<result column="dept_id" javaType="long" jdbcType="BIGINT" property="DEPT_ID"/>
+		<result column="dept_nid" javaType="long" jdbcType="BIGINT" property="DEPT_NID"/>
+		<result column="dept_code" javaType="string" jdbcType="VARCHAR" property="DEPT_CODE"/>
+		<result column="user_id" javaType="long" jdbcType="BIGINT" property="USER_ID"/>
+		<result column="user_nid" javaType="long" jdbcType="BIGINT" property="USER_NID"/>
+		<result column="ord" javaType="long" jdbcType="BIGINT" property="ORD"/>
+		<result column="user_level" javaType="long" jdbcType="BIGINT" property="USER_LEVEL"/>
+		<result column="status" javaType="int" jdbcType="INTEGER" property="STATUS"/>
+		<result column="remark" javaType="string" jdbcType="VARCHAR" property="REMARK"/>
+	</resultMap>
+
+	<select id="get" parameterType="long" resultMap="sysDeptUserMap">
+		select * from tb_sys_dept_user where id = #{id}
+	</select>
+
+	<select id="getList" parameterType="com.xgh.mng.entity.SysDeptUser"
+			resultMap="sysDeptUserMap">
+		select * from
+		tb_sys_dept_user
+		<trim prefix="WHERE" prefixOverrides="AND |OR ">
+
+			<if test="id!= null">
+				and id = #{id}
+			</if>
+			<if test="nid!= null">
+				and nid = #{nid}
+			</if>
+			<if test="deptId!= null">
+				and dept_id = #{deptId}
+			</if>
+			<if test="deptNid!= null">
+				and dept_nid = #{deptNid}
+			</if>
+			<if test="deptCode!= null and deptCode!=''">
+				and dept_code = #{deptCode}
+			</if>
+			<if test="userId!= null">
+				and user_id = #{userId}
+			</if>
+			<if test="userNid!= null">
+				and user_nid = #{userNid}
+			</if>
+			<if test="ord!= null">
+				and ord = #{ord}
+			</if>
+			<if test="userLevel!= null">
+				and user_level = #{userLevel}
+			</if>
+			<if test="status!= null">
+				and status = #{status}
+			</if>
+			<if test="remark!= null and remark!=''">
+				and remark = #{remark}
+			</if>
+		</trim>
+	</select>
+
+
+	<select id="getListPage" parameterType="hashmap" resultMap="sysDeptUserMap">
+		select
+		*
+		from
+		tb_sys_dept_user
+		<if test="keySysDeptUser!= null">
+			<trim prefix="WHERE" prefixOverrides="AND |OR ">
+
+				<if test="keySysDeptUser.id!= null">
+					and id = #{keySysDeptUser.id}
+				</if>
+				<if test="keySysDeptUser.nid!= null">
+					and nid = #{keySysDeptUser.nid}
+				</if>
+				<if test="keySysDeptUser.deptId!= null">
+					and dept_id = #{keySysDeptUser.deptId}
+				</if>
+				<if test="keySysDeptUser.deptNid!= null">
+					and dept_nid = #{keySysDeptUser.deptNid}
+				</if>
+				<if test="keySysDeptUser.deptCode!= null and keySysDeptUser.deptCode!=''">
+					and dept_code = #{keySysDeptUser.deptCode}
+				</if>
+				<if test="keySysDeptUser.userId!= null">
+					and user_id = #{keySysDeptUser.userId}
+				</if>
+				<if test="keySysDeptUser.userNid!= null">
+					and user_nid = #{keySysDeptUser.userNid}
+				</if>
+				<if test="keySysDeptUser.ord!= null">
+					and ord = #{keySysDeptUser.ord}
+				</if>
+				<if test="keySysDeptUser.userLevel!= null">
+					and user_level = #{keySysDeptUser.userLevel}
+				</if>
+				<if test="keySysDeptUser.status!= null">
+					and status = #{keySysDeptUser.status}
+				</if>
+				<if test="keySysDeptUser.remark!= null and keySysDeptUser.remark!=''">
+					and remark = #{keySysDeptUser.remark}
+				</if>
+			</trim>
+		</if>
+		limit ${(page-1)*pagesize},${pagesize}
+	</select>
+
+	<select id="getRows" parameterType="hashmap" resultType="long">
+		select
+		count(*) from
+		tb_sys_dept_user
+		<if test="keySysDeptUser!= null">
+			<trim prefix="WHERE" prefixOverrides="AND |OR ">
+				<if test="keySysDeptUser.id!= null">
+					and id = #{keySysDeptUser.id}
+				</if>
+				<if test="keySysDeptUser.nid!= null">
+					and nid = #{keySysDeptUser.nid}
+				</if>
+				<if test="keySysDeptUser.deptId!= null">
+					and dept_id = #{keySysDeptUser.deptId}
+				</if>
+				<if test="keySysDeptUser.deptNid!= null">
+					and dept_nid = #{keySysDeptUser.deptNid}
+				</if>
+				<if test="keySysDeptUser.deptCode!= null and keySysDeptUser.deptCode!=''">
+					and dept_code = #{keySysDeptUser.deptCode}
+				</if>
+				<if test="keySysDeptUser.userId!= null">
+					and user_id = #{keySysDeptUser.userId}
+				</if>
+				<if test="keySysDeptUser.userNid!= null">
+					and user_nid = #{keySysDeptUser.userNid}
+				</if>
+				<if test="keySysDeptUser.ord!= null">
+					and ord = #{keySysDeptUser.ord}
+				</if>
+				<if test="keySysDeptUser.userLevel!= null">
+					and user_level = #{keySysDeptUser.userLevel}
+				</if>
+				<if test="keySysDeptUser.status!= null">
+					and status = #{keySysDeptUser.status}
+				</if>
+				<if test="keySysDeptUser.remark!= null and keySysDeptUser.remark!=''">
+					and remark = #{keySysDeptUser.remark}
+				</if>
+			</trim>
+		</if>
+	</select>
+
+	<select id="getDeptRowsByUserId" parameterType="long" resultType="long">
+		SELECT
+		count(du.id)
+		FROM
+		tb_sys_dept_user du
+		JOIN tb_sys_department d ON du.dept_id = d.id
+		WHERE
+		du.user_id = #{userId} and d.status = 1
+	</select>
+
+	<select id="getListByUserId" parameterType="long" resultMap="sysDeptUserMap">
+		select * from tb_sys_dept_user where user_id = #{userId} order by ord
+	</select>
+</mapper>

@@ -1,0 +1,204 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xgh.mng.dao.read.ISysTypeDaoR">
+
+	<resultMap id="sysTypeMap" type="com.xgh.mng.entity.SysType">
+		<result column="id" javaType="long" jdbcType="BIGINT" property="id"/>
+		<result column="nid" javaType="long" jdbcType="BIGINT" property="nid"/>
+		<result column="code" javaType="string" jdbcType="VARCHAR" property="code"/>
+		<result column="parent_id" javaType="long" jdbcType="BIGINT" property="parentId"/>
+		<result column="parent_nid" javaType="long" jdbcType="BIGINT" property="parentNid"/>
+		<result column="name" javaType="string" jdbcType="VARCHAR" property="name"/>
+		<result column="type" javaType="string" jdbcType="VARCHAR" property="type"/>
+		<result column="ord" javaType="long" jdbcType="BIGINT" property="ord"/>
+		<result column="create_date" javaType="date" jdbcType="TIMESTAMP" property="createDate"/>
+		<result column="update_date" javaType="date" jdbcType="TIMESTAMP" property="updateDate"/>
+		<result column="status" javaType="int" jdbcType="INTEGER" property="status"/>
+		<result column="remark" javaType="string" jdbcType="VARCHAR" property="remark"/>
+	</resultMap>
+
+	<resultMap id="sysTypeMap2" type="java.util.Map">
+		<result column="id" javaType="long" jdbcType="BIGINT" property="ID"/>
+		<result column="nid" javaType="long" jdbcType="BIGINT" property="NID"/>
+		<result column="code" javaType="string" jdbcType="VARCHAR" property="CODE"/>
+		<result column="parent_id" javaType="long" jdbcType="BIGINT" property="PARENT_ID"/>
+		<result column="parent_nid" javaType="long" jdbcType="BIGINT" property="PARENT_NID"/>
+		<result column="name" javaType="string" jdbcType="VARCHAR" property="NAME"/>
+		<result column="type" javaType="string" jdbcType="VARCHAR" property="TYPE"/>
+		<result column="ord" javaType="long" jdbcType="BIGINT" property="ORD"/>
+		<result column="create_date" javaType="date" jdbcType="TIMESTAMP" property="CREATE_DATE"/>
+		<result column="update_date" javaType="date" jdbcType="TIMESTAMP" property="UPDATE_DATE"/>
+		<result column="status" javaType="int" jdbcType="INTEGER" property="STATUS"/>
+		<result column="remark" javaType="string" jdbcType="VARCHAR" property="REMARK"/>
+	</resultMap>
+
+	<select id="get" parameterType="long" resultMap="sysTypeMap">
+		select * from tb_sys_type where id = #{id}
+	</select>
+
+	<select id="getList" parameterType="hashmap"
+			resultMap="sysTypeMap">
+		select
+		*
+		from
+		tb_sys_type
+		where parent_id = #{parentId} and type = #{type}
+		order by ord desc
+	</select>
+
+
+	<select id="getListPage" parameterType="hashmap" resultMap="sysTypeMap">
+		select
+		*
+		from
+		tb_sys_type
+		<if test="keySysType!= null">
+			<trim prefix="WHERE" prefixOverrides="AND |OR ">
+
+				<if test="keySysType.id!= null">
+					and id = #{keySysType.id}
+				</if>
+				<if test="keySysType.nid!= null">
+					and nid = #{keySysType.nid}
+				</if>
+				<if test="keySysType.code!= null and keySysType.code!=''">
+					and code = #{keySysType.code}
+				</if>
+				<if test="keySysType.parentId!= null">
+					and parent_id = #{keySysType.parentId}
+				</if>
+				<if test="keySysType.parentNid!= null">
+					and parent_nid = #{keySysType.parentNid}
+				</if>
+				<if test="keySysType.name!= null and keySysType.name!=''">
+					and name = #{keySysType.name}
+				</if>
+				<if test="keySysType.type!= null and keySysType.type!=''">
+					and type = #{keySysType.type}
+				</if>
+				<if test="keySysType.ord!= null">
+					and ord = #{keySysType.ord}
+				</if>
+				<if test="keySysType.createDate!= null and keySysType.createDate!=''">
+					and create_date = #{keySysType.createDate}
+				</if>
+				<if test="keySysType.updateDate!= null and keySysType.updateDate!=''">
+					and update_date = #{keySysType.updateDate}
+				</if>
+				<if test="keySysType.status!= null">
+					and status = #{keySysType.status}
+				</if>
+				<if test="keySysType.remark!= null and keySysType.remark!=''">
+					and remark = #{keySysType.remark}
+				</if>
+			</trim>
+		</if>
+		limit ${(page-1)*pagesize},${pagesize}
+	</select>
+
+	<select id="getRows" parameterType="hashmap" resultType="long">
+		select
+		count(*) from
+		tb_sys_type
+		<if test="keySysType!= null">
+			<trim prefix="WHERE" prefixOverrides="AND |OR ">
+				<if test="keySysType.id!= null">
+					and id = #{keySysType.id}
+				</if>
+				<if test="keySysType.nid!= null">
+					and nid = #{keySysType.nid}
+				</if>
+				<if test="keySysType.code!= null and keySysType.code!=''">
+					and code = #{keySysType.code}
+				</if>
+				<if test="keySysType.parentId!= null">
+					and parent_id = #{keySysType.parentId}
+				</if>
+				<if test="keySysType.parentNid!= null">
+					and parent_nid = #{keySysType.parentNid}
+				</if>
+				<if test="keySysType.name!= null and keySysType.name!=''">
+					and name = #{keySysType.name}
+				</if>
+				<if test="keySysType.type!= null and keySysType.type!=''">
+					and type = #{keySysType.type}
+				</if>
+				<if test="keySysType.ord!= null">
+					and ord = #{keySysType.ord}
+				</if>
+				<if test="keySysType.createDate!= null and keySysType.createDate!=''">
+					and create_date = #{keySysType.createDate}
+				</if>
+				<if test="keySysType.updateDate!= null and keySysType.updateDate!=''">
+					and update_date = #{keySysType.updateDate}
+				</if>
+				<if test="keySysType.status!= null">
+					and status = #{keySysType.status}
+				</if>
+				<if test="keySysType.remark!= null and keySysType.remark!=''">
+					and remark = #{keySysType.remark}
+				</if>
+			</trim>
+		</if>
+	</select>
+
+	<select id="getListMap" parameterType="hashmap" resultMap="sysTypeMap2">
+		select
+		*
+		from
+		tb_sys_type
+		where parent_id = #{parentId} and type = #{type}
+		order by ord desc
+	</select>
+
+
+	<select id="getTreeData" parameterType="hashmap" resultType="hashmap">
+		select
+		id,
+		parent_id as pid,
+		name as text
+		from
+		tb_sys_type
+		<trim prefix="WHERE" prefixOverrides="AND |OR ">
+			type = #{type}
+			<if test="pid!= null">
+				and parent_id = #{parentId}
+			</if>
+		</trim>
+		order by ord desc
+	</select>
+
+
+	<select id="getChildTypeRows" parameterType="long" resultType="long">
+		select
+		count(id)
+		from
+		tb_sys_type
+		where parent_id = #{parentId}
+	</select>
+
+
+	<select id="getSameCodeRows" parameterType="hashmap" resultType="long">
+		select
+		count(id)
+		from
+		tb_sys_type
+		<trim prefix="WHERE" prefixOverrides="AND |OR ">
+			code = #{code} and type = #{type}
+			<if test="id!= null">
+				and id &lt;&gt; #{id}
+			</if>
+		</trim>
+	</select>
+
+
+	<select id="getSysTypeByCode" parameterType="hashmap" resultMap="sysTypeMap">
+		select
+		*
+		from
+		tb_sys_type
+		where code = #{code} and type = #{type}
+		limit 0,1
+	</select>
+</mapper>

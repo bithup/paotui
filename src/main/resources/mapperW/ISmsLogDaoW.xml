@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xgh.paotui.dao.write.ISmsLogDaoW">
+
+	<!--实体映射-->
+	<resultMap id="smsLogResultMap" type="com.xgh.paotui.entity.SmsLog">
+		<!--唯一id-->
+		<id property="id" column="id" />
+		<!--接收短信的手机号码-->
+		<result property="telephone" column="telephone" javaType="String" jdbcType="VARCHAR" />
+		<!--接收的短信内容-->
+		<result property="content" column="content" javaType="String" jdbcType="VARCHAR" />
+		<!--发送时间-->
+		<result property="sendTime" column="send_time" javaType="Date" jdbcType="TIMESTAMP" />
+		<!--发送状态（1：成功 2：失败 3：其他）-->
+		<result property="status" column="status" javaType="int" jdbcType="INTEGER" />
+		<!--扩展1-->
+		<result property="data1" column="data_1" javaType="long" jdbcType="BIGINT" />
+		<!--扩展2-->
+		<result property="data2" column="data_2" javaType="String" jdbcType="VARCHAR" />
+		<!--扩展3-->
+		<result property="data3" column="data_3" javaType="String" jdbcType="VARCHAR" />
+	</resultMap>
+
+
+	<!--删除：根据主键ID逻辑删除-->
+	<delete id="delete" parameterType="java.lang.Long">
+		 update tb_sms_log
+		 set status=2  WHERE id = #{id}
+	</delete>
+
+	<!-- 添加 -->
+	<insert id="add" parameterType="com.xgh.paotui.entity.SmsLog">
+		<selectKey keyProperty="id" resultType="long" order="AFTER">
+			SELECT max(id)  AS value  from tb_sms_log
+		</selectKey>
+		 INSERT INTO tb_sms_log
+ 		(id,telephone,content,send_time,status,data_1,data_2,data_3) 
+		 VALUES 
+ 		(#{id},#{telephone},#{content},#{sendTime},#{status},#{data1},#{data2},#{data3}) 
+	</insert>
+
+	<!-- 修 改-->
+	<update id="update" parameterType="com.xgh.paotui.entity.SmsLog">
+		 UPDATE tb_sms_log
+		 SET 
+			 telephone = #{telephone},
+			 content = #{content},
+			 send_time = #{sendTime},
+			 status = #{status},
+			 data_1 = #{data1},
+			 data_2 = #{data2},
+			 data_3 = #{data3}
+		 WHERE id = #{id}
+	</update>
+
+</mapper>

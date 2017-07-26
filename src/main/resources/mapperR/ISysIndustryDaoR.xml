@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xgh.mng.dao.read.ISysIndustryDaoR">
+
+	<resultMap id="sysIndustryMap" type="com.xgh.mng.entity.SysIndustry">
+		<result column="id" javaType="long" jdbcType="BIGINT" property="id"/>
+		<result column="nid" javaType="long" jdbcType="BIGINT" property="nid"/>
+		<result column="code" javaType="string" jdbcType="VARCHAR" property="code"/>
+		<result column="name" javaType="string" jdbcType="VARCHAR" property="name"/>
+		<result column="version" javaType="int" jdbcType="INTEGER" property="version"/>
+		<result column="ord" javaType="long" jdbcType="BIGINT" property="ord"/>
+		<result column="create_date" javaType="date" jdbcType="TIMESTAMP" property="createDate"/>
+		<result column="update_date" javaType="date" jdbcType="TIMESTAMP" property="updateDate"/>
+		<result column="stop_date" javaType="date" jdbcType="TIMESTAMP" property="stopDate"/>
+		<result column="is_pass" javaType="int" jdbcType="INTEGER" property="isPass"/>
+		<result column="status" javaType="int" jdbcType="INTEGER" property="status"/>
+		<result column="remark" javaType="string" jdbcType="VARCHAR" property="remark"/>
+	</resultMap>
+
+	<resultMap id="sysIndustryMap2" type="java.util.Map">
+		<result column="id" javaType="long" jdbcType="BIGINT" property="ID"/>
+		<result column="nid" javaType="long" jdbcType="BIGINT" property="NID"/>
+		<result column="code" javaType="string" jdbcType="VARCHAR" property="CODE"/>
+		<result column="name" javaType="string" jdbcType="VARCHAR" property="NAME"/>
+		<result column="version" javaType="int" jdbcType="INTEGER" property="VERSION"/>
+		<result column="ord" javaType="long" jdbcType="BIGINT" property="ORD"/>
+		<result column="create_date" javaType="date" jdbcType="TIMESTAMP" property="CREATE_DATE"/>
+		<result column="update_date" javaType="date" jdbcType="TIMESTAMP" property="UPDATE_DATE"/>
+		<result column="stop_date" javaType="date" jdbcType="TIMESTAMP" property="STOP_DATE"/>
+		<result column="is_pass" javaType="int" jdbcType="INTEGER" property="IS_PASS"/>
+		<result column="status" javaType="int" jdbcType="INTEGER" property="STATUS"/>
+		<result column="remark" javaType="string" jdbcType="VARCHAR" property="REMARK"/>
+	</resultMap>
+
+	<select id="get" parameterType="long" resultMap="sysIndustryMap">
+		select * from tb_sys_industry where id = #{id}
+	</select>
+
+	<select id="getList" parameterType="com.xgh.mng.entity.SysIndustry"
+			resultMap="sysIndustryMap">
+		select * from
+		tb_sys_industry
+		<trim prefix="WHERE" prefixOverrides="AND |OR ">
+
+			<if test="id!= null">
+				and id = #{id}
+			</if>
+			<if test="nid!= null">
+				and nid = #{nid}
+			</if>
+			<if test="code!= null and code!=''">
+				and code = #{code}
+			</if>
+			<if test="name!= null and name!=''">
+				and name = #{name}
+			</if>
+			<if test="version!= null">
+				and version = #{version}
+			</if>
+			<if test="ord!= null">
+				and ord = #{ord}
+			</if>
+			<if test="createDate!= null and createDate!=''">
+				and create_date = #{createDate}
+			</if>
+			<if test="updateDate!= null and updateDate!=''">
+				and update_date = #{updateDate}
+			</if>
+			<if test="stopDate!= null and stopDate!=''">
+				and stop_date = #{stopDate}
+			</if>
+			<if test="status!= null">
+				and status = #{status}
+			</if>
+			<if test="remark!= null and remark!=''">
+				and remark = #{remark}
+			</if>
+		</trim>
+	</select>
+
+	<select id="getListPage" parameterType="hashmap" resultMap="sysIndustryMap">
+		select
+		*
+		from
+		tb_sys_industry
+		<trim prefix="WHERE" prefixOverrides="AND |OR ">
+			<if test="1==1">
+				AND status = 1
+			</if>
+			<if test="configQuery!=null and configQuery!=''">
+				AND ${configQuery}
+			</if>
+		</trim>
+		order by create_date desc
+		limit ${(page-1)*pagesize},${pagesize};
+	</select>
+
+	<select id="getRows" parameterType="hashmap" resultType="long">
+		select
+		count(*) from
+		tb_sys_industry
+		<trim prefix="WHERE" prefixOverrides="AND |OR ">
+			<if test="1==1">
+				AND status = 1
+			</if>
+			<if test="configQuery!=null and configQuery!=''">
+				AND ${configQuery}
+			</if>
+		</trim>
+		;
+	</select>
+
+	<select id="getSysIndustry" resultMap="sysIndustryMap">
+        select
+        *
+        from
+        tb_sys_industry where status = 1 AND is_pass = 1 AND stop_date &gt; now();
+    </select>
+
+	<select id="getIndustryTree" parameterType="hashmap" resultType="hashmap">
+		SELECT
+		id as id,
+		0 AS pid,
+		name AS text
+		FROM
+		tb_sys_industry where status = 1 AND stop_date &gt; now();
+	</select>
+</mapper>

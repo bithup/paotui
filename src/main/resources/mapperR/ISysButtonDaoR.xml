@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xgh.mng.dao.read.ISysButtonDaoR">
+
+	<resultMap id="sysButtonMap" type="com.xgh.mng.entity.SysButton">
+		<result column="id" javaType="long" jdbcType="BIGINT" property="id"/>
+		<result column="nid" javaType="long" jdbcType="BIGINT" property="nid"/>
+		<result column="menu_id" javaType="long" jdbcType="BIGINT" property="menuId"/>
+		<result column="menu_nid" javaType="long" jdbcType="BIGINT" property="menuNid"/>
+		<result column="button_name" javaType="string" jdbcType="VARCHAR" property="buttonName"/>
+		<result column="button_url" javaType="string" jdbcType="VARCHAR" property="buttonUrl"/>
+		<result column="button_icon" javaType="string" jdbcType="VARCHAR" property="buttonIcon"/>
+		<result column="button_click" javaType="string" jdbcType="VARCHAR" property="buttonClick"/>
+		<result column="is_visible" javaType="long" jdbcType="BIGINT" property="isVisible"/>
+		<result column="is_public" javaType="long" jdbcType="BIGINT" property="isPublic"/>
+		<result column="is_sys" javaType="long" jdbcType="BIGINT" property="isSys"/>
+		<result column="ord" javaType="long" jdbcType="BIGINT" property="ord"/>
+		<result column="create_date" javaType="date" jdbcType="TIMESTAMP" property="createDate"/>
+		<result column="update_date" javaType="date" jdbcType="TIMESTAMP" property="updateDate"/>
+		<result column="status" javaType="int" jdbcType="INTEGER" property="status"/>
+		<result column="remark" javaType="string" jdbcType="VARCHAR" property="remark"/>
+	</resultMap>
+
+	<resultMap id="sysButtonMap2" type="java.util.Map">
+		<result column="id" javaType="long" jdbcType="BIGINT" property="ID"/>
+		<result column="nid" javaType="long" jdbcType="BIGINT" property="NID"/>
+		<result column="menu_id" javaType="long" jdbcType="BIGINT" property="MENU_ID"/>
+		<result column="menu_nid" javaType="long" jdbcType="BIGINT" property="MENU_NID"/>
+		<result column="button_name" javaType="string" jdbcType="VARCHAR" property="BUTTON_NAME"/>
+		<result column="button_url" javaType="string" jdbcType="VARCHAR" property="BUTTON_URL"/>
+		<result column="button_icon" javaType="string" jdbcType="VARCHAR" property="BUTTON_ICON"/>
+		<result column="button_click" javaType="string" jdbcType="VARCHAR" property="BUTTON_CLICK"/>
+		<result column="is_visible" javaType="long" jdbcType="BIGINT" property="IS_VISIBLE"/>
+		<result column="is_public" javaType="long" jdbcType="BIGINT" property="IS_PUBLIC"/>
+		<result column="is_sys" javaType="long" jdbcType="BIGINT" property="IS_SYS"/>
+		<result column="ord" javaType="long" jdbcType="BIGINT" property="ORD"/>
+		<result column="create_date" javaType="date" jdbcType="TIMESTAMP" property="CREATE_DATE"/>
+		<result column="update_date" javaType="date" jdbcType="TIMESTAMP" property="UPDATE_DATE"/>
+		<result column="status" javaType="int" jdbcType="INTEGER" property="STATUS"/>
+		<result column="remark" javaType="string" jdbcType="VARCHAR" property="REMARK"/>
+	</resultMap>
+
+	<select id="get" parameterType="long" resultMap="sysButtonMap">
+		select * from tb_sys_button where id = #{id}
+	</select>
+
+	<select id="getList" parameterType="com.xgh.mng.entity.SysButton"
+			resultMap="sysButtonMap">
+		select * from
+		tb_sys_button
+		<trim prefix="WHERE" prefixOverrides="AND |OR ">
+			<if test="id!= null">
+				and id = #{id}
+			</if>
+		</trim>
+	</select>
+
+	<select id="getListPage" parameterType="hashmap" resultMap="sysButtonMap">
+		select
+		*
+		from
+		tb_sys_button
+		where menu_id = #{menuId} order by ord desc
+	</select>
+
+	<select id="getRows" parameterType="hashmap" resultType="long">
+		select
+		count(*)
+		from
+		tb_sys_button
+		where menu_id = #{menuId}
+	</select>
+
+	<select id="getListMap" parameterType="hashmap" resultMap="sysButtonMap2">
+		select
+		*
+		from
+		tb_sys_button
+		where menu_id = #{menuId} order by ord desc
+	</select>
+
+	<select id="getUserButtons" parameterType="hashmap" resultMap="sysButtonMap">
+		SELECT
+		DISTINCT
+		sb.*
+		FROM
+		<choose>
+			<when test="unitId == 1">
+				tb_sys_button
+			</when>
+			<otherwise>
+				(
+				SELECT
+				usb.*
+				FROM
+				tb_sys_button usb,
+				tb_sys_privilege_list upl
+				WHERE
+				upl.privilege_master = 'role'
+				AND upl.privilege_access = 'button'
+				AND usb.menu_id = #{menuId}
+				AND upl.privilege_master_value = #{sysRoleId}
+				AND upl.privilege_access_value = usb.id
+				)
+			</otherwise>
+		</choose>
+		sb
+		JOIN tb_sys_privilege_list pl ON pl.privilege_master = 'role'
+		AND pl.privilege_access = 'button'
+		AND pl.privilege_access_value = sb.id
+		AND sb.menu_id = #{menuId}
+		<choose>
+			<when test="type!=null and type=='sys'">
+			</when>
+			<otherwise>
+				WHERE pl.privilege_master_value in
+				<foreach close=")" collection="roleList" item="id" open="("
+						 separator=",">#{id}
+				</foreach>
+			</otherwise>
+		</choose>
+		order by sb.ord desc
+	</select>
+
+
+	<select id="getButtonByMenuId" parameterType="long" resultMap="sysButtonMap">
+		select
+		*
+		from
+		tb_sys_button
+		where menu_id = #{menuId}
+		order by ord desc
+	</select>
+
+
+	<select id="getButtonIdsByMenuIds" parameterType="hashmap" resultType="long">
+		select
+		id
+		from
+		tb_sys_button
+		where menu_id in
+		<foreach close=")" collection="list" item="id" open="("
+				 separator=",">#{id}
+		</foreach>
+	</select>
+</mapper>

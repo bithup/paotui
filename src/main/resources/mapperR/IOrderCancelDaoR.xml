@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+		"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xgh.paotui.dao.read.IOrderCancelDaoR">
+
+	<!--实体映射-->
+	<resultMap id="orderCancelResultMap" type="com.xgh.paotui.entity.OrderCancel">
+		<!---->
+		<id property="id" column="id" />
+		<!--订单类型：1、帮送；2、帮取；3、帮买；4：代排队-->
+		<result property="orderType" column="order_type" javaType="int" jdbcType="INTEGER" />
+		<!--订单id-->
+		<result property="orderId" column="order_id" javaType="long" jdbcType="BIGINT" />
+		<!--订单编号-->
+		<result property="orderNo" column="order_no" javaType="String" jdbcType="VARCHAR" />
+		<!--订单取消时，订单状态-->
+		<result property="orderStatus" column="order_status" javaType="int" jdbcType="INTEGER" />
+		<!--订单取消时，跑客的动作-->
+		<result property="actionStep" column="action_step" javaType="int" jdbcType="INTEGER" />
+		<!--订单状态描述-->
+		<result property="orderStatusRemark" column="order_status_remark" javaType="String" jdbcType="VARCHAR" />
+		<!--审核人id-->
+		<result property="checkUserId" column="check_user_id" javaType="long" jdbcType="BIGINT" />
+		<!--审核时间-->
+		<result property="checkTime" column="check_time" javaType="Date" jdbcType="TIMESTAMP" />
+		<!--审核状态（1：审核通过 2：未审核 3：审核未通过 ）-->
+		<result property="checkState" column="check_state" javaType="int" jdbcType="INTEGER" />
+		<!--订单取消时间-->
+		<result property="createTime" column="create_time" javaType="Date" jdbcType="TIMESTAMP" />
+		<!--是否超时取消订单，超时，将扣除部分跑腿费。1：未超时，2：超时-->
+		<result property="isTimeout" column="is_timeout" javaType="int" jdbcType="INTEGER" />
+		<!--状态（1：正常 2：已删除）-->
+		<result property="status" column="status" javaType="int" jdbcType="INTEGER" />
+		<!---->
+		<result property="data1" column="data_1" javaType="String" jdbcType="VARCHAR" />
+		<!---->
+		<result property="data2" column="data_2" javaType="String" jdbcType="VARCHAR" />
+		<!---->
+		<result property="data3" column="data_3" javaType="String" jdbcType="VARCHAR" />
+		<!---->
+		<result property="data4" column="data_4" javaType="String" jdbcType="VARCHAR" />
+		<!---->
+		<result property="data5" column="data_5" javaType="String" jdbcType="VARCHAR" />
+	</resultMap>
+
+
+	<!-- 通用查询结果列-->
+	<sql id="Base_Column_List">
+		 id as id,
+	order_type	 as orderType,
+	order_id	 as orderId,
+	order_no	 as orderNo,
+	order_status	 as orderStatus,
+	action_step	 as actionStep,
+	order_status_remark	 as orderStatusRemark,
+	check_user_id	 as checkUserId,
+	check_time	 as checkTime,
+	check_state	 as checkState,
+	create_time	 as createTime,
+	is_timeout	 as isTimeout,
+	status	 as status,
+	data_1	 as data1,
+	data_2	 as data2,
+	data_3	 as data3,
+	data_4	 as data4,
+	data_5	 as data5
+	</sql>
+
+	<!-- 查询（根据主键ID查询） -->
+	<select id="get" resultMap="orderCancelResultMap" parameterType="java.lang.Long">
+		 SELECT
+		 <include refid="Base_Column_List" />
+		 FROM tb_order_cancel
+		 WHERE  status = 1  and id = #{id}
+	</select>
+
+	<!-- 查询（根据查询条件查询） -->
+	<select id="getList" resultMap="orderCancelResultMap" parameterType="hashmap">
+		 SELECT
+		 <include refid="Base_Column_List" />
+		 FROM tb_order_cancel
+		 WHERE   status = 1 
+	</select>
+
+	<!-- 查询（根据查询条件分页查询） -->
+	<select id="getListPage" resultMap="orderCancelResultMap" parameterType="hashmap">
+		 SELECT
+		 <include refid="Base_Column_List" />
+		 FROM tb_order_cancel
+		 WHERE   status = 1 
+		 limit ${(page-1)*pagesize},${pagesize} 
+	</select>
+
+	<!-- 查询（根据查询条件分页查询） -->
+	<select id="getListMapPage" resultType="hashmap"  parameterType="hashmap">
+		 SELECT
+		 <include refid="Base_Column_List" />
+		 FROM tb_order_cancel
+		 WHERE   status = 1
+		<if test="orderType!=null and orderType!=''">
+			and order_type = ${orderType}
+		</if>
+		 limit ${(page-1)*pagesize},${pagesize} 
+	</select>
+
+	<!-- 查询记录总数量（根据查询条件查询记录总数量） -->
+	<select id="getRows" resultType="long" parameterType="hashmap">
+		 SELECT 
+		 count(*)  
+		 FROM tb_order_cancel
+		 WHERE   status = 1
+		<if test="orderType!=null and orderType!=''">
+			and order_type = ${orderType}
+		</if>
+	</select></mapper>

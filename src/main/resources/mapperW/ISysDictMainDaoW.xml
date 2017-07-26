@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xgh.mng.dao.write.ISysDictMainDaoW">
+
+	<resultMap id="sysDictMainMap" type="com.xgh.mng.entity.SysDictMain">
+		<result column="id" javaType="long" jdbcType="BIGINT" property="id"/>
+		<result column="nid" javaType="long" jdbcType="BIGINT" property="nid"/>
+		<result column="parent_id" javaType="long" jdbcType="BIGINT" property="parentId"/>
+		<result column="parent_nid" javaType="long" jdbcType="BIGINT" property="parentNid"/>
+		<result column="dict_prefix" javaType="string" jdbcType="VARCHAR" property="dictPrefix"/>
+		<result column="dict_code" javaType="string" jdbcType="VARCHAR" property="dictCode"/>
+		<result column="dict_name" javaType="string" jdbcType="VARCHAR" property="dictName"/>
+		<result column="dict_type" javaType="string" jdbcType="VARCHAR" property="dictType"/>
+		<result column="dict_value" javaType="string" jdbcType="VARCHAR" property="dictValue"/>
+		<result column="is_sys" javaType="long" jdbcType="BIGINT" property="isSys"/>
+		<result column="is_user_conf" javaType="long" jdbcType="BIGINT" property="isUserConf"/>
+		<result column="is_mate" javaType="int" jdbcType="INTEGER" property="isMate"/>
+		<result column="is_extends" javaType="int" jdbcType="INTEGER" property="isExtends"/>
+		<result column="ord" javaType="long" jdbcType="BIGINT" property="ord"/>
+		<result column="create_date" javaType="date" jdbcType="TIMESTAMP" property="createDate"/>
+		<result column="update_date" javaType="date" jdbcType="TIMESTAMP" property="updateDate"/>
+		<result column="status" javaType="int" jdbcType="INTEGER" property="status"/>
+		<result column="remark" javaType="string" jdbcType="VARCHAR" property="remark"/>
+	</resultMap>
+
+	<insert id="add" parameterType="com.xgh.mng.entity.SysDictMain">
+		<selectKey keyProperty="id" order="AFTER" resultType="long">
+			SELECT max(id) AS value from tb_sys_dict_main
+		</selectKey>
+		insert into tb_sys_dict_main
+		(
+		nid,
+		parent_id,
+		parent_nid,
+		dict_prefix,
+		dict_code,
+		dict_name,
+		dict_type,
+		dict_value,
+		is_sys,
+		is_user_conf,
+		is_mate,
+		is_extends,
+		ord,
+		create_date,
+		update_date,
+		status,
+		remark
+		)
+		values (
+		#{nid,jdbcType=BIGINT},
+		#{parentId,jdbcType=BIGINT},
+		#{parentNid,jdbcType=BIGINT},
+		#{dictPrefix,jdbcType=VARCHAR},
+		#{dictCode,jdbcType=VARCHAR},
+		#{dictName,jdbcType=VARCHAR},
+		#{dictType,jdbcType=VARCHAR},
+		#{dictValue,jdbcType=VARCHAR},
+		#{isSys,jdbcType=BIGINT},
+		#{isUserConf,jdbcType=BIGINT},
+		#{isMate,jdbcType=INTEGER},
+		#{isExtends,jdbcType=INTEGER},
+		#{ord,jdbcType=BIGINT},
+		#{createDate,jdbcType=TIMESTAMP},
+		#{updateDate,jdbcType=TIMESTAMP},
+		#{status,jdbcType=INTEGER},
+		#{remark,jdbcType=VARCHAR}
+		)
+	</insert>
+
+	<update id="update" parameterType="com.xgh.mng.entity.SysDictMain">
+		update tb_sys_dict_main
+		set
+		nid = #{nid,jdbcType=BIGINT},
+		parent_id = #{parentId,jdbcType=BIGINT},
+		parent_nid = #{parentNid,jdbcType=BIGINT},
+		dict_prefix = #{dictPrefix,jdbcType=VARCHAR},
+		dict_code = #{dictCode,jdbcType=VARCHAR},
+		dict_name = #{dictName,jdbcType=VARCHAR},
+		dict_type = #{dictType,jdbcType=VARCHAR},
+		dict_value = #{dictValue,jdbcType=VARCHAR},
+		is_sys = #{isSys,jdbcType=BIGINT},
+		is_user_conf = #{isUserConf,jdbcType=BIGINT},
+		is_mate = #{isMate,jdbcType=INTEGER},
+		is_extends = #{isExtends,jdbcType=INTEGER},
+		ord = #{ord,jdbcType=BIGINT},
+		create_date = #{createDate,jdbcType=TIMESTAMP},
+		update_date = #{updateDate,jdbcType=TIMESTAMP},
+		status = #{status,jdbcType=INTEGER},
+		remark = #{remark,jdbcType=VARCHAR}
+		where id = #{id}
+	</update>
+
+	<delete id="deleteById" parameterType="long">
+		delete from
+		tb_sys_dict_main
+		where
+		id = #{id}
+	</delete>
+
+	<delete id="deleteByNid" parameterType="long">
+		delete from
+		tb_sys_dict_main
+		where
+		nid = #{nid}
+	</delete>
+</mapper>

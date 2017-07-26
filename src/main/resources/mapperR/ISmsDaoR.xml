@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xgh.paotui.dao.read.ISmsDaoR">
+
+    <resultMap type="com.xgh.paotui.entity.Sms" id="smsMap">
+        <id property="id" column="id" javaType="Long"/>
+        <!--短信用户名-->
+        <result property="smsAccount" column="sms_account" javaType="String" jdbcType="VARCHAR"/>
+        <!--短信密码-->
+        <result property="smsPassword" column="sms_password" javaType="String" jdbcType="VARCHAR"/>
+        <!--短信格式（描述）-->
+        <result property="smsPattern" column="sms_pattern" javaType="String" jdbcType="VARCHAR"/>
+        <!--短信发送地址-->
+        <result property="smsSendurl" column="sms_sendurl" javaType="String" jdbcType="VARCHAR"/>
+        <!--状态:1启用;0,不启用-->
+        <result property="status" column="status" javaType="int" jdbcType="INTEGER"/>
+        <!--每天发送短信验证码最大次数(默认为6次)-->
+        <result property="codeCount" column="code_count" javaType="int" jdbcType="INTEGER" />
+        <!--创建时间-->
+        <result property="createDate" column="create_date" javaType="Date" jdbcType="TIMESTAMP"/>
+        <!--修改时间-->
+        <result property="updateDate" column="update_date" javaType="Date" jdbcType="TIMESTAMP"/>
+        <!--扩展1-->
+        <result property="data1" column="data_1" javaType="long" jdbcType="BIGINT"/>
+        <!--扩展2-->
+        <result property="data2" column="data_2" javaType="long" jdbcType="BIGINT"/>
+        <!--扩展3-->
+        <result property="data3" column="data_3" javaType="int" jdbcType="INTEGER"/>
+        <!--扩展4-->
+        <result property="data4" column="data_4" javaType="int" jdbcType="INTEGER"/>
+        <!--扩展5-->
+        <result property="data5" column="data_5" javaType="Double" jdbcType="DOUBLE"/>
+        <!--扩展6-->
+        <result property="data6" column="data_6" javaType="Double" jdbcType="DOUBLE"/>
+        <!--扩展7-->
+        <result property="data7" column="data_7" javaType="String" jdbcType="VARCHAR"/>
+        <!--扩展9-->
+        <result property="data8" column="data_8" javaType="String" jdbcType="VARCHAR"/>
+        <!--扩展9-->
+        <result property="data9" column="data_9" javaType="String" jdbcType="VARCHAR"/>
+        <!--扩展10-->
+        <result property="data10" column="data_10" javaType="String" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <select id="smsDock" parameterType="hashmap" resultType="hashmap">
+        SELECT
+         sms_account as smsAccount,
+         sms_password as smsPassword,
+         sms_pattern as smsPattern,
+         sms_sendurl as smsSendurl,
+         code_count as codeCount
+         FROM
+         tb_sms
+         WHERE
+         status=1
+</select>
+
+</mapper>

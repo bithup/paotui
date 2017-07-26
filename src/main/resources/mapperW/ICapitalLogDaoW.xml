@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xgh.paotui.dao.write.ICapitalLogDaoW">
+
+	<!--实体映射-->
+	<resultMap id="capitalLogResultMap" type="com.xgh.paotui.entity.CapitalLog">
+		<!--唯一id-->
+		<id property="id" column="id" />
+		<!--账户类别（1：客户 2：跑客 ）-->
+		<result property="accountType" column="account_type" javaType="int" jdbcType="INTEGER" />
+		<!--账户id-->
+		<result property="accountId" column="account_id" javaType="long" jdbcType="BIGINT" />
+		<!--登录名-->
+		<result property="loginName" column="login_name" javaType="String" jdbcType="VARCHAR" />
+		<!--真实姓名-->
+		<result property="realName" column="real_name" javaType="String" jdbcType="VARCHAR" />
+		<!--类别(1、帮送；2、帮取；3、帮买；4：代排队； 5:提现 6:管理员修改)-->
+		<result property="type" column="type" javaType="int" jdbcType="INTEGER" />
+		<!--订单id-->
+		<result property="orderId" column="order_id" javaType="long" jdbcType="BIGINT" />
+		<!--订单号-->
+		<result property="orderNo" column="order_no" javaType="String" jdbcType="VARCHAR" />
+		<!--交易来源，1：余额；2：微信；3、支付宝-->
+		<result property="tradeFrom" column="trade_from" javaType="int" jdbcType="INTEGER" />
+		<!--交易号-->
+		<result property="tradeNo" column="trade_no" javaType="String" jdbcType="VARCHAR" />
+		<!--提现id-->
+		<result property="withdrawalsId" column="withdrawals_id" javaType="long" jdbcType="BIGINT" />
+		<!--资金变动事由-->
+		<result property="capitalChangeReason" column="capital_change_reason" javaType="String" jdbcType="VARCHAR" />
+		<!--变动金额-->
+		<result property="changeMoney" column="change_money" javaType="BigDecimal" jdbcType="DECIMAL" />
+		<!--备注-->
+		<result property="remark" column="remark" javaType="String" jdbcType="VARCHAR" />
+		<!--创建时间-->
+		<result property="createDate" column="create_date" javaType="Date" jdbcType="TIMESTAMP" />
+		<!--状态（1：正常 2：已删除）-->
+		<result property="status" column="status" javaType="int" jdbcType="INTEGER" />
+		<!--扩展1-->
+		<result property="data1" column="data_1" javaType="long" jdbcType="BIGINT" />
+		<!--扩展2-->
+		<result property="data2" column="data_2" javaType="int" jdbcType="INTEGER" />
+		<!--扩展3-->
+		<result property="data3" column="data_3" javaType="String" jdbcType="VARCHAR" />
+		<!--扩展4-->
+		<result property="data4" column="data_4" javaType="String" jdbcType="VARCHAR" />
+		<!--扩展5-->
+		<result property="data5" column="data_5" javaType="String" jdbcType="VARCHAR" />
+	</resultMap>
+
+
+	<!--删除：根据主键ID逻辑删除-->
+	<delete id="delete" parameterType="java.lang.Long">
+		 update tb_capital_log
+		 set status=2  WHERE id = #{id}
+	</delete>
+
+	<!-- 添加 -->
+	<insert id="add" parameterType="com.xgh.paotui.entity.CapitalLog">
+		<selectKey keyProperty="id" resultType="long" order="AFTER">
+			SELECT max(id)  AS value  from tb_capital_log
+		</selectKey>
+		 INSERT INTO tb_capital_log
+ 		(id,account_type,account_id,login_name,real_name,type,order_id,order_no,trade_from,trade_no,withdrawals_id,capital_change_reason,change_money,remark,create_date,status,data_1,data_2,data_3,data_4,data_5) 
+		 VALUES 
+ 		(#{id},#{accountType},#{accountId},#{loginName},#{realName},#{type},#{orderId},#{orderNo},#{tradeFrom},#{tradeNo},#{withdrawalsId},#{capitalChangeReason},#{changeMoney},#{remark},#{createDate},#{status},#{data1},#{data2},#{data3},#{data4},#{data5}) 
+	</insert>
+
+	<!-- 修 改-->
+	<update id="update" parameterType="com.xgh.paotui.entity.CapitalLog">
+		 UPDATE tb_capital_log
+		 SET 
+			 account_type = #{accountType},
+			 account_id = #{accountId},
+			 login_name = #{loginName},
+			 real_name = #{realName},
+			 type = #{type},
+			 order_id = #{orderId},
+			 order_no = #{orderNo},
+			 trade_from = #{tradeFrom},
+			 trade_no = #{tradeNo},
+			 withdrawals_id = #{withdrawalsId},
+			 capital_change_reason = #{capitalChangeReason},
+			 change_money = #{changeMoney},
+			 remark = #{remark},
+			 create_date = #{createDate},
+			 status = #{status},
+			 data_1 = #{data1},
+			 data_2 = #{data2},
+			 data_3 = #{data3},
+			 data_4 = #{data4},
+			 data_5 = #{data5}
+		 WHERE id = #{id}
+	</update>
+
+</mapper>

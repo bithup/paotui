@@ -1,0 +1,242 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xgh.mng.dao.read.ISysMenuDaoR">
+
+	<resultMap id="sysMenuMap" type="com.xgh.mng.entity.SysMenu">
+		<result column="id" javaType="long" jdbcType="BIGINT" property="id"/>
+		<result column="parent_id" javaType="long" jdbcType="BIGINT" property="parentId"/>
+		<result column="nid" javaType="long" jdbcType="BIGINT" property="nid"/>
+		<result column="parent_nid" javaType="long" jdbcType="BIGINT" property="parentNid"/>
+		<result column="inst_id" javaType="long" jdbcType="BIGINT" property="instId"/>
+		<result column="inst_nid" javaType="long" jdbcType="BIGINT" property="instNid"/>
+		<result column="menu_name" javaType="string" jdbcType="VARCHAR" property="menuName"/>
+		<result column="menu_url" javaType="string" jdbcType="VARCHAR" property="menuUrl"/>
+		<result column="menu_icon" javaType="string" jdbcType="VARCHAR" property="menuIcon"/>
+		<result column="is_visible" javaType="long" jdbcType="BIGINT" property="isVisible"/>
+		<result column="is_main" javaType="int" jdbcType="INTEGER" property="isMain"/>
+		<result column="is_grid" javaType="int" jdbcType="INTEGER" property="isGrid"/>
+		<result column="is_query" javaType="int" jdbcType="INTEGER" property="isQuery"/>
+		<result column="is_validate" javaType="int" jdbcType="INTEGER" property="isValidate"/>
+		<result column="is_sys" javaType="int" jdbcType="INTEGER" property="isSys"/>
+		<result column="ord" javaType="long" jdbcType="BIGINT" property="ord"/>
+		<result column="create_date" javaType="date" jdbcType="TIMESTAMP" property="createDate"/>
+		<result column="update_date" javaType="date" jdbcType="TIMESTAMP" property="updateDate"/>
+		<result column="status" javaType="int" jdbcType="INTEGER" property="status"/>
+		<result column="remark" javaType="string" jdbcType="VARCHAR" property="remark"/>
+	</resultMap>
+
+	<resultMap id="sysMenuMap2" type="java.util.Map">
+		<result column="id" javaType="long" jdbcType="BIGINT" property="ID"/>
+		<result column="parent_id" javaType="long" jdbcType="BIGINT" property="PARENT_ID"/>
+		<result column="nid" javaType="long" jdbcType="BIGINT" property="NID"/>
+		<result column="parent_nid" javaType="long" jdbcType="BIGINT" property="PARENT_NID"/>
+		<result column="inst_id" javaType="long" jdbcType="BIGINT" property="INST_ID"/>
+		<result column="inst_nid" javaType="long" jdbcType="BIGINT" property="INST_NID"/>
+		<result column="menu_name" javaType="string" jdbcType="VARCHAR" property="MENU_NAME"/>
+		<result column="menu_url" javaType="string" jdbcType="VARCHAR" property="MENU_URL"/>
+		<result column="menu_icon" javaType="string" jdbcType="VARCHAR" property="MENU_ICON"/>
+		<result column="is_visible" javaType="long" jdbcType="BIGINT" property="IS_VISIBLE"/>
+		<result column="is_main" javaType="int" jdbcType="INTEGER" property="IS_MAIN"/>
+		<result column="is_grid" javaType="int" jdbcType="INTEGER" property="IS_GRID"/>
+		<result column="is_query" javaType="int" jdbcType="INTEGER" property="IS_QUERY"/>
+		<result column="is_validate" javaType="int" jdbcType="INTEGER" property="IS_VALIDATE"/>
+		<result column="is_sys" javaType="int" jdbcType="INTEGER" property="IS_SYS"/>
+		<result column="ord" javaType="long" jdbcType="BIGINT" property="ORD"/>
+		<result column="create_date" javaType="date" jdbcType="TIMESTAMP" property="CREATE_DATE"/>
+		<result column="update_date" javaType="date" jdbcType="TIMESTAMP" property="UPDATE_DATE"/>
+		<result column="status" javaType="int" jdbcType="INTEGER" property="STATUS"/>
+		<result column="remark" javaType="string" jdbcType="VARCHAR" property="REMARK"/>
+	</resultMap>
+
+	<select id="get" parameterType="long" resultMap="sysMenuMap">
+        select * from tb_sys_menu where id = #{id}
+    </select>
+
+	<select id="getList" parameterType="com.xgh.mng.entity.SysMenu"
+			resultMap="sysMenuMap">
+		select * from
+		tb_sys_menu
+		<trim prefix="WHERE" prefixOverrides="AND |OR ">
+			<if test="id!= null">
+				and id = #{id}
+			</if>
+			<if test="parentId!= null">
+				and parent_id = #{parentId}
+			</if>
+		</trim>
+	</select>
+
+	<select id="getListPage" parameterType="hashmap" resultMap="sysMenuMap">
+        select
+        *
+        from
+        tb_sys_menu where status = 1 AND parent_id = #{pid} order by ord desc
+    </select>
+
+	<select id="getRows" parameterType="hashmap" resultType="long">
+        select
+        count(*) from
+        tb_sys_menu where status = 1 AND parent_id = #{pid}
+    </select>
+
+	<select id="getSameMenuCount" parameterType="hashmap" resultType="long">
+		select
+		count(*) from
+		tb_sys_menu where status = 1 AND menu_url = #{menuUrl}
+		<if test="id!=null and id!=''">
+			AND id &lt;&gt; #{id}
+		</if>
+	</select>
+
+	<select id="getTreeData" parameterType="hashmap" resultType="hashmap">
+		SELECT
+		id as id,
+		parent_id AS pid,
+		menu_name AS text
+		FROM
+		tb_sys_menu t
+		<trim prefix="WHERE" prefixOverrides="AND |OR ">
+			<if test="pid!= null">
+				AND parent_id = #{pid}
+			</if>
+			<if test="isGrid!= null">
+				AND is_grid = #{isGrid}
+			</if>
+			<if test="isQuery!= null">
+				AND is_query = #{isQuery}
+			</if>
+			<if test="isValidate!= null">
+				AND is_validate = #{isValidate}
+			</if>
+			<if test="1==1">
+				AND status = 1
+			</if>
+		</trim>
+		order by ord desc
+	</select>
+
+	<select id="getUserMenuTreeData" parameterType="hashmap" resultType="hashmap">
+		SELECT
+		DISTINCT
+		sm.id AS id,
+		sm.parent_id AS pid,
+		sm.menu_name AS text,
+		sm.menu_url AS url
+		FROM
+		<choose>
+			<when test="unitId == 1">
+				tb_sys_menu
+			</when>
+			<otherwise>
+				(SELECT
+				usm.*
+				FROM
+				tb_sys_menu usm,tb_sys_privilege_list upl
+				WHERE
+				upl.privilege_master = 'role'
+				AND upl.privilege_master_value = #{sysRoleId}
+				AND upl.privilege_access = 'menu'
+				AND upl.privilege_access_value = usm.id)
+			</otherwise>
+		</choose>
+		sm
+		JOIN tb_sys_privilege_list pl ON pl.privilege_master = 'role'
+		AND pl.privilege_access = 'menu'
+		AND sm.id = pl.privilege_access_value
+		WHERE sm.is_sys = 0
+		AND sm.is_visible = 1
+		AND privilege_master_value in
+		<foreach close=")" collection="roleList" item="id" open="("
+				 separator=",">#{id}
+		</foreach>
+		order by sm.ord desc
+	</select>
+
+
+	<select id="getSysMenuTreeData" parameterType="hashmap" resultType="hashmap">
+		SELECT
+		id AS id,
+		parent_id AS pid,
+		menu_name AS text,
+		menu_url as url
+		FROM
+		<choose>
+			<when test="type!=null and type=='inst'">
+				(select * from tb_sys_menu where is_sys = 1 and status = 1 AND is_visible = 1)
+			</when>
+			<when test="type!=null and type=='instnor'">
+				(SELECT sm.* FROM
+				tb_sys_menu sm,
+				tb_sys_privilege_list spl
+				WHERE
+				sm.is_sys = 1
+				AND sm.is_visible = 1
+				AND spl.privilege_master = 'role'
+				AND spl.privilege_access = 'menu'
+				AND spl.privilege_access_value = sm.id
+				AND spl.privilege_master_value in
+				<foreach close=")" collection="roleList" item="id" open="("
+						 separator=",">#{id}
+				</foreach> )
+			</when>
+			<when test="type == 'unit'">
+				(
+				select sm.*
+				from
+				tb_sys_menu sm,
+				tb_sys_privilege_list spl
+				where
+				sm.is_visible = 1
+				AND spl.privilege_master = 'role'
+				AND spl.privilege_master_value = #{sysRoleId}
+				AND privilege_access = 'menu'
+				AND sm.id = spl.privilege_access_value
+				)
+			</when>
+		</choose>
+		a order by ord desc
+	</select>
+
+	<select id="getListMap" parameterType="hashmap" resultMap="sysMenuMap2">
+        SELECT
+        *
+        FROM
+        tb_sys_menu
+        where parent_id = #{pid} order by ord
+    </select>
+
+
+	<select id="getChildMenuRows" parameterType="long" resultType="long">
+        select
+        count(*) from
+        tb_sys_menu
+        where status =1 AND parent_id = #{id}
+    </select>
+
+	<select id="getParentMenus" parameterType="long" resultMap="sysMenuMap">
+        select
+        *
+        from
+        tb_sys_menu
+        where parent_id = #{id} order by ord desc
+    </select>
+
+	<select id="getMenuByUrl" parameterType="hashmap" resultMap="sysMenuMap">
+        select
+        *
+        from
+        tb_sys_menu
+        where menu_url = #{menuUrl}
+    </select>
+
+
+	<select id="getMenuIdByParentIds" parameterType="hashmap" resultType="long">
+        select
+        id
+        from
+        tb_sys_menu
+        where parent_id in (${parentIds});
+    </select>
+
+</mapper>

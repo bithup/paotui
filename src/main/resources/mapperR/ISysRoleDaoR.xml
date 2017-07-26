@@ -1,0 +1,492 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xgh.mng.dao.read.ISysRoleDaoR">
+
+	<resultMap id="sysRoleMap" type="com.xgh.mng.entity.SysRole">
+		<result column="id" javaType="long" jdbcType="BIGINT" property="id"/>
+		<result column="nid" javaType="long" jdbcType="BIGINT" property="nid"/>
+		<result column="inst_id" javaType="long" jdbcType="BIGINT" property="instId"/>
+		<result column="unit_id" javaType="long" jdbcType="BIGINT" property="unitId"/>
+		<result column="role_code" javaType="string" jdbcType="VARCHAR" property="roleCode"/>
+		<result column="role_name" javaType="string" jdbcType="VARCHAR" property="roleName"/>
+		<result column="role_desc" javaType="string" jdbcType="VARCHAR" property="roleDesc"/>
+		<result column="is_sys" javaType="long" jdbcType="BIGINT" property="isSys"/>
+		<result column="is_privilege" javaType="long" jdbcType="BIGINT" property="isPrivilege"/>
+		<result column="level" javaType="int" jdbcType="INTEGER" property="level"/>
+		<result column="ord" javaType="long" jdbcType="BIGINT" property="ord"/>
+		<result column="create_date" javaType="date" jdbcType="TIMESTAMP" property="createDate"/>
+		<result column="update_date" javaType="date" jdbcType="TIMESTAMP" property="updateDate"/>
+		<result column="status" javaType="int" jdbcType="INTEGER" property="status"/>
+		<result column="remark" javaType="string" jdbcType="VARCHAR" property="remark"/>
+	</resultMap>
+
+	<resultMap id="sysRoleMap2" type="java.util.Map">
+		<result column="id" javaType="long" jdbcType="BIGINT" property="ID"/>
+		<result column="nid" javaType="long" jdbcType="BIGINT" property="NID"/>
+		<result column="inst_id" javaType="long" jdbcType="BIGINT" property="INST_ID"/>
+		<result column="unit_id" javaType="long" jdbcType="BIGINT" property="UNIT_ID"/>
+		<result column="role_code" javaType="string" jdbcType="VARCHAR" property="ROLE_CODE"/>
+		<result column="role_name" javaType="string" jdbcType="VARCHAR" property="ROLE_NAME"/>
+		<result column="role_desc" javaType="string" jdbcType="VARCHAR" property="ROLE_DESC"/>
+		<result column="is_sys" javaType="long" jdbcType="BIGINT" property="IS_SYS"/>
+		<result column="is_privilege" javaType="long" jdbcType="BIGINT" property="IS_PRIVILEGE"/>
+		<result column="level" javaType="int" jdbcType="INTEGER" property="level"/>
+		<result column="ord" javaType="long" jdbcType="BIGINT" property="ORD"/>
+		<result column="create_date" javaType="date" jdbcType="TIMESTAMP" property="CREATE_DATE"/>
+		<result column="update_date" javaType="date" jdbcType="TIMESTAMP" property="UPDATE_DATE"/>
+		<result column="status" javaType="int" jdbcType="INTEGER" property="STATUS"/>
+		<result column="remark" javaType="string" jdbcType="VARCHAR" property="REMARK"/>
+	</resultMap>
+
+	<select id="get" parameterType="long" resultMap="sysRoleMap">
+        select * from tb_sys_role where id = #{id}
+    </select>
+
+	<select id="getList" parameterType="com.xgh.mng.entity.SysRole"
+			resultMap="sysRoleMap">
+		select * from
+		tb_sys_role
+		<trim prefix="WHERE" prefixOverrides="AND |OR ">
+			<if test="id!= null">
+				and id = #{id}
+			</if>
+			<if test="unitId!= null">
+				and unit_id = #{unitId}
+			</if>
+		</trim>
+	</select>
+
+
+	<select id="getListPage" parameterType="hashmap" resultMap="sysRoleMap">
+		select * from tb_sys_role
+		where
+		<choose>
+			<when test="userId==1">
+				unit_id = 1 and is_sys = 2
+			</when>
+			<otherwise>
+				unit_id = #{unitId} and is_sys = 0 and is_privilege = 0
+			</otherwise>
+		</choose>
+		and status = 1
+		<if test="sortname !=null and sortname !='' ">
+			order by is_sys,${sortname}
+			<if test="sortorder !=null and sortorder !='' ">
+				${sortorder}
+			</if>
+		</if>
+		limit ${(page-1)*pagesize},${pagesize}
+	</select>
+
+	<select id="getRows" parameterType="hashmap" resultType="long">
+		select count(*) from tb_sys_role
+		where
+		<choose>
+			<when test="userId==1">
+				unit_id = 1 and is_sys = 2
+			</when>
+			<otherwise>
+				unit_id = #{unitId} and is_sys = 0 and is_privilege = 0
+			</otherwise>
+		</choose>
+		and status = 1
+	</select>
+
+	<select id="getListMap" parameterType="hashmap" resultMap="sysRoleMap2">
+		select * from tb_sys_role
+		where unit_id = #{unitId} AND status = 1
+		<choose>
+			<when test="type!=null and type=='inst'">
+				AND is_sys = 1 AND is_privilege = 1
+			</when>
+			<when test="type!=null and type=='agent'">
+				AND is_sys = 2
+			</when>
+			<when test="type!=null and type=='org'">
+				AND is_sys = 3
+			</when>
+			<otherwise>
+				AND is_sys = 0 AND is_privilege = 0
+			</otherwise>
+		</choose>
+		<if test="sortname !=null and sortname !='' ">
+			order by ${sortname}
+			<if test="sortorder !=null and sortorder !='' ">
+				${sortorder}
+			</if>
+		</if>
+		limit ${(page-1)*pagesize},${pagesize}
+	</select>
+
+	<select id="getListRows" parameterType="hashmap" resultType="long">
+		select count(id) from tb_sys_role
+		where unit_id = #{unitId} AND status = 1
+		<choose>
+			<when test="type!=null and type=='inst'">
+				AND is_sys = 1 AND is_privilege = 1
+			</when>
+			<when test="type!=null and type=='agent'">
+				AND is_sys = 2
+			</when>
+			<when test="type!=null and type=='agents'">
+				AND is_sys = 2 AND is_privilege = 0
+			</when>
+			<when test="type!=null and type=='org'">
+				AND is_sys = 3
+			</when>
+			<when test="type!=null and type=='orgs'">
+				AND is_sys = 3 AND is_privilege = 0
+			</when>
+			<otherwise>
+				AND is_sys = 0 AND is_privilege = 0
+			</otherwise>
+		</choose>
+	</select>
+
+
+	<select id="getSameCodeRows" parameterType="hashmap" resultType="long">
+		select
+		count(id)
+		from
+		tb_sys_role
+		where role_code = #{roleCode} and status = 1
+		AND and unit_id = #{unitId}
+		<if test="id!= null">
+			and id &lt;&gt; #{id}
+		</if>
+	</select>
+
+	<select id="getMenuRoleTreeList" parameterType="hashmap" resultType="hashmap">
+		SELECT
+		CASE
+		WHEN is_sys = 1 AND is_privilege = 1 THEN
+		CONCAT('inst_0')
+		WHEN is_sys = 2 AND is_privilege = 1 THEN
+		CONCAT('agent_0')
+		WHEN is_sys = 2 AND is_privilege = 0 THEN
+		CONCAT('agents_0')
+		WHEN is_sys = 3 AND is_privilege = 1 THEN
+		CONCAT('org_0')
+		WHEN is_sys = 3 AND is_privilege = 0 THEN
+		CONCAT('orgs_0')
+		ELSE
+		CONCAT('nor_0')
+		END AS pid,
+		role_name AS text,
+		id
+		FROM
+		tb_sys_role
+		where status = 1
+		<if test="type!=null and type!='inst'">
+			AND inst_id = #{instId}
+		</if>
+		<choose>
+			<when test="type!=null and type=='inst'">
+				AND is_sys = 1 AND is_privilege = 1
+			</when>
+			<when test="type!=null and type=='agent'">
+				AND is_sys = 2
+			</when>
+			<when test="type!=null and type=='agents'">
+				AND is_sys = 2 AND is_privilege = 0
+			</when>
+			<when test="type!=null and type=='org'">
+				AND is_sys = 3
+			</when>
+			<when test="type!=null and type=='orgs'">
+				AND is_sys = 3 AND is_privilege = 0
+			</when>
+			<otherwise>
+				AND is_sys = 0 AND is_privilege = 0 AND unit_id = #{unitId}
+			</otherwise>
+		</choose>
+		order by ord desc
+	</select>
+
+
+	<select id="getUserRoleTreeList" parameterType="hashmap" resultType="hashmap">
+		select
+		id,
+		role_name as text,
+		CASE
+		WHEN is_sys = 1 AND is_privilege = 1 THEN
+		CONCAT('inst_0')
+		WHEN is_sys = 2 AND is_privilege = 1 THEN
+		CONCAT('agent_0')
+		WHEN is_sys = 2 AND is_privilege = 0 THEN
+		CONCAT('agents_0')
+		WHEN is_sys = 3 AND is_privilege = 1 THEN
+		CONCAT('org_0')
+		WHEN is_sys = 3 AND is_privilege = 0 THEN
+		CONCAT('orgs_0')
+		ELSE
+		CONCAT('nor_0')
+		END AS pid,
+		is_sys,
+		is_privilege
+		from
+		tb_sys_role
+		where
+		status = 1
+		<if test="type!=null and type!='inst'">
+			AND inst_id = #{instId}
+		</if>
+		<choose>
+			<when test="type!=null and type=='inst'">
+				AND is_sys = 1 AND is_privilege = 1
+			</when>
+			<when test="type!=null and type=='agent'">
+				AND is_sys = 2
+			</when>
+			<when test="type!=null and type=='agents'">
+				AND is_sys = 2 AND is_privilege = 0
+			</when>
+			<when test="type!=null and type=='org'">
+				AND is_sys = 3
+			</when>
+			<when test="type!=null and type=='orgs'">
+				AND is_sys = 3 AND is_privilege = 0
+			</when>
+			<otherwise>
+				AND is_sys = 0 AND is_privilege = 0 AND unit_id = #{unitId}
+			</otherwise>
+		</choose>
+		order by ord desc
+	</select>
+
+	<select id="getRoleGridMenuList" parameterType="hashmap" resultType="hashmap">
+		SELECT
+		DISTINCT
+		sm.id AS id,
+		sm.menu_name AS name,
+		sm.menu_url AS url,
+		'menu' AS type,
+		sm.parent_id AS pid,
+		(
+		CASE
+		WHEN b.id IS NULL THEN
+		0
+		WHEN b.id IS NOT NULL THEN
+		1
+		END
+		)AS ishas
+		FROM
+		<choose>
+			<when test="type!=null and type=='inst'">
+				(select usm.* from tb_sys_menu usm where
+				usm.parent_id = #{pId}
+				and usm.is_sys = 0
+				and usm.is_visible = 1
+				order by usm.ord desc)
+			</when>
+			<when test="type!=null and type=='instnor'">
+				(select usm.* from tb_sys_menu usm where
+				usm.parent_id = #{pId}
+				and usm.is_sys = 1
+				and usm.is_visible = 1
+				order by usm.ord desc)
+			</when>
+			<otherwise>
+				(SELECT
+				usm.*
+				FROM
+				tb_sys_menu usm,
+				tb_sys_privilege_list ut
+				WHERE
+				ut.privilege_master = 'role'
+				AND ut.privilege_access = 'menu'
+				AND usm.id = ut.privilege_access_value
+				AND ut.privilege_master_value = #{sysRoleId}
+				and usm.parent_id = #{pId}
+				and usm.is_sys = 0
+				and usm.is_visible = 1
+				order by usm.ord desc)
+			</otherwise>
+		</choose>
+		sm
+		LEFT JOIN(
+		SELECT
+		t.*
+		FROM
+		tb_sys_privilege_list t
+		WHERE
+		t.privilege_master = 'role'
+		AND t.privilege_access = 'menu'
+		AND t.privilege_master_value = #{roleId}
+		)b ON b.privilege_access_value = sm.id
+		<if test="page!=null and pagesize != null">
+			limit ${(page-1)*pagesize},${pagesize}
+		</if>
+	</select>
+
+	<select id="getRoleGridMenuRows" parameterType="hashmap" resultType="long">
+		<choose>
+			<when test="type!=null and type == 'inst'">
+				select count(usm.id)
+				from tb_sys_menu usm where
+				usm.parent_id = #{pId}
+				and usm.is_sys = 0
+				and usm.is_visible = 1
+			</when>
+			<when test="type!=null and type == 'instnor'">
+				select count(usm.id)
+				from tb_sys_menu usm where
+				usm.parent_id = #{pId}
+				and usm.is_sys = 1
+				and usm.is_visible = 1
+			</when>
+			<otherwise>
+				SELECT
+				DISTINCT
+				count(usm.id)
+				FROM
+				tb_sys_menu usm,
+				tb_sys_privilege_list ut
+				WHERE
+				ut.privilege_master = 'role'
+				AND ut.privilege_access = 'menu'
+				AND usm.id = ut.privilege_access_value
+				AND ut.privilege_master_value = #{sysRoleId}
+				and usm.parent_id = #{pId}
+				and usm.is_sys = 0
+				and usm.is_visible = 1
+			</otherwise>
+		</choose>
+	</select>
+
+	<select id="getRoleButtonMenuList" parameterType="hashmap" resultType="hashmap">
+		select
+		sb.id as id,
+		sb.button_name AS name,
+		sb.button_url AS url,
+		'button' AS type,
+		(
+		CASE
+		WHEN b.id IS NULL THEN
+		0
+		WHEN b.id IS NOT NULL THEN
+		1
+		END
+		)AS ishas
+		from
+		<choose>
+			<when test="type!=null and (type == 'inst' or type='instnor')">
+				(
+				SELECT
+				usb.*
+				FROM
+				tb_sys_button usb
+				where usb.menu_id = #{menuId}
+				and usb.is_visible = 1
+				order by usb.ord desc
+				)
+			</when>
+			<otherwise>
+				(SELECT
+				usb.*
+				FROM
+				tb_sys_button usb,
+				tb_sys_privilege_list ut
+				WHERE
+				ut.privilege_master = 'role'
+				AND ut.privilege_access = 'button'
+				AND usb.id = ut.privilege_access_value
+				AND ut.privilege_master_value = #{sysRoleId}
+				and usb.menu_id = #{menuId}
+				and usb.is_visible = 1
+				order by usb.ord desc)
+			</otherwise>
+		</choose>
+		sb
+		LEFT JOIN(
+		SELECT
+		t.*
+		FROM
+		tb_sys_privilege_list t
+		WHERE
+		t.privilege_master = 'role'
+		AND t.privilege_access = 'button'
+		AND t.privilege_master_value = #{roleId}
+		)b ON b.privilege_access_value = sb.id
+	</select>
+
+
+	<select id="getRoleUserList" parameterType="hashmap" resultType="hashmap">
+		SELECT
+		su.id as id,
+		su.inst_id as inst_id,
+		su.unit_id as user_id,
+		su.user_name as user_name,
+		su.account as account,
+		su.mobile as mobile,
+		su.ord as ord,
+		pl.privilege_access_value as role_id,
+		pl.id as privilege_id
+		FROM
+		tb_sys_user su,
+		tb_sys_privilege_list pl
+		WHERE
+		pl.privilege_master = 'user'
+		AND pl.privilege_access = 'role'
+		AND pl.privilege_master_value = su.id
+		AND pl.privilege_access_value = #{roleId}
+		AND su.unit_id = #{unitId}
+		AND su.status = 1
+		<if test="userName !=null">
+			and su.user_name like #{userName} or su.account like #{userName}
+		</if>
+		<if test="sortname !=null and sortname !='' ">
+			order by ${sortname}
+			<if test="sortorder !=null and sortorder !='' ">
+				${sortorder}
+			</if>
+		</if>
+		limit ${(page-1)*pagesize},${pagesize}
+	</select>
+
+
+	<select id="getRoleUserRows" parameterType="hashmap" resultType="long">
+		SELECT
+		count(su.id)
+		FROM
+		tb_sys_user su,
+		tb_sys_privilege_list pl
+		WHERE
+		pl.privilege_master = 'user'
+		AND pl.privilege_access = 'role'
+		AND pl.privilege_master_value = su.id
+		AND pl.privilege_access_value = #{roleId}
+		AND su.unit_id = #{unitId}
+		AND su.status = 1
+		<if test="userName !=null">
+			and su.user_name like #{userName} or su.account like #{userName}
+		</if>
+	</select>
+
+	<select id="getAgentOrgRoleList" parameterType="hashmap"  resultMap="sysRoleMap">
+        select * from tb_sys_role
+        where inst_id = #{instId}
+        AND is_privilege=#{isPrivilege}
+        AND is_sys = #{isSys}
+        AND status = 1
+        AND id > 0
+        AND level &gt;= #{unitType}
+    </select>
+
+	<select id="getAgentOrgRole" parameterType="hashmap"  resultMap="sysRoleMap">
+		select * from tb_sys_role
+		where inst_id = #{instId}
+		AND status = 1
+		<if test="kindType==1">
+			AND is_privilege=1
+			AND is_sys = 2
+		</if>
+		<if test="kindType==2">
+			AND is_privilege=1
+			AND is_sys = 3
+		</if>
+		AND level = #{unitType}
+		limit 0,1
+	</select>
+</mapper>

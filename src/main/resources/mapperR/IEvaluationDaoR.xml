@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xgh.paotui.dao.read.IEvaluationDaoR">
+
+	<!--实体映射-->
+	<resultMap id="evaluationResultMap" type="com.xgh.paotui.entity.Evaluation">
+		<!--唯一id-->
+		<id property="id" column="id" />
+		<!--订单id-->
+		<result property="orderId" column="order_id" javaType="long" jdbcType="BIGINT" />
+		<!--客户id-->
+		<result property="customerId" column="customer_id" javaType="long" jdbcType="BIGINT" />
+		<!--跑客id-->
+		<result property="deliveryManId" column="delivery_man_id" javaType="long" jdbcType="BIGINT" />
+		<!--评价内容-->
+		<result property="content" column="content" javaType="String" jdbcType="VARCHAR" />
+		<!--评价等级(1：好评  2：中评  3：差评)-->
+		<result property="level" column="level" javaType="String" jdbcType="VARCHAR" />
+		<!--评论时间-->
+		<result property="createDate" column="create_date" javaType="Date" jdbcType="TIMESTAMP" />
+		<!--状态（1：正常 2：已删除）-->
+		<result property="status" column="status" javaType="int" jdbcType="INTEGER" />
+		<!--扩展1-->
+		<result property="data1" column="data_1" javaType="long" jdbcType="BIGINT" />
+		<!--扩展2-->
+		<result property="data2" column="data_2" javaType="int" jdbcType="INTEGER" />
+		<!--扩展3-->
+		<result property="data3" column="data_3" javaType="String" jdbcType="VARCHAR" />
+		<!--扩展4-->
+		<result property="data4" column="data_4" javaType="String" jdbcType="VARCHAR" />
+		<!--扩展5-->
+		<result property="data5" column="data_5" javaType="String" jdbcType="VARCHAR" />
+	</resultMap>
+
+
+	<!-- 通用查询结果列-->
+	<sql id="Base_Column_List">
+		 id as id,
+	order_id	 as orderId,
+	customer_id	 as customerId,
+	delivery_man_id	 as deliveryManId,
+	content	 as content,
+	level	 as level,
+	create_date	 as createDate,
+	status	 as status,
+	data_1	 as data1,
+	data_2	 as data2,
+	data_3	 as data3,
+	data_4	 as data4,
+	data_5	 as data5
+	</sql>
+
+	<!-- 查询（根据主键ID查询） -->
+	<select id="get" resultMap="evaluationResultMap" parameterType="java.lang.Long">
+		 SELECT
+		 <include refid="Base_Column_List" />
+		 FROM tb_evaluation
+		 WHERE  status = 1  and id = #{id}
+	</select>
+
+	<!-- 查询（根据查询条件查询） -->
+	<select id="getList" resultMap="evaluationResultMap" parameterType="hashmap">
+		 SELECT
+		 <include refid="Base_Column_List" />
+		 FROM tb_evaluation
+		 WHERE   status = 1 
+	</select>
+
+	<!-- 查询（根据查询条件分页查询） -->
+	<select id="getListPage" resultMap="evaluationResultMap" parameterType="hashmap">
+		 SELECT
+		 <include refid="Base_Column_List" />
+		 FROM tb_evaluation
+		 WHERE   status = 1 
+		 limit ${(page-1)*pagesize},${pagesize} 
+	</select>
+
+	<!-- 查询（根据查询条件分页查询） -->
+	<select id="getListMapPage" resultType="hashmap"  parameterType="hashmap">
+		 SELECT
+		 <include refid="Base_Column_List" />
+		 FROM tb_evaluation
+		 WHERE   status = 1 
+		 limit ${(page-1)*pagesize},${pagesize} 
+	</select>
+
+	<!-- 查询记录总数量（根据查询条件查询记录总数量） -->
+	<select id="getRows" resultType="long" parameterType="hashmap">
+		 SELECT 
+		 count(*)  
+		 FROM tb_evaluation
+		 WHERE   status = 1
+		<if test="deliverManId!=null and deliverManId!=''">
+			AND delivery_man_id = #{deliveryManId}
+		</if>
+		<if test="level!=null and level!=''">
+			AND level = 1
+		</if>
+	</select>
+</mapper>

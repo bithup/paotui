@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xgh.mng.dao.write.ISysValidationDaoW">
+
+	<resultMap id="sysValidationMap" type="com.xgh.mng.entity.SysValidation">
+		<result column="id" javaType="long" jdbcType="BIGINT" property="id"/>
+		<result column="nid" javaType="long" jdbcType="BIGINT" property="nid"/>
+		<result column="join_id" javaType="long" jdbcType="BIGINT" property="joinId"/>
+		<result column="join_nid" javaType="long" jdbcType="BIGINT" property="joinNid"/>
+		<result column="join_type" javaType="string" jdbcType="VARCHAR" property="joinType"/>
+		<result column="field" javaType="string" jdbcType="VARCHAR" property="field"/>
+		<result column="rule_type" javaType="string" jdbcType="VARCHAR" property="ruleType"/>
+		<result column="rule_type_value" javaType="string" jdbcType="VARCHAR" property="ruleTypeValue"/>
+		<result column="msg" javaType="string" jdbcType="VARCHAR" property="msg"/>
+		<result column="ord" javaType="long" jdbcType="BIGINT" property="ord"/>
+		<result column="create_date" javaType="date" jdbcType="TIMESTAMP" property="createDate"/>
+		<result column="update_date" javaType="date" jdbcType="TIMESTAMP" property="updateDate"/>
+		<result column="status" javaType="int" jdbcType="INTEGER" property="status"/>
+		<result column="remark" javaType="string" jdbcType="VARCHAR" property="remark"/>
+	</resultMap>
+
+	<insert id="add" parameterType="com.xgh.mng.entity.SysValidation">
+		<selectKey keyProperty="id" order="AFTER" resultType="long">
+			SELECT max(id) AS value from tb_sys_validation
+		</selectKey>
+		insert into tb_sys_validation
+		(
+		nid,
+		join_id,
+		join_nid,
+		join_type,
+		field,
+		rule_type,
+		rule_type_value,
+		msg,
+		ord,
+		create_date,
+		update_date,
+		status,
+		remark
+		)
+		values (
+		#{nid,jdbcType=BIGINT},
+		#{joinId,jdbcType=BIGINT},
+		#{joinNid,jdbcType=BIGINT},
+		#{joinType,jdbcType=VARCHAR},
+		#{field,jdbcType=VARCHAR},
+		#{ruleType,jdbcType=VARCHAR},
+		#{ruleTypeValue,jdbcType=VARCHAR},
+		#{msg,jdbcType=VARCHAR},
+		#{ord,jdbcType=BIGINT},
+		#{createDate,jdbcType=TIMESTAMP},
+		#{updateDate,jdbcType=TIMESTAMP},
+		#{status,jdbcType=INTEGER},
+		#{remark,jdbcType=VARCHAR}
+		)
+	</insert>
+
+	<update id="update" parameterType="com.xgh.mng.entity.SysValidation">
+		update tb_sys_validation
+		set
+		nid = #{nid,jdbcType=BIGINT},
+		join_id = #{joinId,jdbcType=BIGINT},
+		join_nid = #{joinNid,jdbcType=BIGINT},
+		join_type = #{joinType,jdbcType=VARCHAR},
+		field = #{field,jdbcType=VARCHAR},
+		rule_type = #{ruleType,jdbcType=VARCHAR},
+		rule_type_value = #{ruleTypeValue,jdbcType=VARCHAR},
+		msg = #{msg,jdbcType=VARCHAR},
+		ord = #{ord,jdbcType=BIGINT},
+		create_date = #{createDate,jdbcType=TIMESTAMP},
+		update_date = #{updateDate,jdbcType=TIMESTAMP},
+		status = #{status,jdbcType=INTEGER},
+		remark = #{remark,jdbcType=VARCHAR}
+		where id = #{id}
+	</update>
+
+	<delete id="deleteById" parameterType="long">
+		delete from
+		tb_sys_validation
+		where
+		id = #{id}
+	</delete>
+
+	<delete id="deleteByNid" parameterType="long">
+		delete from
+		tb_sys_validation
+		where
+		nid = #{nid}
+	</delete>
+
+	<delete id="deleteByJoinType" parameterType="hashmap">
+		delete from
+		tb_sys_validation
+		where join_id = #{joinId} and join_type = #{joinType}
+	</delete>
+
+
+	<insert id="addBatch" parameterType="com.xgh.mng.entity.SysValidation">
+		insert into tb_sys_validation
+		(
+		nid,
+		join_id,
+		join_nid,
+		join_type,
+		field,
+		rule_type,
+		rule_type_value,
+		msg,
+		ord,
+		create_date,
+		update_date,
+		status,
+		remark
+		)
+		values
+		<foreach collection="list" item="item" separator=",">
+			(
+			#{item.nid,jdbcType=BIGINT},
+			#{item.joinId,jdbcType=BIGINT},
+			#{item.joinNid,jdbcType=BIGINT},
+			#{item.joinType,jdbcType=VARCHAR},
+			#{item.field,jdbcType=VARCHAR},
+			#{item.ruleType,jdbcType=VARCHAR},
+			#{item.ruleTypeValue,jdbcType=VARCHAR},
+			#{item.msg,jdbcType=VARCHAR},
+			#{item.ord,jdbcType=BIGINT},
+			#{item.createDate,jdbcType=TIMESTAMP},
+			#{item.updateDate,jdbcType=TIMESTAMP},
+			#{item.status,jdbcType=INTEGER},
+			#{item.remark,jdbcType=VARCHAR}
+			)
+		</foreach>
+	</insert>
+
+</mapper>

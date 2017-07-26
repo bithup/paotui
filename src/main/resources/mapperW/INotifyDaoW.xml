@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xgh.paotui.dao.write.INotifyDaoW">
+
+	<!--实体映射-->
+	<resultMap id="notifyResultMap" type="com.xgh.paotui.entity.Notify">
+		<!--唯一id-->
+		<id property="id" column="id" />
+		<!--通知城市id-->
+		<result property="openCityId" column="open_city_id" javaType="long" jdbcType="BIGINT" />
+		<!--城市名称-->
+		<result property="cityName" column="cityName" javaType="String" jdbcType="VARCHAR" />
+		<!--标题-->
+		<result property="title" column="title" javaType="String" jdbcType="VARCHAR" />
+		<!--内容-->
+		<result property="content" column="content" javaType="String" jdbcType="VARCHAR" />
+		<!--通知对象(1：客户 2：跑客 3：所有）-->
+		<result property="notifyRole" column="notify_role" javaType="int" jdbcType="INTEGER" />
+		<!--通知对象id-->
+		<result property="roleId" column="role_id" javaType="long" jdbcType="BIGINT" />
+		<!--通知状态（1：未通知 2：已通知 ）-->
+		<result property="notifyStatus" column="notify_status" javaType="int" jdbcType="INTEGER" />
+		<!--通知时间-->
+		<result property="notifyDate" column="notify_date" javaType="Date" jdbcType="TIMESTAMP" />
+		<!--状态（1：正常 2：已删除）-->
+		<result property="status" column="status" javaType="int" jdbcType="INTEGER" />
+		<!--创建时间-->
+		<result property="createDate" column="create_date" javaType="Date" jdbcType="TIMESTAMP" />
+		<!--扩展1-->
+		<result property="data1" column="data_1" javaType="long" jdbcType="BIGINT" />
+		<!--扩展2-->
+		<result property="data2" column="data_2" javaType="int" jdbcType="INTEGER" />
+		<!--扩展3-->
+		<result property="data3" column="data_3" javaType="String" jdbcType="VARCHAR" />
+		<!--扩展4-->
+		<result property="data4" column="data_4" javaType="String" jdbcType="VARCHAR" />
+		<!--扩展5-->
+		<result property="data5" column="data_5" javaType="String" jdbcType="VARCHAR" />
+	</resultMap>
+
+
+	<!--删除：根据主键ID逻辑删除-->
+	<delete id="delete" parameterType="java.lang.Long">
+		 update tb_notify
+		 set status=2  WHERE id = #{id}
+	</delete>
+
+	<!-- 添加 -->
+	<insert id="add" parameterType="com.xgh.paotui.entity.Notify">
+		 INSERT INTO tb_notify
+ 		(id,open_city_id,cityName,title,content,notify_role,role_id,notify_status,notify_date,status,create_date,data_1,data_2,data_3,data_4,data_5) 
+		 VALUES 
+ 		(#{id},#{openCityId},#{cityName},#{title},#{content},#{notifyRole},#{roleId},#{notifyStatus},#{notifyDate},#{status},#{createDate},#{data1},#{data2},#{data3},#{data4},#{data5}) 
+	</insert>
+
+	<!-- 修 改-->
+	<update id="update" parameterType="com.xgh.paotui.entity.Notify">
+		 UPDATE tb_notify
+		 SET 
+			 open_city_id = #{openCityId},
+			 cityName = #{cityName},
+			 title = #{title},
+			 content = #{content},
+			 notify_role = #{notifyRole},
+			 role_id = #{roleId},
+			 notify_status = #{notifyStatus},
+			 notify_date = #{notifyDate},
+			 status = #{status},
+			 create_date = #{createDate},
+			 data_1 = #{data1},
+			 data_2 = #{data2},
+			 data_3 = #{data3},
+			 data_4 = #{data4},
+			 data_5 = #{data5}
+		 WHERE id = #{id}
+	</update>
+
+</mapper>

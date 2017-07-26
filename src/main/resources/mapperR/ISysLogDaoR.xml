@@ -1,0 +1,324 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xgh.mng.dao.read.ISysLogDaoR">
+
+	<resultMap id="sysLogMap" type="com.xgh.mng.entity.SysLog">
+		<result column="id" javaType="long" jdbcType="BIGINT" property="id"/>
+		<result column="nid" javaType="long" jdbcType="BIGINT" property="nid"/>
+		<result column="user_id" javaType="long" jdbcType="BIGINT" property="userId"/>
+		<result column="user_name" javaType="string" jdbcType="VARCHAR" property="userName"/>
+		<result column="account" javaType="string" jdbcType="VARCHAR" property="account"/>
+		<result column="ip" javaType="string" jdbcType="VARCHAR" property="ip"/>
+		<result column="module_name" javaType="string" jdbcType="VARCHAR" property="moduleName"/>
+		<result column="operate_date" javaType="date" jdbcType="TIMESTAMP" property="operateDate"/>
+		<result column="operate_type" javaType="string" jdbcType="VARCHAR" property="operateType"/>
+		<result column="operate_result" javaType="string" jdbcType="VARCHAR" property="operateResult"/>
+		<result column="operate_os" javaType="string" jdbcType="VARCHAR" property="operateOs"/>
+		<result column="operate_browser" javaType="string" jdbcType="VARCHAR" property="operateBrowser"/>
+		<result column="unit_id" javaType="long" jdbcType="BIGINT" property="unitId"/>
+		<result column="business_id" javaType="string" jdbcType="VARCHAR" property="businessId"/>
+		<result column="table_name" javaType="string" jdbcType="VARCHAR" property="tableName"/>
+		<result column="ord" javaType="long" jdbcType="BIGINT" property="ord"/>
+		<result column="create_date" javaType="date" jdbcType="TIMESTAMP" property="createDate"/>
+		<result column="update_date" javaType="date" jdbcType="TIMESTAMP" property="updateDate"/>
+		<result column="status" javaType="int" jdbcType="INTEGER" property="status"/>
+		<result column="remark" javaType="string" jdbcType="VARCHAR" property="remark"/>
+		<result column="data_1" javaType="string" jdbcType="VARCHAR" property="data1"/>
+		<result column="data_2" javaType="string" jdbcType="VARCHAR" property="data2"/>
+	</resultMap>
+
+	<resultMap id="sysLogMap2" type="java.util.Map">
+		<result column="id" javaType="long" jdbcType="BIGINT" property="ID"/>
+		<result column="nid" javaType="long" jdbcType="BIGINT" property="NID"/>
+		<result column="user_id" javaType="long" jdbcType="BIGINT" property="USER_ID"/>
+		<result column="user_name" javaType="string" jdbcType="VARCHAR" property="USER_NAME"/>
+		<result column="account" javaType="string" jdbcType="VARCHAR" property="ACCOUNT"/>
+		<result column="ip" javaType="string" jdbcType="VARCHAR" property="IP"/>
+		<result column="module_name" javaType="string" jdbcType="VARCHAR" property="MODULE_NAME"/>
+		<result column="operate_date" javaType="date" jdbcType="TIMESTAMP" property="OPERATE_DATE"/>
+		<result column="operate_type" javaType="string" jdbcType="VARCHAR" property="OPERATE_TYPE"/>
+		<result column="operate_result" javaType="string" jdbcType="VARCHAR" property="OPERATE_RESULT"/>
+		<result column="operate_os" javaType="string" jdbcType="VARCHAR" property="OPERATE_OS"/>
+		<result column="operate_browser" javaType="string" jdbcType="VARCHAR" property="OPERATE_BROWSER"/>
+		<result column="unit_id" javaType="long" jdbcType="BIGINT" property="UNIT_ID"/>
+		<result column="business_id" javaType="string" jdbcType="VARCHAR" property="BUSINESS_ID"/>
+		<result column="table_name" javaType="string" jdbcType="VARCHAR" property="TABLE_NAME"/>
+		<result column="ord" javaType="long" jdbcType="BIGINT" property="ORD"/>
+		<result column="create_date" javaType="date" jdbcType="TIMESTAMP" property="CREATE_DATE"/>
+		<result column="update_date" javaType="date" jdbcType="TIMESTAMP" property="UPDATE_DATE"/>
+		<result column="status" javaType="int" jdbcType="INTEGER" property="STATUS"/>
+		<result column="remark" javaType="string" jdbcType="VARCHAR" property="REMARK"/>
+		<result column="data_1" javaType="string" jdbcType="VARCHAR" property="DATA_1"/>
+		<result column="data_2" javaType="string" jdbcType="VARCHAR" property="DATA_2"/>
+	</resultMap>
+
+	<select id="get" parameterType="long" resultMap="sysLogMap">
+		select * from tb_sys_log where id = #{id}
+	</select>
+
+	<select id="getList" parameterType="com.xgh.mng.entity.SysLog"
+			resultMap="sysLogMap">
+		select * from
+		tb_sys_log
+		<trim prefix="WHERE" prefixOverrides="AND |OR ">
+
+			<if test="id!= null">
+				and id = #{id}
+			</if>
+			<if test="nid!= null">
+				and nid = #{nid}
+			</if>
+			<if test="userId!= null">
+				and user_id = #{userId}
+			</if>
+			<if test="userName!= null and userName!=''">
+				and user_name = #{userName}
+			</if>
+			<if test="account!= null and account!=''">
+				and account = #{account}
+			</if>
+			<if test="ip!= null and ip!=''">
+				and ip = #{ip}
+			</if>
+			<if test="moduleName!= null and moduleName!=''">
+				and module_name = #{moduleName}
+			</if>
+			<if test="operateDate!= null and operateDate!=''">
+				and operate_date = #{operateDate}
+			</if>
+			<if test="operateType!= null and operateType!=''">
+				and operate_type = #{operateType}
+			</if>
+			<if test="operateResult!= null and operateResult!=''">
+				and operate_result = #{operateResult}
+			</if>
+			<if test="operateOs!= null and operateOs!=''">
+				and operate_os = #{operateOs}
+			</if>
+			<if test="operateBrowser!= null and operateBrowser!=''">
+				and operate_browser = #{operateBrowser}
+			</if>
+			<if test="unitId!= null">
+				and unit_id = #{unitId}
+			</if>
+			<if test="businessId!= null and businessId!=''">
+				and business_id = #{businessId}
+			</if>
+			<if test="tableName!= null and tableName!=''">
+				and table_name = #{tableName}
+			</if>
+			<if test="ord!= null">
+				and ord = #{ord}
+			</if>
+			<if test="createDate!= null and createDate!=''">
+				and create_date = #{createDate}
+			</if>
+			<if test="updateDate!= null and updateDate!=''">
+				and update_date = #{updateDate}
+			</if>
+			<if test="status!= null">
+				and status = #{status}
+			</if>
+			<if test="remark!= null and remark!=''">
+				and remark = #{remark}
+			</if>
+			<if test="data1!= null and data1!=''">
+				and data_1 = #{data1}
+			</if>
+			<if test="data2!= null and data2!=''">
+				and data_2 = #{data2}
+			</if>
+		</trim>
+	</select>
+
+
+	<select id="getListPage" parameterType="hashmap" resultMap="sysLogMap">
+		select
+		*
+		from
+		tb_sys_log
+		<if test="keySysLog!= null">
+			<trim prefix="WHERE" prefixOverrides="AND |OR ">
+
+				<if test="keySysLog.id!= null">
+					and id = #{keySysLog.id}
+				</if>
+				<if test="keySysLog.nid!= null">
+					and nid = #{keySysLog.nid}
+				</if>
+				<if test="keySysLog.userId!= null">
+					and user_id = #{keySysLog.userId}
+				</if>
+				<if test="keySysLog.userId!= null">
+					and user_id = #{keySysLog.userId}
+				</if>
+				<if test="keySysLog.userName!= null and keySysLog.userName!=''">
+					and user_name = #{keySysLog.userName}
+				</if>
+				<if test="keySysLog.account!= null and keySysLog.account!=''">
+					and account = #{keySysLog.account}
+				</if>
+				<if test="keySysLog.ip!= null and keySysLog.ip!=''">
+					and ip = #{keySysLog.ip}
+				</if>
+				<if test="keySysLog.moduleName!= null and keySysLog.moduleName!=''">
+					and module_name = #{keySysLog.moduleName}
+				</if>
+				<if test="keySysLog.operateDate!= null and keySysLog.operateDate!=''">
+					and operate_date = #{keySysLog.operateDate}
+				</if>
+				<if test="keySysLog.operateType!= null and keySysLog.operateType!=''">
+					and operate_type = #{keySysLog.operateType}
+				</if>
+				<if test="keySysLog.operateResult!= null and keySysLog.operateResult!=''">
+					and operate_result = #{keySysLog.operateResult}
+				</if>
+				<if test="keySysLog.operateOs!= null and keySysLog.operateOs!=''">
+					and operate_os = #{keySysLog.operateOs}
+				</if>
+				<if test="keySysLog.operateBrowser!= null and keySysLog.operateBrowser!=''">
+					and operate_browser = #{keySysLog.operateBrowser}
+				</if>
+				<if test="keySysLog.unitId!= null">
+					and unit_Id = #{keySysLog.unitId}
+				</if>
+				<if test="keySysLog.businessId!= null and keySysLog.businessId!=''">
+					and business_Id = #{keySysLog.businessId}
+				</if>
+				<if test="keySysLog.tableName!= null and keySysLog.tableName!=''">
+					and table_name = #{keySysLog.tableName}
+				</if>
+				<if test="keySysLog.ord!= null">
+					and ord = #{keySysLog.ord}
+				</if>
+				<if test="keySysLog.createDate!= null and keySysLog.createDate!=''">
+					and create_date = #{keySysLog.createDate}
+				</if>
+				<if test="keySysLog.updateDate!= null and keySysLog.updateDate!=''">
+					and update_date = #{keySysLog.updateDate}
+				</if>
+				<if test="keySysLog.status!= null">
+					and status = #{keySysLog.status}
+				</if>
+				<if test="keySysLog.remark!= null and keySysLog.remark!=''">
+					and remark = #{keySysLog.remark}
+				</if>
+				<if test="keySysLog.data1!= null and keySysLog.data1!=''">
+					and data_1 = #{keySysLog.data1}
+				</if>
+				<if test="keySysLog.data2!= null and keySysLog.data2!=''">
+					and data_2 = #{keySysLog.data2}
+				</if>
+			</trim>
+		</if>
+		limit ${(page-1)*pagesize},${pagesize}
+	</select>
+
+	<select id="getRows" parameterType="hashmap" resultType="long">
+		select
+		count(*) from
+		tb_sys_log
+		<if test="keySysLog!= null">
+			<trim prefix="WHERE" prefixOverrides="AND |OR ">
+				<if test="keySysLog.id!= null">
+					and id = #{keySysLog.id}
+				</if>
+				<if test="keySysLog.nid!= null">
+					and nid = #{keySysLog.nid}
+				</if>
+				<if test="keySysLog.userId!= null">
+					and user_id = #{keySysLog.userId}
+				</if>
+				<if test="keySysLog.userId!= null">
+					and user_id = #{keySysLog.userId}
+				</if>
+				<if test="keySysLog.userName!= null and keySysLog.userName!=''">
+					and user_name = #{keySysLog.userName}
+				</if>
+				<if test="keySysLog.account!= null and keySysLog.account!=''">
+					and account = #{keySysLog.account}
+				</if>
+				<if test="keySysLog.ip!= null and keySysLog.ip!=''">
+					and ip = #{keySysLog.ip}
+				</if>
+				<if test="keySysLog.moduleName!= null and keySysLog.moduleName!=''">
+					and module_name = #{keySysLog.moduleName}
+				</if>
+				<if test="keySysLog.operateDate!= null and keySysLog.operateDate!=''">
+					and operate_date = #{keySysLog.operateDate}
+				</if>
+				<if test="keySysLog.operateType!= null and keySysLog.operateType!=''">
+					and operate_type = #{keySysLog.operateType}
+				</if>
+				<if test="keySysLog.operateResult!= null and keySysLog.operateResult!=''">
+					and operate_result = #{keySysLog.operateResult}
+				</if>
+				<if test="keySysLog.operateOs!= null and keySysLog.operateOs!=''">
+					and operate_os = #{keySysLog.operateOs}
+				</if>
+				<if test="keySysLog.operateBrowser!= null and keySysLog.operateBrowser!=''">
+					and operate_browser = #{keySysLog.operateBrowser}
+				</if>
+				<if test="keySysLog.unitId!= null">
+					and unit_id = #{keySysLog.unitId}
+				</if>
+				<if test="keySysLog.businessId!= null and keySysLog.businessId!=''">
+					and business_id = #{keySysLog.businessId}
+				</if>
+				<if test="keySysLog.tableName!= null and keySysLog.tableName!=''">
+					and table_name = #{keySysLog.tableName}
+				</if>
+				<if test="keySysLog.ord!= null">
+					and ord = #{keySysLog.ord}
+				</if>
+				<if test="keySysLog.createDate!= null and keySysLog.createDate!=''">
+					and create_date = #{keySysLog.createDate}
+				</if>
+				<if test="keySysLog.updateDate!= null and keySysLog.updateDate!=''">
+					and update_date = #{keySysLog.updateDate}
+				</if>
+				<if test="keySysLog.status!= null">
+					and status = #{keySysLog.status}
+				</if>
+				<if test="keySysLog.remark!= null and keySysLog.remark!=''">
+					and remark = #{keySysLog.remark}
+				</if>
+				<if test="keySysLog.data1!= null and keySysLog.data1!=''">
+					and data_1 = #{keySysLog.data1}
+				</if>
+				<if test="keySysLog.data2!= null and keySysLog.data2!=''">
+					and data_2 = #{keySysLog.data2}
+				</if>
+			</trim>
+		</if>
+	</select>
+
+	<select id="getListMap" parameterType="hashmap" resultMap="sysLogMap2">
+		select * from tb_sys_log
+		<trim prefix="WHERE" prefixOverrides="AND |OR ">
+			unit_id = #{unitId}
+			<if test="configQuery!=null and configQuery!=''">
+				and ${configQuery}
+			</if>
+		</trim>
+		<if test="sortname !=null and sortname !='' ">
+			order by ${sortname}
+			<if test="sortorder !=null and sortorder !='' ">
+				${sortorder}
+			</if>
+		</if>
+		limit ${(page-1)*pagesize},${pagesize}
+	</select>
+
+
+	<select id="getListRows" parameterType="hashmap" resultType="long">
+		select count(id) from tb_sys_log
+		<trim prefix="WHERE" prefixOverrides="AND |OR ">
+			unit_id = #{unitId}
+			<if test="configQuery!=null and configQuery!=''">
+				and ${configQuery}
+			</if>
+		</trim>
+	</select>
+</mapper>

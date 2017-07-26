@@ -1,0 +1,372 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xgh.mng.dao.read.IZoneDaoR">
+
+	<resultMap id="zoneMap" type="com.xgh.mng.entity.Zone">
+		<result column="id" javaType="long" jdbcType="BIGINT" property="id"/>
+		<result column="nid" javaType="long" jdbcType="BIGINT" property="nid"/>
+		<result column="code" javaType="string" jdbcType="VARCHAR" property="code"/>
+		<result column="name" javaType="string" jdbcType="VARCHAR" property="name"/>
+		<result column="pid" javaType="string" jdbcType="VARCHAR" property="pid"/>
+		<result column="pcode" javaType="string" jdbcType="VARCHAR" property="pcode"/>
+		<result column="pre_fix" javaType="string" jdbcType="VARCHAR" property="preFix"/>
+		<result column="level" javaType="string" jdbcType="VARCHAR" property="level"/>
+		<result column="is_last" javaType="string" jdbcType="VARCHAR" property="isLast"/>
+		<result column="longitude" javaType="double" jdbcType="DOUBLE" property="longitude"/>
+		<result column="latitude" javaType="double" jdbcType="DOUBLE" property="latitude"/>
+		<result column="location" javaType="string" jdbcType="VARCHAR" property="location"/>
+		<result column="spell_name" javaType="string" jdbcType="VARCHAR" property="spellName"/>
+		<result column="fir_spell_name" javaType="string" jdbcType="VARCHAR" property="firSpellName"/>
+		<result column="ord" javaType="long" jdbcType="BIGINT" property="ord"/>
+		<result column="create_date" javaType="date" jdbcType="TIMESTAMP" property="createDate"/>
+		<result column="update_date" javaType="date" jdbcType="TIMESTAMP" property="updateDate"/>
+		<result column="status" javaType="int" jdbcType="INTEGER" property="status"/>
+		<result column="remark" javaType="string" jdbcType="VARCHAR" property="remark"/>
+	</resultMap>
+
+	<resultMap id="zoneMap2" type="java.util.Map">
+		<result column="id" javaType="long" jdbcType="BIGINT" property="ID"/>
+		<result column="nid" javaType="long" jdbcType="BIGINT" property="NID"/>
+		<result column="code" javaType="string" jdbcType="VARCHAR" property="CODE"/>
+		<result column="name" javaType="string" jdbcType="VARCHAR" property="NAME"/>
+		<result column="pid" javaType="string" jdbcType="VARCHAR" property="PID"/>
+		<result column="pcode" javaType="string" jdbcType="VARCHAR" property="PCODE"/>
+		<result column="pre_fix" javaType="string" jdbcType="VARCHAR" property="PRE_FIX"/>
+		<result column="level" javaType="string" jdbcType="VARCHAR" property="LEVEL"/>
+		<result column="is_last" javaType="string" jdbcType="VARCHAR" property="IS_LAST"/>
+		<result column="longitude" javaType="double" jdbcType="DOUBLE" property="LONGITUDE"/>
+		<result column="latitude" javaType="double" jdbcType="DOUBLE" property="LATITUDE"/>
+		<result column="location" javaType="string" jdbcType="VARCHAR" property="LOCATION"/>
+		<result column="spell_name" javaType="string" jdbcType="VARCHAR" property="SPELL_NAME"/>
+		<result column="fir_spell_name" javaType="string" jdbcType="VARCHAR" property="FIR_SPELL_NAME"/>
+		<result column="ord" javaType="long" jdbcType="BIGINT" property="ORD"/>
+		<result column="create_date" javaType="date" jdbcType="TIMESTAMP" property="CREATE_DATE"/>
+		<result column="update_date" javaType="date" jdbcType="TIMESTAMP" property="UPDATE_DATE"/>
+		<result column="status" javaType="int" jdbcType="INTEGER" property="STATUS"/>
+		<result column="remark" javaType="string" jdbcType="VARCHAR" property="REMARK"/>
+	</resultMap>
+
+	<select id="get" parameterType="long" resultMap="zoneMap">
+		select * from tb_zone where id = #{id}
+	</select>
+
+	<select id="getList" parameterType="com.xgh.mng.entity.Zone"
+			resultMap="zoneMap">
+		select * from
+		tb_zone
+		<trim prefix="WHERE" prefixOverrides="AND |OR ">
+
+			<if test="id!= null">
+				and id = #{id}
+			</if>
+			<if test="nid!= null">
+				and nid = #{nid}
+			</if>
+			<if test="code!= null and code!=''">
+				and code = #{code}
+			</if>
+			<if test="name!= null and name!=''">
+				and name = #{name}
+			</if>
+			<if test="pid!= null and pid!=''">
+				and pid = #{pid}
+			</if>
+			<if test="pcode!= null and pcode!=''">
+				and pcode = #{pcode}
+			</if>
+			<if test="preFix!= null and preFix!=''">
+				and pre_fix = #{preFix}
+			</if>
+			<if test="level!= null and level!=''">
+				and level = #{level}
+			</if>
+			<if test="isLast!= null and isLast!=''">
+				and is_last = #{isLast}
+			</if>
+			<if test="longitude!= null and longitude!=''">
+				and longitude = #{longitude}
+			</if>
+			<if test="latitude!= null and latitude!=''">
+				and latitude = #{latitude}
+			</if>
+			<if test="location!= null and location!=''">
+				and location = #{location}
+			</if>
+			<if test="spellName!= null and spellName!=''">
+				and spell_name = #{spellName}
+			</if>
+			<if test="firSpellName!= null and firSpellName!=''">
+				and fir_spell_name = #{firSpellName}
+			</if>
+			<if test="ord!= null">
+				and ord = #{ord}
+			</if>
+			<if test="createDate!= null and createDate!=''">
+				and create_date = #{createDate}
+			</if>
+			<if test="updateDate!= null and updateDate!=''">
+				and update_date = #{updateDate}
+			</if>
+			<if test="status!= null">
+				and status = #{status}
+			</if>
+			<if test="remark!= null and remark!=''">
+				and remark = #{remark}
+			</if>
+		</trim>
+	</select>
+
+
+	<select id="getListPage" parameterType="hashmap" resultMap="zoneMap">
+		select
+		*
+		from
+		tb_zone
+		<if test="keyZone!= null">
+			<trim prefix="WHERE" prefixOverrides="AND |OR ">
+
+				<if test="keyZone.id!= null">
+					and id = #{keyZone.id}
+				</if>
+				<if test="keyZone.nid!= null">
+					and nid = #{keyZone.nid}
+				</if>
+				<if test="keyZone.code!= null and keyZone.code!=''">
+					and code = #{keyZone.code}
+				</if>
+				<if test="keyZone.name!= null and keyZone.name!=''">
+					and name = #{keyZone.name}
+				</if>
+				<if test="keyZone.pid!= null and keyZone.pid!=''">
+					and pid = #{keyZone.pid}
+				</if>
+				<if test="keyZone.pcode!= null and keyZone.pcode!=''">
+					and pcode = #{keyZone.pcode}
+				</if>
+				<if test="keyZone.preFix!= null and keyZone.preFix!=''">
+					and pre_fix = #{keyZone.preFix}
+				</if>
+				<if test="keyZone.level!= null and keyZone.level!=''">
+					and level = #{keyZone.level}
+				</if>
+				<if test="keyZone.isLast!= null and keyZone.isLast!=''">
+					and is_last = #{keyZone.isLast}
+				</if>
+				<if test="keyZone.longitude!= null and keyZone.longitude!=''">
+					and longitude = #{keyZone.longitude}
+				</if>
+				<if test="keyZone.latitude!= null and keyZone.latitude!=''">
+					and latitude = #{keyZone.latitude}
+				</if>
+				<if test="keyZone.location!= null and keyZone.location!=''">
+					and location = #{keyZone.location}
+				</if>
+				<if test="keyZone.spellName!= null and keyZone.spellName!=''">
+					and spell_name = #{keyZone.spellName}
+				</if>
+				<if test="keyZone.firSpellName!= null and keyZone.firSpellName!=''">
+					and fir_spell_name = #{keyZone.firSpellName}
+				</if>
+				<if test="keyZone.ord!= null">
+					and ord = #{keyZone.ord}
+				</if>
+				<if test="keyZone.createDate!= null and keyZone.createDate!=''">
+					and create_date = #{keyZone.createDate}
+				</if>
+				<if test="keyZone.updateDate!= null and keyZone.updateDate!=''">
+					and update_date = #{keyZone.updateDate}
+				</if>
+				<if test="keyZone.status!= null">
+					and status = #{keyZone.status}
+				</if>
+				<if test="keyZone.remark!= null and keyZone.remark!=''">
+					and remark = #{keyZone.remark}
+				</if>
+			</trim>
+		</if>
+		limit ${(page-1)*pagesize},${pagesize}
+	</select>
+
+	<select id="getRows" parameterType="hashmap" resultType="long">
+		select
+		count(*) from
+		tb_zone
+		<if test="keyZone!= null">
+			<trim prefix="WHERE" prefixOverrides="AND |OR ">
+				<if test="keyZone.id!= null">
+					and id = #{keyZone.id}
+				</if>
+				<if test="keyZone.nid!= null">
+					and nid = #{keyZone.nid}
+				</if>
+				<if test="keyZone.code!= null and keyZone.code!=''">
+					and code = #{keyZone.code}
+				</if>
+				<if test="keyZone.name!= null and keyZone.name!=''">
+					and name = #{keyZone.name}
+				</if>
+				<if test="keyZone.pid!= null and keyZone.pid!=''">
+					and pid = #{keyZone.pid}
+				</if>
+				<if test="keyZone.pcode!= null and keyZone.pcode!=''">
+					and pcode = #{keyZone.pcode}
+				</if>
+				<if test="keyZone.preFix!= null and keyZone.preFix!=''">
+					and pre_fix = #{keyZone.preFix}
+				</if>
+				<if test="keyZone.level!= null and keyZone.level!=''">
+					and level = #{keyZone.level}
+				</if>
+				<if test="keyZone.isLast!= null and keyZone.isLast!=''">
+					and is_last = #{keyZone.isLast}
+				</if>
+				<if test="keyZone.longitude!= null and keyZone.longitude!=''">
+					and longitude = #{keyZone.longitude}
+				</if>
+				<if test="keyZone.latitude!= null and keyZone.latitude!=''">
+					and latitude = #{keyZone.latitude}
+				</if>
+				<if test="keyZone.location!= null and keyZone.location!=''">
+					and location = #{keyZone.location}
+				</if>
+				<if test="keyZone.spellName!= null and keyZone.spellName!=''">
+					and spell_name = #{keyZone.spellName}
+				</if>
+				<if test="keyZone.firSpellName!= null and keyZone.firSpellName!=''">
+					and fir_spell_name = #{keyZone.firSpellName}
+				</if>
+				<if test="keyZone.ord!= null">
+					and ord = #{keyZone.ord}
+				</if>
+				<if test="keyZone.createDate!= null and keyZone.createDate!=''">
+					and create_date = #{keyZone.createDate}
+				</if>
+				<if test="keyZone.updateDate!= null and keyZone.updateDate!=''">
+					and update_date = #{keyZone.updateDate}
+				</if>
+				<if test="keyZone.status!= null">
+					and status = #{keyZone.status}
+				</if>
+				<if test="keyZone.remark!= null and keyZone.remark!=''">
+					and remark = #{keyZone.remark}
+				</if>
+			</trim>
+		</if>
+	</select>
+
+	<select id="getZoneByCode" parameterType="string" resultMap="zoneMap">
+		select * from tb_zone where code = #{code}
+	</select>
+
+	<select id="getTreeList" parameterType="hashmap" resultType="hashmap">
+		SELECT
+		id,
+		NAME as text,
+		pid,
+		pre_fix,
+		is_last,
+		code,
+		level
+		FROM
+		tb_zone
+		WHERE
+		<choose>
+			<when test="pid==0">
+				<!--ISNULL(pcode)  -->
+				<if test="unitId==1">
+					level = 1
+				</if>
+				<if test="unitId!=1">
+					code = #{code};
+				</if>
+			</when>
+			<otherwise>
+				pid = #{pid}
+			</otherwise>
+		</choose>
+	</select>
+
+	<select id="getGridList" parameterType="hashmap" resultMap="zoneMap">
+		SELECT
+		*
+		FROM
+		tb_zone
+		WHERE
+		<choose>
+			<when test="pid==0">
+				<!--ISNULL(pcode)  -->
+				<if test="unitId==1">
+					level = 1
+				</if>
+				<if test="unitId!=1">
+					code = #{code};
+				</if>
+			</when>
+			<otherwise>
+				pid = #{pid}
+			</otherwise>
+		</choose>
+	</select>
+
+	<select id="getCurrentName" parameterType="hashmap" resultType="string">
+		select
+		CONCAT(
+		<foreach collection="list" item="id" separator=",">
+			(SELECT name FROM tb_zone where id = #{id})
+		</foreach>
+		)
+	</select>
+
+
+	<select id="getMaxCodeByPid" parameterType="long" resultType="string">
+		SELECT
+		max(code)
+		FROM
+		tb_zone
+		WHERE
+		pid = #{pid}
+	</select>
+
+
+	<select id="getChildRowsByPid" parameterType="long" resultType="long">
+		SELECT
+		count(id)
+		FROM
+		tb_zone
+		WHERE
+		pid = #{pid}
+	</select>
+
+
+	<select id="getZoneCodeByName" parameterType="string" resultMap="zoneMap">
+		SELECT  * FROM tb_zone WHERE name = #{zoneName} ORDER BY id limit 0,1
+	</select>
+
+
+	<select id="getAll" parameterType="hashmap" resultType="hashmap">
+		SELECT * FROM tb_zone z WHERE 1=1
+		<if test="keyWord != null and keyWord != ''">
+			AND (z.name like #{keyWord} OR z.code like #{keyWord} OR z.spell_name like #{keyWord} OR z.fir_spell_name
+			like #{keyWord})
+		</if>
+		AND LENGTH(z.code)=9
+		AND SUBSTR(code FROM 7 FOR 9)='000'
+		AND SUBSTR(code FROM 5 FOR 9) !='00000'
+		AND NOT EXISTS (SELECT * FROM tb_transport_fee tf WHERE z.code = tf.des_zone_code AND tf.units_id = #{unitId})
+		LIMIT ${(page-1)*pagesize},${pagesize}
+	</select>
+
+
+	<select id="getAllSize" parameterType="hashmap" resultType="long">
+		SELECT count(id) FROM tb_zone z WHERE 1=1
+		<if test="keyWord != null and keyWord != ''">
+			AND (z.name like #{keyWord} OR z.code like #{keyWord} OR z.spell_name like #{keyWord} OR z.fir_spell_name
+			like #{keyWord})
+		</if>
+		AND LENGTH(z.code)=9
+		AND SUBSTR(code FROM 7 FOR 9)='000'
+		AND SUBSTR(code FROM 5 FOR 9) !='00000'
+		AND NOT EXISTS (SELECT * FROM tb_transport_fee tf WHERE z.code = tf.des_zone_code AND tf.units_id = #{unitId})
+	</select>
+</mapper>

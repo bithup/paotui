@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xgh.paotui.dao.read.IOrderGoodsDaoR">
+
+	<!--实体映射-->
+	<resultMap id="orderGoodsResultMap" type="com.xgh.paotui.entity.OrderGoods">
+		<!---->
+		<id property="id" column="id" />
+		<!--订单id-->
+		<result property="orderId" column="order_id" javaType="long" jdbcType="BIGINT" />
+		<!--定位地址-帮送：发货地；帮取：取货地；帮买：购买地-->
+		<result property="locationAddressA" column="location_address_a" javaType="String" jdbcType="VARCHAR" />
+		<!--定位地址概述-帮送：发货地；帮取：取货地；帮买：购买地-->
+		<result property="locationAddressNameA" column="location_address_name_a" javaType="String" jdbcType="VARCHAR" />
+		<!--详细地址，如楼层/门牌号-帮送：发货地；帮取：取货地；帮买：购买地-->
+		<result property="detailAddressA" column="detail_address_a" javaType="String" jdbcType="VARCHAR" />
+		<!--经度-帮送：发货地；帮取：取货地；帮买：购买地-->
+		<result property="longitudeA" column="longitude_a" javaType="Double" jdbcType="DOUBLE" />
+		<!--纬度-帮送：发货地；帮取：取货地；帮买：购买地-->
+		<result property="latitudeA" column="latitude_a" javaType="Double" jdbcType="DOUBLE" />
+		<!--手机号-帮送：发货人；帮取：取货地联系人-->
+		<result property="mobilePhoneA" column="mobile_phone_a" javaType="String" jdbcType="VARCHAR" />
+		<!--联系人姓名-帮送：发货人；帮取：取货地联系人-->
+		<result property="linkmanNameA" column="linkman_name_a" javaType="String" jdbcType="VARCHAR" />
+		<!--定位地址-收货地-->
+		<result property="locationAddressB" column="location_address_b" javaType="String" jdbcType="VARCHAR" />
+		<!--定位地址概述-收货地-->
+		<result property="locationAddressNameB" column="location_address_name_b" javaType="String" jdbcType="VARCHAR" />
+		<!--详细地址，如楼层/门牌号-收货地-->
+		<result property="detailAddressB" column="detail_address_b" javaType="String" jdbcType="VARCHAR" />
+		<!--经度-收货地-->
+		<result property="longitudeB" column="longitude_b" javaType="Double" jdbcType="DOUBLE" />
+		<!--纬度-收货地-->
+		<result property="latitudeB" column="latitude_b" javaType="Double" jdbcType="DOUBLE" />
+		<!--收货人联系电话-->
+		<result property="mobilePhoneB" column="mobile_phone_b" javaType="String" jdbcType="VARCHAR" />
+		<!--收货人姓名（可不填）-->
+		<result property="linkmanNameB" column="linkman_name_b" javaType="String" jdbcType="VARCHAR" />
+		<!--货物类型（帮送、帮取）-->
+		<result property="goodsTypeId" column="goods_type_id" javaType="int" jdbcType="INTEGER" />
+		<!--货物类型名称（帮送、帮取）-->
+		<result property="goodsTypeName" column="goods_type_name" javaType="String" jdbcType="VARCHAR" />
+		<!--购买要求（帮买）-->
+		<result property="buyRequire" column="buy_require" javaType="String" jdbcType="VARCHAR" />
+		<!--帮买联系电话（帮买）-->
+		<result property="buyLinkPhone" column="buy_link_phone" javaType="String" jdbcType="VARCHAR" />
+		<!--是否知道价格；1、知道价格；2、不知道价格（帮买）-->
+		<result property="isKonwPrice" column="is_konw_price" javaType="int" jdbcType="INTEGER" />
+		<!--知道价格时，输入的商品价格（帮买）-->
+		<result property="buyPrice" column="buy_price" javaType="BigDecimal" jdbcType="DECIMAL" />
+		<!--是否就近购买(1：收货地附近就近购买；2：指定购买地）-->
+		<result property="isNearBuy" column="is_near_buy" javaType="int" jdbcType="INTEGER" />
+		<!--购买中支付的商品费（帮买）-->
+		<result property="addPayMoney" column="add_pay_money" javaType="BigDecimal" jdbcType="DECIMAL" />
+		<!--购买中支付商品费的时间（帮买）-->
+		<result property="addPayTime" column="add_pay_time" javaType="Date" jdbcType="TIMESTAMP" />
+		<!--第三方支付返回的支付订单号（帮买）-->
+		<result property="addPayTransactionId" column="add_pay_transaction_id" javaType="String" jdbcType="VARCHAR" />
+		<!--订单总里程(单位：公里）-->
+		<result property="totalDistance" column="total_distance" javaType="BigDecimal" jdbcType="DECIMAL" />
+		<!--订单总时间（从拿到货到签收时间,单位：分钟）-->
+		<result property="totalTime" column="total_time" javaType="int" jdbcType="INTEGER" />
+		<!--状态（1：正常 2：已删除）-->
+		<result property="status" column="status" javaType="int" jdbcType="INTEGER" />
+		<!--扩展1-->
+		<result property="data1" column="data_1" javaType="long" jdbcType="BIGINT" />
+		<!--扩展2-->
+		<result property="data2" column="data_2" javaType="int" jdbcType="INTEGER" />
+		<!--扩展3-->
+		<result property="data3" column="data_3" javaType="String" jdbcType="VARCHAR" />
+		<!--扩展4-->
+		<result property="data4" column="data_4" javaType="String" jdbcType="VARCHAR" />
+		<!--扩展5-->
+		<result property="data5" column="data_5" javaType="String" jdbcType="VARCHAR" />
+	</resultMap>
+
+
+	<!-- 通用查询结果列-->
+	<sql id="Base_Column_List">
+		id as id,
+		order_id	 as orderId,
+		location_address_a	 as locationAddressA,
+		location_address_name_a	 as locationAddressNameA,
+		detail_address_a	 as detailAddressA,
+		longitude_a	 as longitudeA,
+		latitude_a	 as latitudeA,
+		mobile_phone_a	 as mobilePhoneA,
+		linkman_name_a	 as linkmanNameA,
+		location_address_b	 as locationAddressB,
+		location_address_name_b	 as locationAddressNameB,
+		detail_address_b	 as detailAddressB,
+		longitude_b	 as longitudeB,
+		latitude_b	 as latitudeB,
+		mobile_phone_b	 as mobilePhoneB,
+		linkman_name_b	 as linkmanNameB,
+		goods_type_id	 as goodsTypeId,
+		goods_type_name	 as goodsTypeName,
+		buy_require	 as buyRequire,
+		buy_link_phone	 as buyLinkPhone,
+		is_konw_price	 as isKonwPrice,
+		buy_price	 as buyPrice,
+		is_near_buy	 as isNearBuy,
+		add_pay_money	 as addPayMoney,
+		add_pay_time	 as addPayTime,
+		add_pay_transaction_id	 as addPayTransactionId,
+		total_distance	 as totalDistance,
+		total_time	 as totalTime,
+		status	 as status,
+		data_1	 as data1,
+		data_2	 as data2,
+		data_3	 as data3,
+		data_4	 as data4,
+		data_5	 as data5
+	</sql>
+
+	<!-- 查询（根据主键ID查询） -->
+	<select id="get" resultMap="orderGoodsResultMap" parameterType="java.lang.Long">
+		 SELECT
+		 <include refid="Base_Column_List" />
+		 FROM tb_order_goods
+		 WHERE  status = 1  and id = #{id}
+	</select>
+
+	<select id="getOrderGoods" resultMap="orderGoodsResultMap" parameterType="java.lang.Long">
+		SELECT
+		<include refid="Base_Column_List" />
+		FROM tb_order_goods
+		WHERE  status = 1  and order_id = #{orderId}
+	</select>
+
+	<!-- 查询（根据查询条件查询） -->
+	<select id="getList" resultMap="orderGoodsResultMap" parameterType="hashmap">
+		 SELECT
+		 <include refid="Base_Column_List" />
+		 FROM tb_order_goods
+		 WHERE   status = 1 
+	</select>
+
+	<!-- 查询（根据查询条件分页查询） -->
+	<select id="getListPage" resultMap="orderGoodsResultMap" parameterType="hashmap">
+		 SELECT
+		 <include refid="Base_Column_List" />
+		 FROM tb_order_goods
+		 WHERE   status = 1
+		 limit ${(page-1)*pagesize},${pagesize} 
+	</select>
+
+	<!-- 查询（根据查询条件分页查询） -->
+	<select id="getListMapPage" resultType="hashmap"  parameterType="hashmap">
+		 SELECT
+		 <include refid="Base_Column_List" />
+		 FROM tb_order_goods
+		 WHERE   status = 1 
+		 limit ${(page-1)*pagesize},${pagesize} 
+	</select>
+
+	<!-- 查询记录总数量（根据查询条件查询记录总数量） -->
+	<select id="getRows" resultType="long" parameterType="hashmap">
+		 SELECT 
+		 count(*)  
+		 FROM tb_order_goods
+		 WHERE   status = 1 
+	</select></mapper>

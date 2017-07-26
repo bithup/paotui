@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xgh.paotui.dao.write.IDeliveryManDaoW">
+
+	<!--实体映射-->
+	<resultMap id="deliveryManResultMap" type="com.xgh.paotui.entity.DeliveryMan">
+		<!---->
+		<id property="id" column="id" />
+		<!--登录名-->
+		<result property="loginName" column="login_name" javaType="String" jdbcType="VARCHAR" />
+		<!--密码-->
+		<result property="password" column="password" javaType="String" jdbcType="VARCHAR" />
+		<!--真实名字-->
+		<result property="realName" column="real_name" javaType="String" jdbcType="VARCHAR" />
+		<!--真实名字-->
+		<result property="headImage" column="head_image" javaType="String" jdbcType="VARCHAR" />
+		<!--姓氏-->
+		<result property="surname" column="surname" javaType="String" jdbcType="VARCHAR" />
+		<!--出生日期-->
+		<result property="birthday" column="birthday" javaType="Date" jdbcType="TIMESTAMP" />
+		<!--性别-->
+		<result property="sex" column="sex" javaType="String" jdbcType="VARCHAR" />
+		<!--手机号-->
+		<result property="mobilePhone" column="mobile_phone" javaType="String" jdbcType="VARCHAR" />
+		<!--账户余额-->
+		<result property="balance" column="balance" javaType="BigDecimal" jdbcType="DECIMAL" />
+		<!--个人推广二维码-->
+		<result property="qrCode" column="qr_code" javaType="String" jdbcType="VARCHAR" />
+		<!--跑客星级-->
+		<result property="starLevel" column="star_level" javaType="int" jdbcType="INTEGER" />
+		<!--跑客类别，1：众包；2：公司员工-->
+		<result property="belongType" column="belong_type" javaType="int" jdbcType="INTEGER" />
+		<!--所属城市,跑客只能接所属城市的订单-->
+		<result property="belongCityId" column="belong_city_id" javaType="long" jdbcType="BIGINT" />
+		<!--接单数-->
+		<result property="getOrderCount" column="get_order_count" javaType="int" jdbcType="INTEGER" />
+		<!--好评率-->
+		<result property="praiseRate" column="praise_rate" javaType="Double" jdbcType="DOUBLE" />
+		<!--认证状态，1、已认证；2、未认证；3、已注销；4、已冻结-->
+		<result property="authStatus" column="auth_status" javaType="int" jdbcType="INTEGER" />
+		<!--用户的微信openid-->
+		<result property="token" column="token" javaType="String" jdbcType="VARCHAR" />
+		<!--状态（1：正常 2：已删除）-->
+		<result property="status" column="status" javaType="int" jdbcType="INTEGER" />
+		<!--扩展1-->
+		<result property="data1" column="data_1" javaType="long" jdbcType="BIGINT" />
+		<!--扩展2-->
+		<result property="data2" column="data_2" javaType="int" jdbcType="INTEGER" />
+		<!--扩展3-->
+		<result property="data3" column="data_3" javaType="String" jdbcType="VARCHAR" />
+		<!--扩展4-->
+		<result property="data4" column="data_4" javaType="String" jdbcType="VARCHAR" />
+		<!--扩展5-->
+		<result property="data5" column="data_5" javaType="String" jdbcType="VARCHAR" />
+	</resultMap>
+
+
+	<!--删除：根据主键ID逻辑删除-->
+	<delete id="delete" parameterType="java.lang.Long">
+		 update tb_delivery_man
+		 set status=2  WHERE id = #{id}
+	</delete>
+
+	<!-- 添加 -->
+	<insert id="add" parameterType="com.xgh.paotui.entity.DeliveryMan">
+		<selectKey keyProperty="id" resultType="long" order="AFTER">
+			SELECT max(id)  AS value  from tb_delivery_man
+		</selectKey>
+		 INSERT INTO tb_delivery_man
+ 		(id,login_name,password,real_name,head_image,surname,birthday,sex,mobile_phone,balance,qr_code,star_level,belong_type,belong_city_id,get_order_count,praise_rate,auth_status,token,status,data_1,data_2,data_3,data_4,data_5)
+		 VALUES 
+ 		(#{id},#{loginName},#{password},#{realName},#{headImage},#{surname},#{birthday},#{sex},#{mobilePhone},#{balance},#{qrCode},#{starLevel},#{belongType},#{belongCityId},#{getOrderCount},#{praiseRate},#{authStatus},#{token},#{status},#{data1},#{data2},#{data3},#{data4},#{data5})
+	</insert>
+
+	<!-- 修 改-->
+	<update id="update" parameterType="com.xgh.paotui.entity.DeliveryMan">
+		 UPDATE tb_delivery_man
+		 SET 
+			 login_name = #{loginName},
+			 password = #{password},
+			 real_name = #{realName},
+			 head_image = #{headImage},
+			 surname = #{surname},
+			 birthday = #{birthday},
+			 sex = #{sex},
+			 mobile_phone = #{mobilePhone},
+			 balance = #{balance},
+			 qr_code = #{qrCode},
+			 star_level = #{starLevel},
+			 belong_type = #{belongType},
+			 belong_city_id = #{belongCityId},
+			 get_order_count = #{getOrderCount},
+			 praise_rate = #{praiseRate},
+			 auth_status = #{authStatus},
+			 token = #{token},
+			 status = #{status},
+			 data_1 = #{data1},
+			 data_2 = #{data2},
+			 data_3 = #{data3},
+			 data_4 = #{data4},
+			 data_5 = #{data5}
+		 WHERE id = #{id}
+	</update>
+
+</mapper>

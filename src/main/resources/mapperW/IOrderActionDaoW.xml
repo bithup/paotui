@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xgh.paotui.dao.write.IOrderActionDaoW">
+
+	<!--实体映射-->
+	<resultMap id="orderActionResultMap" type="com.xgh.paotui.entity.OrderAction">
+		<!---->
+		<id property="id" column="id" />
+		<!--订单id-->
+		<result property="orderId" column="order_id" javaType="long" jdbcType="BIGINT" />
+		<!--订单动作名称-->
+		<result property="actionName" column="action_name" javaType="String" jdbcType="VARCHAR" />
+		<!--订单动作时间-->
+		<result property="actionTime" column="action_time" javaType="Date" jdbcType="TIMESTAMP" />
+		<!--动作类型，1、完成动作；2、进行中动作-->
+		<result property="actionType" column="action_type" javaType="int" jdbcType="INTEGER" />
+		<!--部分环节，拍的照片。多个照片，用“||”隔开-->
+		<result property="actionImage" column="action_image" javaType="String" jdbcType="VARCHAR" />
+		<!--显示标志，完成动作后，上一个进行中动作要设置为不显示，1：显示；2、不显示-->
+		<result property="showFlag" column="show_flag" javaType="int" jdbcType="INTEGER" />
+		<!--状态（1：正常 2：已删除）-->
+		<result property="status" column="status" javaType="int" jdbcType="INTEGER" />
+		<!--扩展1-->
+		<result property="data1" column="data_1" javaType="long" jdbcType="BIGINT" />
+		<!--扩展2-->
+		<result property="data2" column="data_2" javaType="int" jdbcType="INTEGER" />
+		<!--扩展3-->
+		<result property="data3" column="data_3" javaType="String" jdbcType="VARCHAR" />
+		<!--扩展4-->
+		<result property="data4" column="data_4" javaType="String" jdbcType="VARCHAR" />
+		<!--扩展5-->
+		<result property="data5" column="data_5" javaType="String" jdbcType="VARCHAR" />
+	</resultMap>
+
+
+	<!--删除：根据主键ID逻辑删除-->
+	<delete id="delete" parameterType="java.lang.Long">
+		 update tb_order_action
+		 set status=2  WHERE id = #{id}
+	</delete>
+
+	<!-- 添加 -->
+	<insert id="add" parameterType="com.xgh.paotui.entity.OrderAction">
+		 INSERT INTO tb_order_action
+ 		(id,order_id,action_name,action_time,action_type,action_image,show_flag,status,data_1,data_2,data_3,data_4,data_5) 
+		 VALUES 
+ 		(#{id},#{orderId},#{actionName},#{actionTime},#{actionType},#{actionImage},#{showFlag},#{status},#{data1},#{data2},#{data3},#{data4},#{data5}) 
+	</insert>
+
+	<!-- 修 改-->
+	<update id="update" parameterType="com.xgh.paotui.entity.OrderAction">
+		 UPDATE tb_order_action
+		 SET 
+			 order_id = #{orderId},
+			 action_name = #{actionName},
+			 action_time = #{actionTime},
+			 action_type = #{actionType},
+			 action_image = #{actionImage},
+			 show_flag = #{showFlag},
+			 status = #{status},
+			 data_1 = #{data1},
+			 data_2 = #{data2},
+			 data_3 = #{data3},
+			 data_4 = #{data4},
+			 data_5 = #{data5}
+		 WHERE id = #{id}
+	</update>
+
+</mapper>

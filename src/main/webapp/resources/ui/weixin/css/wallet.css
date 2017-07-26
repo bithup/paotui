@@ -1,0 +1,143 @@
+.content{
+	width: 92%;
+	background: #fff;
+	margin: 30px auto 0;
+	height: 240px;
+	border-radius: 8px;
+}
+.remainder{
+	height: 180px;
+	background: #35ccab;
+	border-radius: 8px;
+}
+.remainder dl{
+	overflow: hidden;
+	color: #fff;
+	padding-top: 67px;
+}
+.remainder dl dt,dd{
+	float: left;
+}
+.remainder dl dt{
+	background: url(../images/wallet.png) 0 center no-repeat;
+	padding-left: 90px;
+	margin: 0 46px 0 110px;
+}
+.handle{
+	overflow: hidden;
+}
+.handle a{
+	float: left;
+	width: 50%;
+	text-align: center;
+	color: #333;
+	line-height: 60px;
+}
+.handle a:nth-child(1){
+	position: relative;
+}
+.handle a:nth-child(1)::after{
+	content: "";
+	display: inline-block;
+	width: 2px;
+	height: 22px;
+	background: #333;
+	position: absolute;
+	right: 0;
+	top: 50%;
+	margin-top: -11px;
+}
+
+/* 钱包明细样式 */
+.det_content{
+	width: 100%;
+	margin-top: 15px;
+}
+.det_content ul{
+	background: #fff;
+}
+.det_content ul li{
+	padding: 0 24px;
+	border-bottom: 1px solid #eee;
+	overflow: hidden;
+	line-height: 100px;
+}
+.det_content ul li span{
+	float: left;
+}
+.det_content ul li span:nth-child(1){
+	width: 42%;
+}
+.det_content ul li span:nth-child(2){
+	width: 35%;
+}
+.det_content ul li span:nth-child(3){
+	float: right;
+}
+
+/* 充值样式 */
+.recharge{
+	line-height: 120px;
+	background: #fff;
+	padding-left: 30%;
+	overflow: hidden;
+	margin-top: 16px;
+}
+.recharge h6{
+	font-size: 32px;
+	float: left;
+	color: #333;
+}
+.recharge input{
+	font-size: 28px;
+	line-height: 120px;
+	float: left;
+	padding-left: 28px;
+	color: #666;
+}
+.nextstep a{
+	width: 86%;
+	line-height: 70px;
+	display: block;
+	background: #35ccab;
+	font-size: 32px;
+	margin: 200px auto 0;
+	text-align: center;
+	border-radius: 8px;
+}
+/* placeholder样式 */
+::-webkit-input-placeholder { /* WebKit browsers */  
+    color: #666;
+}  
+:-moz-placeholder { /* Mozilla Firefox 4 to 18 */  
+   color: #666;
+   opacity: 1;
+}  
+::-moz-placeholder { /* Mozilla Firefox 19+ */  
+   color: #666;
+   opacity: 1;
+}  
+:-ms-input-placeholder { /* Internet Explorer 10+ */  
+   color: #666;
+}
+
+/* 充值方式样式 */
+.recharge_way{
+	margin-top: 16px;
+}
+.recharge_way ul li{
+	line-height: 70px;
+	border-bottom: 1px solid #ccc;
+	background: #fff;
+}
+.recharge_way ul li span{
+	display: block;
+	width: 94%;
+	margin: 0 auto;
+}
+.recharge_way ul li.bordernone{
+	border: none;
+}
+.recharge_way ul li span.active{
+	background: url(../images/recharge.png) right center no-repeat;
+}

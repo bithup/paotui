@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xgh.paotui.dao.read.IDeliveryManAuthDaoR">
+
+	<!--实体映射-->
+	<resultMap id="deliveryManAuthResultMap" type="com.xgh.paotui.entity.DeliveryManAuth">
+		<!---->
+		<id property="id" column="id" />
+		<!--跑客id-->
+		<result property="deliveryManId" column="delivery_man_id" javaType="long" jdbcType="BIGINT" />
+		<!--身份证号码-->
+		<result property="idCardNo" column="id_card_no" javaType="String" jdbcType="VARCHAR" />
+		<!--身份证照1(正面、背面、手持)-->
+		<result property="idCardPicture1" column="id_card_picture1" javaType="String" jdbcType="VARCHAR" />
+		<!--身份证照2(正面、背面、手持)-->
+		<result property="idCardPicture2" column="id_card_picture2" javaType="String" jdbcType="VARCHAR" />
+		<!--身份证照3(正面、背面、手持)-->
+		<result property="idCardPicture3" column="id_card_picture3" javaType="String" jdbcType="VARCHAR" />
+		<!--微信OpendID-->
+		<result property="weixinOpenId" column="weixin_open_id" javaType="String" jdbcType="VARCHAR" />
+		<!--微信认证时间-->
+		<result property="weixinAuthTime" column="weixin_auth_time" javaType="Date" jdbcType="TIMESTAMP" />
+		<!--微信认证状态，0：未认证，1：已认证，2：认证失败 3 ：审核中-->
+		<result property="weixinAuthStatus" column="weixin_auth_status" javaType="int" jdbcType="INTEGER" />
+		<!--认证提交时间-->
+		<result property="authSubmitTime" column="auth_submit_time" javaType="Date" jdbcType="TIMESTAMP" />
+		<!--认证审核时间-->
+		<result property="authCheckTime" column="auth_check_time" javaType="Date" jdbcType="TIMESTAMP" />
+		<!--认证审核人-->
+		<result property="authUserId" column="auth_user_id" javaType="long" jdbcType="BIGINT" />
+		<!--状态（1：正常 2：已删除）-->
+		<result property="status" column="status" javaType="int" jdbcType="INTEGER" />
+		<!--扩展1-->
+		<result property="data1" column="data_1" javaType="long" jdbcType="BIGINT" />
+		<!--扩展2-->
+		<result property="data2" column="data_2" javaType="int" jdbcType="INTEGER" />
+		<!--扩展3-->
+		<result property="data3" column="data_3" javaType="String" jdbcType="VARCHAR" />
+		<!--扩展4-->
+		<result property="data4" column="data_4" javaType="String" jdbcType="VARCHAR" />
+		<!--扩展5-->
+		<result property="data5" column="data_5" javaType="String" jdbcType="VARCHAR" />
+	</resultMap>
+
+
+	<!-- 通用查询结果列-->
+	<sql id="Base_Column_List">
+		 id as id,
+	delivery_man_id	 as deliveryManId,
+	id_card_no	 as idCardNo,
+	id_card_picture1	 as idCardPicture1,
+	id_card_picture2	 as idCardPicture2,
+	id_card_picture3	 as idCardPicture3,
+	weixin_open_id	 as weixinOpenId,
+	weixin_auth_time	 as weixinAuthTime,
+	weixin_auth_status	 as weixinAuthStatus,
+	auth_submit_time	 as authSubmitTime,
+	auth_check_time	 as authCheckTime,
+	auth_user_id	 as authUserId,
+	status	 as status,
+	data_1	 as data1,
+	data_2	 as data2,
+	data_3	 as data3,
+	data_4	 as data4,
+	data_5	 as data5
+	</sql>
+
+	<!-- 查询（根据主键ID查询） -->
+	<select id="get" resultMap="deliveryManAuthResultMap" parameterType="java.lang.Long">
+		 SELECT
+		 <include refid="Base_Column_List" />
+		 FROM tb_delivery_man_auth
+		 WHERE  status = 1  and id = #{id}
+	</select>
+
+	<!-- 查询（根据主键ID查询） -->
+	<select id="getDeliveryManAuth" resultMap="deliveryManAuthResultMap" parameterType="java.lang.Long">
+		SELECT
+		<include refid="Base_Column_List" />
+		FROM tb_delivery_man_auth
+		WHERE  status = 1  and delivery_man_id = #{deliveryManId}
+	</select>
+
+	<!-- 查询（根据查询条件查询） -->
+	<select id="getList" resultMap="deliveryManAuthResultMap" parameterType="hashmap">
+		 SELECT
+		 <include refid="Base_Column_List" />
+		 FROM tb_delivery_man_auth
+
+		 WHERE   status = 1
+
+		<if test="deliveryManId!=null and deliveryManId!=''">
+			and delivery_man_id=#{deliveryManId}
+		</if>
+	</select>
+
+	<!-- 查询（根据查询条件分页查询） -->
+	<select id="getListPage" resultMap="deliveryManAuthResultMap" parameterType="hashmap">
+		 SELECT
+		 <include refid="Base_Column_List" />
+		 FROM tb_delivery_man_auth
+		 WHERE   status = 1 
+		 limit ${(page-1)*pagesize},${pagesize} 
+	</select>
+
+	<!-- 查询（根据查询条件分页查询） -->
+	<select id="getListMapPage" resultType="hashmap"  parameterType="hashmap">
+		 SELECT
+		 <include refid="Base_Column_List" />
+		 FROM tb_delivery_man_auth
+		 WHERE   status = 1 
+		 limit ${(page-1)*pagesize},${pagesize} 
+	</select>
+
+	<!-- 查询记录总数量（根据查询条件查询记录总数量） -->
+	<select id="getRows" resultType="long" parameterType="hashmap">
+		 SELECT 
+		 count(*)  
+		 FROM tb_delivery_man_auth
+		 WHERE   status = 1 
+	</select></mapper>

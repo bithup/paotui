@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xgh.paotui.dao.write.ICustomerDaoW">
+
+	<!--实体映射-->
+	<resultMap id="customerResultMap" type="com.xgh.paotui.entity.Customer">
+		<!---->
+		<id property="id" column="id" />
+		<!--账户登录名，默认是手机号-->
+		<result property="loginName" column="login_name" javaType="String" jdbcType="VARCHAR" />
+		<!--密码-->
+		<result property="password" column="password" javaType="String" jdbcType="VARCHAR" />
+		<!--昵称-->
+		<result property="nickName" column="nick_name" javaType="String" jdbcType="VARCHAR" />
+		<!--头像url-->
+		<result property="headPicUrl" column="head_pic_url" javaType="String" jdbcType="VARCHAR" />
+		<!--真实名字-->
+		<result property="realName" column="real_name" javaType="String" jdbcType="VARCHAR" />
+		<!--身份证号码-->
+		<result property="idCardNo" column="id_card_no" javaType="String" jdbcType="VARCHAR" />
+		<!--性别-->
+		<result property="sex" column="sex" javaType="String" jdbcType="VARCHAR" />
+		<!--手机号-->
+		<result property="mobilePhone" column="mobile_phone" javaType="String" jdbcType="VARCHAR" />
+		<!--账户余额-->
+		<result property="balance" column="balance" javaType="BigDecimal" jdbcType="DECIMAL" />
+		<!--微信名-->
+		<result property="weixinLoginName" column="weixin_login_name" javaType="String" jdbcType="VARCHAR" />
+		<!--注册时间-->
+		<result property="registerTime" column="register_time" javaType="Date" jdbcType="TIMESTAMP" />
+		<!--城市，可从微信中获取-->
+		<result property="belongCity" column="belong_city" javaType="String" jdbcType="VARCHAR" />
+		<!--最新一次发货地址-->
+		<result property="newestDeliverAddress" column="newest_deliver_address" javaType="String" jdbcType="VARCHAR" />
+		<!--微信身份认证openid-->
+		<result property="token" column="token" javaType="String" jdbcType="VARCHAR" />
+		<!--状态（1：正常 2：已删除）-->
+		<result property="status" column="status" javaType="int" jdbcType="INTEGER" />
+		<!--扩展1-->
+		<result property="data1" column="data_1" javaType="long" jdbcType="BIGINT" />
+		<!--扩展2-->
+		<result property="data2" column="data_2" javaType="int" jdbcType="INTEGER" />
+		<!--扩展3-->
+		<result property="data3" column="data_3" javaType="String" jdbcType="VARCHAR" />
+		<!--扩展4-->
+		<result property="data4" column="data_4" javaType="String" jdbcType="VARCHAR" />
+		<!--扩展5-->
+		<result property="data5" column="data_5" javaType="String" jdbcType="VARCHAR" />
+	</resultMap>
+
+
+	<!--删除：根据主键ID逻辑删除-->
+	<delete id="delete" parameterType="java.lang.Long">
+		 update tb_customer
+		 set status=2  WHERE id = #{id}
+	</delete>
+
+	<!-- 添加 -->
+	<insert id="add" parameterType="com.xgh.paotui.entity.Customer">
+		<selectKey keyProperty="id" resultType="long" order="AFTER">
+			SELECT max(id)  AS value  from tb_customer
+		</selectKey>
+
+		 INSERT INTO tb_customer
+ 		(id,login_name,password,nick_name,head_pic_url,real_name,id_card_no,sex,mobile_phone,balance,weixin_login_name,register_time,belong_city,newest_deliver_address,token,status,data_1,data_2,data_3,data_4,data_5) 
+		 VALUES 
+ 		(#{id},#{loginName},#{password},#{nickName},#{headPicUrl},#{realName},#{idCardNo},#{sex},#{mobilePhone},#{balance},#{weixinLoginName},#{registerTime},#{belongCity},#{newestDeliverAddress},#{token},#{status},#{data1},#{data2},#{data3},#{data4},#{data5}) 
+	</insert>
+
+	<!-- 修 改-->
+	<update id="update" parameterType="com.xgh.paotui.entity.Customer">
+		 UPDATE tb_customer
+		 SET 
+			 login_name = #{loginName},
+			 password = #{password},
+			 nick_name = #{nickName},
+			 head_pic_url = #{headPicUrl},
+			 real_name = #{realName},
+			 id_card_no = #{idCardNo},
+			 sex = #{sex},
+			 mobile_phone = #{mobilePhone},
+			 balance = #{balance},
+			 weixin_login_name = #{weixinLoginName},
+			 register_time = #{registerTime},
+			 belong_city = #{belongCity},
+			 newest_deliver_address = #{newestDeliverAddress},
+			 token = #{token},
+			 status = #{status},
+			 data_1 = #{data1},
+			 data_2 = #{data2},
+			 data_3 = #{data3},
+			 data_4 = #{data4},
+			 data_5 = #{data5}
+		 WHERE id = #{id}
+	</update>
+
+</mapper>

@@ -1,0 +1,272 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xgh.mng.dao.read.ISysQueryItemDaoR">
+
+	<resultMap id="sysQueryItemMap" type="com.xgh.mng.entity.SysQueryItem">
+		<result column="id" javaType="long" jdbcType="BIGINT" property="id"/>
+		<result column="nid" javaType="long" jdbcType="BIGINT" property="nid"/>
+		<result column="unit_id" javaType="long" jdbcType="BIGINT" property="unitId"/>
+		<result column="unit_nid" javaType="long" jdbcType="BIGINT" property="unitNid"/>
+		<result column="join_id" javaType="long" jdbcType="BIGINT" property="joinId"/>
+		<result column="join_nid" javaType="long" jdbcType="BIGINT" property="joinNid"/>
+		<result column="join_type" javaType="string" jdbcType="VARCHAR" property="joinType"/>
+		<result column="name" javaType="string" jdbcType="VARCHAR" property="name"/>
+		<result column="field_name" javaType="string" jdbcType="VARCHAR" property="fieldName"/>
+		<result column="form_name" javaType="string" jdbcType="VARCHAR" property="formName"/>
+		<result column="input_name" javaType="string" jdbcType="VARCHAR" property="inputName"/>
+		<result column="data_type" javaType="string" jdbcType="VARCHAR" property="dataType"/>
+		<result column="value" javaType="string" jdbcType="VARCHAR" property="value"/>
+		<result column="datasource_type" javaType="string" jdbcType="VARCHAR" property="datasourceType"/>
+		<result column="datasource_value" javaType="string" jdbcType="VARCHAR" property="datasourceValue"/>
+		<result column="query_type" javaType="string" jdbcType="VARCHAR" property="queryType"/>
+		<result column="operator" javaType="string" jdbcType="VARCHAR" property="operator"/>
+		<result column="row" javaType="long" jdbcType="BIGINT" property="row"/>
+		<result column="rowspan" javaType="long" jdbcType="BIGINT" property="rowspan"/>
+		<result column="width" javaType="long" jdbcType="BIGINT" property="width"/>
+		<result column="x" javaType="long" jdbcType="BIGINT" property="x"/>
+		<result column="ord" javaType="long" jdbcType="BIGINT" property="ord"/>
+		<result column="create_date" javaType="date" jdbcType="TIMESTAMP" property="createDate"/>
+		<result column="update_date" javaType="date" jdbcType="TIMESTAMP" property="updateDate"/>
+		<result column="status" javaType="int" jdbcType="INTEGER" property="status"/>
+		<result column="remark" javaType="string" jdbcType="VARCHAR" property="remark"/>
+	</resultMap>
+
+	<resultMap id="sysQueryItemMap2" type="java.util.Map">
+		<result column="id" javaType="long" jdbcType="BIGINT" property="ID"/>
+		<result column="nid" javaType="long" jdbcType="BIGINT" property="NID"/>
+		<result column="unit_id" javaType="long" jdbcType="BIGINT" property="UNIT_ID"/>
+		<result column="unit_nid" javaType="long" jdbcType="BIGINT" property="UNIT_NID"/>
+		<result column="join_id" javaType="long" jdbcType="BIGINT" property="JOIN_ID"/>
+		<result column="join_nid" javaType="long" jdbcType="BIGINT" property="JOIN_NID"/>
+		<result column="join_type" javaType="string" jdbcType="VARCHAR" property="JOIN_TYPE"/>
+		<result column="name" javaType="string" jdbcType="VARCHAR" property="NAME"/>
+		<result column="field_name" javaType="string" jdbcType="VARCHAR" property="FIELD_NAME"/>
+		<result column="form_name" javaType="string" jdbcType="VARCHAR" property="FORM_NAME"/>
+		<result column="input_name" javaType="string" jdbcType="VARCHAR" property="INPUT_NAME"/>
+		<result column="data_type" javaType="string" jdbcType="VARCHAR" property="DATA_TYPE"/>
+		<result column="value" javaType="string" jdbcType="VARCHAR" property="VALUE"/>
+		<result column="datasource_type" javaType="string" jdbcType="VARCHAR" property="DATASOURCE_TYPE"/>
+		<result column="datasource_value" javaType="string" jdbcType="VARCHAR" property="DATASOURCE_VALUE"/>
+		<result column="query_type" javaType="string" jdbcType="VARCHAR" property="QUERY_TYPE"/>
+		<result column="operator" javaType="string" jdbcType="VARCHAR" property="OPERATOR"/>
+		<result column="row" javaType="long" jdbcType="BIGINT" property="ROW"/>
+		<result column="rowspan" javaType="long" jdbcType="BIGINT" property="ROWSPAN"/>
+		<result column="width" javaType="long" jdbcType="BIGINT" property="WIDTH"/>
+		<result column="x" javaType="long" jdbcType="BIGINT" property="X"/>
+		<result column="ord" javaType="long" jdbcType="BIGINT" property="ORD"/>
+		<result column="create_date" javaType="date" jdbcType="TIMESTAMP" property="CREATE_DATE"/>
+		<result column="update_date" javaType="date" jdbcType="TIMESTAMP" property="UPDATE_DATE"/>
+		<result column="status" javaType="int" jdbcType="INTEGER" property="STATUS"/>
+		<result column="remark" javaType="string" jdbcType="VARCHAR" property="REMARK"/>
+	</resultMap>
+
+	<select id="get" parameterType="long" resultMap="sysQueryItemMap">
+		select * from tb_sys_query_item where id = #{id}
+	</select>
+
+	<select id="getList" parameterType="hashmap"
+			resultMap="sysQueryItemMap">
+		select * from
+		tb_sys_query_item
+		where join_id = #{joinId}
+		and join_type = #{joinType}
+		order by ord desc
+	</select>
+
+
+	<select id="getListPage" parameterType="hashmap" resultMap="sysQueryItemMap">
+		select
+		*
+		from
+		tb_sys_query_item
+		<if test="keySysQueryItem!= null">
+			<trim prefix="WHERE" prefixOverrides="AND |OR ">
+
+				<if test="keySysQueryItem.id!= null">
+					and id = #{keySysQueryItem.id}
+				</if>
+				<if test="keySysQueryItem.nid!= null">
+					and nid = #{keySysQueryItem.nid}
+				</if>
+				<if test="keySysQueryItem.unitId!= null">
+					and unit_id = #{keySysQueryItem.unitId}
+				</if>
+				<if test="keySysQueryItem.unitNid!= null">
+					and unit_nid = #{keySysQueryItem.unitNid}
+				</if>
+				<if test="keySysQueryItem.joinId!= null">
+					and join_id = #{keySysQueryItem.joinId}
+				</if>
+				<if test="keySysQueryItem.joinNid!= null">
+					and join_nid = #{keySysQueryItem.joinNid}
+				</if>
+				<if test="keySysQueryItem.joinType!= null and keySysQueryItem.joinType!=''">
+					and join_type = #{keySysQueryItem.joinType}
+				</if>
+				<if test="keySysQueryItem.name!= null and keySysQueryItem.name!=''">
+					and name = #{keySysQueryItem.name}
+				</if>
+				<if test="keySysQueryItem.fieldName!= null and keySysQueryItem.fieldName!=''">
+					and field_name = #{keySysQueryItem.fieldName}
+				</if>
+				<if test="keySysQueryItem.formName!= null and keySysQueryItem.formName!=''">
+					and form_name = #{keySysQueryItem.formName}
+				</if>
+				<if test="keySysQueryItem.inputName!= null and keySysQueryItem.inputName!=''">
+					and input_name = #{keySysQueryItem.inputName}
+				</if>
+				<if test="keySysQueryItem.dataType!= null and keySysQueryItem.dataType!=''">
+					and data_type = #{keySysQueryItem.dataType}
+				</if>
+				<if test="keySysQueryItem.value!= null and keySysQueryItem.value!=''">
+					and value = #{keySysQueryItem.value}
+				</if>
+				<if test="keySysQueryItem.datasourceType!= null and keySysQueryItem.datasourceType!=''">
+					and datasource_type = #{keySysQueryItem.datasourceType}
+				</if>
+				<if test="keySysQueryItem.datasourceValue!= null and keySysQueryItem.datasourceValue!=''">
+					and datasource_value = #{keySysQueryItem.datasourceValue}
+				</if>
+				<if test="keySysQueryItem.queryType!= null and keySysQueryItem.queryType!=''">
+					and query_type = #{keySysQueryItem.queryType}
+				</if>
+				<if test="keySysQueryItem.operator!= null and keySysQueryItem.operator!=''">
+					and operator = #{keySysQueryItem.operator}
+				</if>
+				<if test="keySysQueryItem.row!= null">
+					and row = #{keySysQueryItem.row}
+				</if>
+				<if test="keySysQueryItem.rowspan!= null">
+					and rowspan = #{keySysQueryItem.rowspan}
+				</if>
+				<if test="keySysQueryItem.width!= null">
+					and width = #{keySysQueryItem.width}
+				</if>
+				<if test="keySysQueryItem.x!= null">
+					and x = #{keySysQueryItem.x}
+				</if>
+				<if test="keySysQueryItem.ord!= null">
+					and ord = #{keySysQueryItem.ord}
+				</if>
+				<if test="keySysQueryItem.createDate!= null and keySysQueryItem.createDate!=''">
+					and create_date = #{keySysQueryItem.createDate}
+				</if>
+				<if test="keySysQueryItem.updateDate!= null and keySysQueryItem.updateDate!=''">
+					and update_date = #{keySysQueryItem.updateDate}
+				</if>
+				<if test="keySysQueryItem.status!= null">
+					and status = #{keySysQueryItem.status}
+				</if>
+				<if test="keySysQueryItem.remark!= null and keySysQueryItem.remark!=''">
+					and remark = #{keySysQueryItem.remark}
+				</if>
+			</trim>
+		</if>
+		limit ${(page-1)*pagesize},${pagesize}
+	</select>
+
+	<select id="getRows" parameterType="hashmap" resultType="long">
+		select
+		count(*) from
+		tb_sys_query_item
+		<if test="keySysQueryItem!= null">
+			<trim prefix="WHERE" prefixOverrides="AND |OR ">
+				<if test="keySysQueryItem.id!= null">
+					and id = #{keySysQueryItem.id}
+				</if>
+				<if test="keySysQueryItem.nid!= null">
+					and nid = #{keySysQueryItem.nid}
+				</if>
+				<if test="keySysQueryItem.unitId!= null">
+					and unit_id = #{keySysQueryItem.unitId}
+				</if>
+				<if test="keySysQueryItem.unitNid!= null">
+					and unit_nid = #{keySysQueryItem.unitNid}
+				</if>
+				<if test="keySysQueryItem.joinId!= null">
+					and join_id = #{keySysQueryItem.joinId}
+				</if>
+				<if test="keySysQueryItem.joinNid!= null">
+					and join_nid = #{keySysQueryItem.joinNid}
+				</if>
+				<if test="keySysQueryItem.joinType!= null and keySysQueryItem.joinType!=''">
+					and join_type = #{keySysQueryItem.joinType}
+				</if>
+				<if test="keySysQueryItem.name!= null and keySysQueryItem.name!=''">
+					and name = #{keySysQueryItem.name}
+				</if>
+				<if test="keySysQueryItem.fieldName!= null and keySysQueryItem.fieldName!=''">
+					and field_name = #{keySysQueryItem.fieldName}
+				</if>
+				<if test="keySysQueryItem.formName!= null and keySysQueryItem.formName!=''">
+					and form_name = #{keySysQueryItem.formName}
+				</if>
+				<if test="keySysQueryItem.inputName!= null and keySysQueryItem.inputName!=''">
+					and input_name = #{keySysQueryItem.inputName}
+				</if>
+				<if test="keySysQueryItem.dataType!= null and keySysQueryItem.dataType!=''">
+					and data_type = #{keySysQueryItem.dataType}
+				</if>
+				<if test="keySysQueryItem.value!= null and keySysQueryItem.value!=''">
+					and value = #{keySysQueryItem.value}
+				</if>
+				<if test="keySysQueryItem.datasourceType!= null and keySysQueryItem.datasourceType!=''">
+					and datasource_type = #{keySysQueryItem.datasourceType}
+				</if>
+				<if test="keySysQueryItem.datasourceValue!= null and keySysQueryItem.datasourceValue!=''">
+					and datasource_value = #{keySysQueryItem.datasourceValue}
+				</if>
+				<if test="keySysQueryItem.queryType!= null and keySysQueryItem.queryType!=''">
+					and query_type = #{keySysQueryItem.queryType}
+				</if>
+				<if test="keySysQueryItem.operator!= null and keySysQueryItem.operator!=''">
+					and operator = #{keySysQueryItem.operator}
+				</if>
+				<if test="keySysQueryItem.row!= null">
+					and row = #{keySysQueryItem.row}
+				</if>
+				<if test="keySysQueryItem.rowspan!= null">
+					and rowspan = #{keySysQueryItem.rowspan}
+				</if>
+				<if test="keySysQueryItem.width!= null">
+					and width = #{keySysQueryItem.width}
+				</if>
+				<if test="keySysQueryItem.x!= null">
+					and x = #{keySysQueryItem.x}
+				</if>
+				<if test="keySysQueryItem.ord!= null">
+					and ord = #{keySysQueryItem.ord}
+				</if>
+				<if test="keySysQueryItem.createDate!= null and keySysQueryItem.createDate!=''">
+					and create_date = #{keySysQueryItem.createDate}
+				</if>
+				<if test="keySysQueryItem.updateDate!= null and keySysQueryItem.updateDate!=''">
+					and update_date = #{keySysQueryItem.updateDate}
+				</if>
+				<if test="keySysQueryItem.status!= null">
+					and status = #{keySysQueryItem.status}
+				</if>
+				<if test="keySysQueryItem.remark!= null and keySysQueryItem.remark!=''">
+					and remark = #{keySysQueryItem.remark}
+				</if>
+			</trim>
+		</if>
+	</select>
+
+	<select id="getListMap" parameterType="hashmap" resultMap="sysQueryItemMap2">
+		select * from
+		tb_sys_query_item
+		where join_id = #{joinId}
+		and join_type = #{joinType}
+		order by ord
+	</select>
+
+	<select id="getListByJoinType" parameterType="hashmap" resultMap="sysQueryItemMap">
+		select
+		*
+		from
+		tb_sys_query_item
+		where join_id = #{joinId} and join_type = #{joinType} order by row,ord desc
+	</select>
+</mapper>

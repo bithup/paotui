@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xgh.paotui.dao.read.IDictDaoR">
+
+	<!--实体映射-->
+	<resultMap id="dictResultMap" type="com.xgh.paotui.entity.Dict">
+		<!--编号-->
+		<id property="id" column="id" />
+		<!--数据值-->
+		<result property="value" column="value" javaType="String" jdbcType="VARCHAR" />
+		<!--标签名-->
+		<result property="label" column="label" javaType="String" jdbcType="VARCHAR" />
+		<!--类型-->
+		<result property="type" column="type" javaType="String" jdbcType="VARCHAR" />
+		<!--描述-->
+		<result property="description" column="description" javaType="String" jdbcType="VARCHAR" />
+		<!--排序（升序）-->
+		<result property="sort" column="sort" javaType="BigDecimal" jdbcType="DECIMAL" />
+		<!--创建时间-->
+		<result property="createDate" column="create_date" javaType="Date" jdbcType="TIMESTAMP" />
+		<!--更新时间-->
+		<result property="updateDate" column="update_date" javaType="Date" jdbcType="TIMESTAMP" />
+		<!--备注信息-->
+		<result property="remarks" column="remarks" javaType="String" jdbcType="VARCHAR" />
+		<!--状态（1：正常 2：已删除）-->
+		<result property="status" column="status" javaType="String" jdbcType="VARCHAR" />
+	</resultMap>
+
+
+	<!-- 通用查询结果列-->
+	<sql id="Base_Column_List">
+		 id as id,
+	value	 as value,
+	label	 as label,
+	type	 as type,
+	description	 as description,
+	sort	 as sort,
+	create_date	 as createDate,
+	update_date	 as updateDate,
+	remarks	 as remarks,
+	status	 as status
+	</sql>
+
+	<!-- 查询（根据主键ID查询） -->
+	<select id="get" resultMap="dictResultMap" parameterType="java.lang.Long">
+		 SELECT
+		 <include refid="Base_Column_List" />
+		 FROM tb_dict
+		 WHERE  status = 1  and id = #{id}
+	</select>
+
+	<!-- 查询（根据查询条件查询） -->
+	<select id="getList" resultMap="dictResultMap" parameterType="hashmap">
+		 SELECT
+		 <include refid="Base_Column_List" />
+		 FROM tb_dict
+		 WHERE   status = 1
+		<if test="type!=null and type!=''">
+			and type = #{type}
+		</if>
+	</select>
+
+	<!-- 查询（根据查询条件分页查询） -->
+	<select id="getListPage" resultMap="dictResultMap" parameterType="hashmap">
+		 SELECT
+		 <include refid="Base_Column_List" />
+		 FROM tb_dict
+		 WHERE   status = 1 
+		 limit ${(page-1)*pagesize},${pagesize} 
+	</select>
+
+	<!-- 查询（根据查询条件分页查询） -->
+	<select id="getListMapPage" resultType="hashmap"  parameterType="hashmap">
+		 SELECT
+		 <include refid="Base_Column_List" />
+		 FROM tb_dict
+		 WHERE   status = 1 
+		 limit ${(page-1)*pagesize},${pagesize} 
+	</select>
+
+	<!-- 查询记录总数量（根据查询条件查询记录总数量） -->
+	<select id="getRows" resultType="long" parameterType="hashmap">
+		 SELECT 
+		 count(*)  
+		 FROM tb_dict
+		 WHERE   status = 1 
+	</select></mapper>

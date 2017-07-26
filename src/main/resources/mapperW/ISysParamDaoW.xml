@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xgh.mng.dao.write.ISysParamDaoW">
+
+	<resultMap id="sysParamMap" type="com.xgh.mng.entity.SysParam">
+		<result column="id" javaType="long" jdbcType="BIGINT" property="id"/>
+		<result column="nid" javaType="long" jdbcType="BIGINT" property="nid"/>
+		<result column="unit_id" javaType="long" jdbcType="BIGINT" property="unitId"/>
+		<result column="unit_nid" javaType="long" jdbcType="BIGINT" property="unitNid"/>
+		<result column="type_id" javaType="long" jdbcType="BIGINT" property="typeId"/>
+		<result column="type_nid" javaType="long" jdbcType="BIGINT" property="typeNid"/>
+		<result column="params_code" javaType="string" jdbcType="VARCHAR" property="paramsCode"/>
+		<result column="params_value" javaType="string" jdbcType="VARCHAR" property="paramsValue"/>
+		<result column="ord" javaType="long" jdbcType="BIGINT" property="ord"/>
+		<result column="create_date" javaType="date" jdbcType="TIMESTAMP" property="createDate"/>
+		<result column="update_date" javaType="date" jdbcType="TIMESTAMP" property="updateDate"/>
+		<result column="status" javaType="int" jdbcType="INTEGER" property="status"/>
+		<result column="remark" javaType="string" jdbcType="VARCHAR" property="remark"/>
+	</resultMap>
+
+	<insert id="add" parameterType="com.xgh.mng.entity.SysParam">
+		<selectKey keyProperty="id" order="AFTER" resultType="long">
+			SELECT max(id) AS value from tb_sys_param
+		</selectKey>
+		insert into tb_sys_param
+		(
+		nid,
+		unit_id,
+		unit_nid,
+		type_id,
+		type_nid,
+		params_code,
+		params_value,
+		ord,
+		create_date,
+		update_date,
+		status,
+		remark
+		)
+		values (
+		#{nid,jdbcType=BIGINT},
+		#{unitId,jdbcType=BIGINT},
+		#{unitNid,jdbcType=BIGINT},
+		#{typeId,jdbcType=BIGINT},
+		#{typeNid,jdbcType=BIGINT},
+		#{paramsCode,jdbcType=VARCHAR},
+		#{paramsValue,jdbcType=VARCHAR},
+		#{ord,jdbcType=BIGINT},
+		#{createDate,jdbcType=TIMESTAMP},
+		#{updateDate,jdbcType=TIMESTAMP},
+		#{status,jdbcType=INTEGER},
+		#{remark,jdbcType=VARCHAR}
+		)
+	</insert>
+
+	<update id="update" parameterType="com.xgh.mng.entity.SysParam">
+		update tb_sys_param
+		set
+		nid = #{nid,jdbcType=BIGINT},
+		unit_id = #{unitId,jdbcType=BIGINT},
+		unit_nid = #{unitNid,jdbcType=BIGINT},
+		type_id = #{typeId,jdbcType=BIGINT},
+		type_nid = #{typeNid,jdbcType=BIGINT},
+		params_code = #{paramsCode,jdbcType=VARCHAR},
+		params_value = #{paramsValue,jdbcType=VARCHAR},
+		ord = #{ord,jdbcType=BIGINT},
+		create_date = #{createDate,jdbcType=TIMESTAMP},
+		update_date = #{updateDate,jdbcType=TIMESTAMP},
+		status = #{status,jdbcType=INTEGER},
+		remark = #{remark,jdbcType=VARCHAR}
+		where id = #{id}
+	</update>
+
+	<delete id="deleteById" parameterType="long">
+		delete from
+		tb_sys_param
+		where
+		id = #{id}
+	</delete>
+
+	<delete id="deleteByNid" parameterType="long">
+		delete from
+		tb_sys_param
+		where
+		nid = #{nid}
+	</delete>
+
+	<insert id="addBatch" parameterType="com.xgh.mng.entity.SysParam">
+		insert into tb_sys_param
+		(
+		nid,
+		unit_nid,
+		type_nid,
+		params_code,
+		params_value,
+		ord,
+		create_date,
+		update_date,
+		status,
+		remark
+		)
+		values
+		<foreach collection="list" item="item" separator=",">
+			(
+			#{item.nid,jdbcType=BIGINT},
+			#{item.unitNid,jdbcType=BIGINT},
+			#{item.typeNid,jdbcType=BIGINT},
+			#{item.paramsCode,jdbcType=VARCHAR},
+			#{item.paramsValue,jdbcType=VARCHAR},
+			#{item.ord,jdbcType=BIGINT},
+			#{item.createDate,jdbcType=TIMESTAMP},
+			#{item.updateDate,jdbcType=TIMESTAMP},
+			#{item.status,jdbcType=INTEGER},
+			#{item.remark,jdbcType=VARCHAR}
+			)
+		</foreach>
+	</insert>
+</mapper>

@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xgh.mng.dao.write.ISysPrivilegeListDaoW">
+
+	<resultMap id="sysPrivilegeListMap" type="com.xgh.mng.entity.SysPrivilegeList">
+		<result column="id" javaType="long" jdbcType="BIGINT" property="id"/>
+		<result column="nid" javaType="long" jdbcType="BIGINT" property="nid"/>
+		<result column="unit_id" javaType="long" jdbcType="BIGINT" property="unitId"/>
+		<result column="unit_nid" javaType="long" jdbcType="BIGINT" property="unitNid"/>
+		<result column="privilege_master" javaType="string" jdbcType="VARCHAR" property="privilegeMaster"/>
+		<result column="privilege_master_value" javaType="long" jdbcType="BIGINT" property="privilegeMasterValue"/>
+		<result column="privilege_access" javaType="string" jdbcType="VARCHAR" property="privilegeAccess"/>
+		<result column="privilege_access_value" javaType="long" jdbcType="BIGINT" property="privilegeAccessValue"/>
+	</resultMap>
+
+	<insert id="add" parameterType="com.xgh.mng.entity.SysPrivilegeList">
+		<selectKey keyProperty="id" order="AFTER" resultType="long">
+			SELECT max(id) AS value from tb_sys_privilege_list
+		</selectKey>
+		insert into tb_sys_privilege_list
+		(
+		nid,
+		unit_id,
+		unit_nid,
+		privilege_master,
+		privilege_master_value,
+		privilege_access,
+		privilege_access_value
+		)
+		values (
+		#{nid,jdbcType=BIGINT},
+		#{unitId,jdbcType=BIGINT},
+		#{unitNid,jdbcType=BIGINT},
+		#{privilegeMaster,jdbcType=VARCHAR},
+		#{privilegeMasterValue,jdbcType=BIGINT},
+		#{privilegeAccess,jdbcType=VARCHAR},
+		#{privilegeAccessValue,jdbcType=BIGINT}
+		)
+	</insert>
+
+	<update id="update" parameterType="com.xgh.mng.entity.SysPrivilegeList">
+		update tb_sys_privilege_list
+		set
+		nid = #{nid,jdbcType=BIGINT},
+		unit_id = #{unitId,jdbcType=BIGINT},
+		unit_nid = #{unitNid,jdbcType=BIGINT},
+		privilege_master = #{privilegeMaster,jdbcType=VARCHAR},
+		privilege_master_value = #{privilegeMasterValue,jdbcType=BIGINT},
+		privilege_access = #{privilegeAccess,jdbcType=VARCHAR},
+		privilege_access_value = #{privilegeAccessValue,jdbcType=BIGINT}
+		where id = #{id}
+	</update>
+
+	<delete id="deleteById" parameterType="long">
+		delete from
+		tb_sys_privilege_list
+		where
+		id = #{id}
+	</delete>
+
+	<delete id="deleteByNid" parameterType="long">
+		delete from
+		tb_sys_privilege_list
+		where
+		nid = #{nid}
+	</delete>
+
+	<delete id="deleteByIds">
+		delete from
+		tb_sys_privilege_list
+		where
+		id in
+		<foreach close=")" collection="list" item="id" open="("
+				 separator=",">#{id}
+		</foreach>
+	</delete>
+
+	<insert id="addBatch" parameterType="com.xgh.mng.entity.SysPrivilegeList">
+		insert into tb_sys_privilege_list
+		(
+		nid,
+		unit_id,
+		unit_nid,
+		privilege_master,
+		privilege_master_value,
+		privilege_access,
+		privilege_access_value
+		)
+		values
+		<foreach collection="list" item="item" separator=",">
+			(
+			#{item.nid,jdbcType=BIGINT},
+			#{item.unitId,jdbcType=BIGINT},
+			#{item.unitNid,jdbcType=BIGINT},
+			#{item.privilegeMaster,jdbcType=VARCHAR},
+			#{item.privilegeMasterValue,jdbcType=BIGINT},
+			#{item.privilegeAccess,jdbcType=VARCHAR},
+			#{item.privilegeAccessValue,jdbcType=BIGINT}
+			)
+		</foreach>
+	</insert>
+
+
+	<delete id="deleteByAccessList" parameterType="long">
+		delete from
+		tb_sys_privilege_list
+		where
+		privilege_master = #{master}
+		and privilege_master_value = #{masterValue}
+		and privilege_access = #{access}
+		and privilege_access_value in
+		<foreach close=")" collection="accessValueList" item="id" open="("
+				 separator=",">#{id}
+		</foreach>
+	</delete>
+
+
+	<delete id="deleteByMasterList" parameterType="long">
+		delete from
+		tb_sys_privilege_list
+		where
+		privilege_master = #{master}
+		and privilege_access_value = #{accessValue}
+		and privilege_access = #{access}
+		and privilege_master_value in
+		<foreach close=")" collection="masterValueList" item="id" open="("
+				 separator=",">#{id}
+		</foreach>
+	</delete>
+
+</mapper>

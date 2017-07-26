@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+		"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xgh.paotui.dao.write.IOrderCancelDaoW">
+
+	<!--实体映射-->
+	<resultMap id="orderCancelResultMap" type="com.xgh.paotui.entity.OrderCancel">
+		<!---->
+		<id property="id" column="id" />
+		<!--订单类型：1、帮送；2、帮取；3、帮买；4：代排队-->
+		<result property="orderType" column="order_type" javaType="int" jdbcType="INTEGER" />
+		<!--订单id-->
+		<result property="orderId" column="order_id" javaType="long" jdbcType="BIGINT" />
+		<!--订单编号-->
+		<result property="orderNo" column="order_no" javaType="String" jdbcType="VARCHAR" />
+		<!--订单取消时，订单状态-->
+		<result property="orderStatus" column="order_status" javaType="int" jdbcType="INTEGER" />
+		<!--订单取消时，跑客的动作-->
+		<result property="actionStep" column="action_step" javaType="int" jdbcType="INTEGER" />
+		<!--订单状态描述-->
+		<result property="orderStatusRemark" column="order_status_remark" javaType="String" jdbcType="VARCHAR" />
+		<!--审核人id-->
+		<result property="checkUserId" column="check_user_id" javaType="long" jdbcType="BIGINT" />
+		<!--审核时间-->
+		<result property="checkTime" column="check_time" javaType="Date" jdbcType="TIMESTAMP" />
+		<!--审核状态（1：审核通过 2：未审核 3：审核未通过 ）-->
+		<result property="checkState" column="check_state" javaType="int" jdbcType="INTEGER" />
+		<!--订单取消时间-->
+		<result property="createTime" column="create_time" javaType="Date" jdbcType="TIMESTAMP" />
+		<!--是否超时取消订单，超时，将扣除部分跑腿费。1：未超时，2：超时-->
+		<result property="isTimeout" column="is_timeout" javaType="int" jdbcType="INTEGER" />
+		<!--状态（1：正常 2：已删除）-->
+		<result property="status" column="status" javaType="int" jdbcType="INTEGER" />
+		<!---->
+		<result property="data1" column="data_1" javaType="String" jdbcType="VARCHAR" />
+		<!---->
+		<result property="data2" column="data_2" javaType="String" jdbcType="VARCHAR" />
+		<!---->
+		<result property="data3" column="data_3" javaType="String" jdbcType="VARCHAR" />
+		<!---->
+		<result property="data4" column="data_4" javaType="String" jdbcType="VARCHAR" />
+		<!---->
+		<result property="data5" column="data_5" javaType="String" jdbcType="VARCHAR" />
+	</resultMap>
+
+
+	<!--删除：根据主键ID逻辑删除-->
+	<delete id="delete" parameterType="java.lang.Long">
+		update tb_order_cancel
+		set status=2  WHERE id = #{id}
+	</delete>
+
+	<!-- 添加 -->
+	<insert id="add" parameterType="com.xgh.paotui.entity.OrderCancel">
+		INSERT INTO tb_order_cancel
+		(id,order_type,order_id,order_no,order_status,action_step,order_status_remark,check_user_id,check_time,check_state,create_time,is_timeout,status,data_1,data_2,data_3,data_4,data_5)
+		VALUES
+		(#{id},#{orderType},#{orderId},#{orderNo},#{orderStatus},#{actionStep},#{orderStatusRemark},#{checkUserId},#{checkTime},#{checkState},#{createTime},#{isTimeout},#{status},#{data1},#{data2},#{data3},#{data4},#{data5})
+	</insert>
+
+	<!-- 修 改-->
+	<update id="update" parameterType="com.xgh.paotui.entity.OrderCancel">
+		 UPDATE tb_order_cancel
+		 SET
+			 order_type = #{orderType},
+			 order_id = #{orderId},
+			 order_no = #{orderNo},
+			 order_status = #{orderStatus},
+			 action_step = #{actionStep},
+			 order_status_remark = #{orderStatusRemark},
+			 check_user_id = #{checkUserId},
+			 check_time = #{checkTime},
+			 check_state = #{checkState},
+			 create_time = #{createTime},
+			 is_timeout = #{isTimeout},
+			 status = #{status},
+			 data_1 = #{data1},
+			 data_2 = #{data2},
+			 data_3 = #{data3},
+			 data_4 = #{data4},
+			 data_5 = #{data5}
+		 WHERE id = #{id}
+	</update>
+
+</mapper>

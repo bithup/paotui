@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xgh.mng.dao.write.ISysDepartmentDaoW">
+
+	<resultMap id="sysDepartmentMap" type="com.xgh.mng.entity.SysDepartment">
+		<result column="id" javaType="long" jdbcType="BIGINT" property="id"/>
+		<result column="parent_id" javaType="long" jdbcType="BIGINT" property="parentId"/>
+		<result column="nid" javaType="long" jdbcType="BIGINT" property="nid"/>
+		<result column="parent_nid" javaType="long" jdbcType="BIGINT" property="parentNid"/>
+		<result column="inst_id" javaType="long" jdbcType="BIGINT" property="instId"/>
+		<result column="inst_nid" javaType="long" jdbcType="BIGINT" property="instNid"/>
+		<result column="inst_code" javaType="string" jdbcType="VARCHAR" property="instCode"/>
+		<result column="unit_id" javaType="long" jdbcType="BIGINT" property="unitId"/>
+		<result column="unit_nid" javaType="long" jdbcType="BIGINT" property="unitNid"/>
+		<result column="unit_code" javaType="string" jdbcType="VARCHAR" property="unitCode"/>
+		<result column="dept_code" javaType="string" jdbcType="VARCHAR" property="deptCode"/>
+		<result column="dept_leader" javaType="long" jdbcType="BIGINT" property="deptLeader"/>
+		<result column="dept_name" javaType="string" jdbcType="VARCHAR" property="deptName"/>
+		<result column="dept_short_name" javaType="string" jdbcType="VARCHAR" property="deptShortName"/>
+		<result column="dept_desc" javaType="string" jdbcType="VARCHAR" property="deptDesc"/>
+		<result column="dept_type" javaType="long" jdbcType="BIGINT" property="deptType"/>
+		<result column="position" javaType="string" jdbcType="VARCHAR" property="position"/>
+		<result column="gps_longitude" javaType="double" jdbcType="DOUBLE" property="gpsLongitude"/>
+		<result column="gps_latitude" javaType="double" jdbcType="DOUBLE" property="gpsLatitude"/>
+		<result column="is_has_shop" javaType="long" jdbcType="BIGINT" property="isHasShop"/>
+		<result column="ord" javaType="long" jdbcType="BIGINT" property="ord"/>
+		<result column="create_date" javaType="date" jdbcType="TIMESTAMP" property="createDate"/>
+		<result column="update_date" javaType="date" jdbcType="TIMESTAMP" property="updateDate"/>
+		<result column="status" javaType="int" jdbcType="INTEGER" property="status"/>
+		<result column="remark" javaType="string" jdbcType="VARCHAR" property="remark"/>
+		<result column="data_1" javaType="string" jdbcType="VARCHAR" property="data1"/>
+		<result column="data_2" javaType="string" jdbcType="VARCHAR" property="data2"/>
+	</resultMap>
+
+	<insert id="add" parameterType="com.xgh.mng.entity.SysDepartment">
+		<selectKey keyProperty="id" order="AFTER" resultType="long">
+			SELECT max(id) AS value from tb_sys_department
+		</selectKey>
+		insert into tb_sys_department
+		(
+		parent_id,
+		nid,
+		parent_nid,
+		inst_id,
+		inst_nid,
+		inst_code,
+		unit_id,
+		unit_nid,
+		unit_code,
+		dept_code,
+		dept_leader,
+		dept_name,
+		dept_short_name,
+		dept_desc,
+		dept_type,
+		position,
+		gps_longitude,
+		gps_latitude,
+		is_has_shop,
+		ord,
+		create_date,
+		update_date,
+		status,
+		remark,
+		data_1,
+		data_2
+		)
+		values (
+		#{parentId,jdbcType=BIGINT},
+		#{nid,jdbcType=BIGINT},
+		#{parentNid,jdbcType=BIGINT},
+		#{instId,jdbcType=BIGINT},
+		#{instNid,jdbcType=BIGINT},
+		#{instCode,jdbcType=VARCHAR},
+		#{unitId,jdbcType=BIGINT},
+		#{unitNid,jdbcType=BIGINT},
+		#{unitCode,jdbcType=VARCHAR},
+		#{deptCode,jdbcType=VARCHAR},
+		#{deptLeader,jdbcType=BIGINT},
+		#{deptName,jdbcType=VARCHAR},
+		#{deptShortName,jdbcType=VARCHAR},
+		#{deptDesc,jdbcType=VARCHAR},
+		#{deptType,jdbcType=BIGINT},
+		#{position,jdbcType=VARCHAR},
+		#{gpsLongitude,jdbcType=DOUBLE},
+		#{gpsLatitude,jdbcType=DOUBLE},
+		#{isHasShop,jdbcType=BIGINT},
+		#{ord,jdbcType=BIGINT},
+		#{createDate,jdbcType=TIMESTAMP},
+		#{updateDate,jdbcType=TIMESTAMP},
+		#{status,jdbcType=INTEGER},
+		#{remark,jdbcType=VARCHAR},
+		#{data1,jdbcType=VARCHAR},
+		#{data2,jdbcType=VARCHAR}
+		)
+	</insert>
+
+	<update id="update" parameterType="com.xgh.mng.entity.SysDepartment">
+		update tb_sys_department
+		set
+		parent_id = #{parentId,jdbcType=BIGINT},
+		nid = #{nid,jdbcType=BIGINT},
+		parent_nid = #{parentNid,jdbcType=BIGINT},
+		inst_id = #{instId,jdbcType=BIGINT},
+		inst_nid = #{instNid,jdbcType=BIGINT},
+		inst_code = #{instCode,jdbcType=VARCHAR},
+		unit_id = #{unitId,jdbcType=BIGINT},
+		unit_nid = #{unitNid,jdbcType=BIGINT},
+		unit_code = #{unitCode,jdbcType=VARCHAR},
+		dept_code = #{deptCode,jdbcType=VARCHAR},
+		dept_leader = #{deptLeader,jdbcType=BIGINT},
+		dept_name = #{deptName,jdbcType=VARCHAR},
+		dept_short_name = #{deptShortName,jdbcType=VARCHAR},
+		dept_desc = #{deptDesc,jdbcType=VARCHAR},
+		dept_type = #{deptType,jdbcType=BIGINT},
+		position = #{position,jdbcType=VARCHAR},
+		gps_longitude = #{gpsLongitude,jdbcType=DOUBLE},
+		gps_latitude = #{gpsLatitude,jdbcType=DOUBLE},
+		is_has_shop = #{isHasShop,jdbcType=BIGINT},
+		ord = #{ord,jdbcType=BIGINT},
+		create_date = #{createDate,jdbcType=TIMESTAMP},
+		update_date = #{updateDate,jdbcType=TIMESTAMP},
+		status = #{status,jdbcType=INTEGER},
+		remark = #{remark,jdbcType=VARCHAR},
+		data_1 = #{data1,jdbcType=VARCHAR},
+		data_2 = #{data2,jdbcType=VARCHAR}
+		where id = #{id}
+	</update>
+
+	<delete id="deleteById" parameterType="long">
+		delete from
+		tb_sys_department
+		where
+		id = #{id}
+	</delete>
+
+	<delete id="deleteByNid" parameterType="long">
+		delete from
+		tb_sys_department
+		where
+		nid = #{nid}
+	</delete>
+</mapper>

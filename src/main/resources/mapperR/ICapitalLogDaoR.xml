@@ -1,0 +1,234 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xgh.paotui.dao.read.ICapitalLogDaoR">
+	<!--实体映射-->
+	<resultMap id="capitalLogResultMap" type="com.xgh.paotui.entity.CapitalLog">
+		<!--唯一id-->
+		<id property="id" column="id" />
+		<!--账户类别（1：客户 2：跑客 ）-->
+		<result property="accountType" column="account_type" javaType="int" jdbcType="INTEGER" />
+		<!--账户id-->
+		<result property="accountId" column="account_id" javaType="long" jdbcType="BIGINT" />
+		<!--登录名-->
+		<result property="loginName" column="login_name" javaType="String" jdbcType="VARCHAR" />
+		<!--真实姓名-->
+		<result property="realName" column="real_name" javaType="String" jdbcType="VARCHAR" />
+		<!--类别(1、帮送；2、帮取；3、帮买；4：代排队； 5:提现 6:管理员修改)-->
+		<result property="type" column="type" javaType="int" jdbcType="INTEGER" />
+		<!--订单id-->
+		<result property="orderId" column="order_id" javaType="long" jdbcType="BIGINT" />
+		<!--订单号-->
+		<result property="orderNo" column="order_no" javaType="String" jdbcType="VARCHAR" />
+		<!--交易来源，1：余额；2：微信；3、支付宝-->
+		<result property="tradeFrom" column="trade_from" javaType="int" jdbcType="INTEGER" />
+		<!--交易号-->
+		<result property="tradeNo" column="trade_no" javaType="String" jdbcType="VARCHAR" />
+		<!--提现id-->
+		<result property="withdrawalsId" column="withdrawals_id" javaType="long" jdbcType="BIGINT" />
+		<!--资金变动事由-->
+		<result property="capitalChangeReason" column="capital_change_reason" javaType="String" jdbcType="VARCHAR" />
+		<!--变动金额-->
+		<result property="changeMoney" column="change_money" javaType="BigDecimal" jdbcType="DECIMAL" />
+		<!--备注-->
+		<result property="remark" column="remark" javaType="String" jdbcType="VARCHAR" />
+		<!--创建时间-->
+		<result property="createDate" column="create_date" javaType="Date" jdbcType="TIMESTAMP" />
+		<!--状态（1：正常 2：已删除）-->
+		<result property="status" column="status" javaType="int" jdbcType="INTEGER" />
+		<!--扩展1-->
+		<result property="data1" column="data_1" javaType="long" jdbcType="BIGINT" />
+		<!--扩展2-->
+		<result property="data2" column="data_2" javaType="int" jdbcType="INTEGER" />
+		<!--扩展3-->
+		<result property="data3" column="data_3" javaType="String" jdbcType="VARCHAR" />
+		<!--扩展4-->
+		<result property="data4" column="data_4" javaType="String" jdbcType="VARCHAR" />
+		<!--扩展5-->
+		<result property="data5" column="data_5" javaType="String" jdbcType="VARCHAR" />
+	</resultMap>
+
+
+	<!-- 通用查询结果列-->
+	<sql id="Base_Column_List">
+		 id as id,
+	account_type	 as accountType,
+	account_id	 as accountId,
+	login_name	 as loginName,
+	real_name	 as realName,
+	type	 as type,
+	order_id	 as orderId,
+	order_no	 as orderNo,
+	trade_from	 as tradeFrom,
+	trade_no	 as tradeNo,
+	withdrawals_id	 as withdrawalsId,
+	capital_change_reason	 as capitalChangeReason,
+	change_money	 as changeMoney,
+	remark	 as remark,
+	create_date	 as createDate,
+	status	 as status,
+	data_1	 as data1,
+	data_2	 as data2,
+	data_3	 as data3,
+	data_4	 as data4,
+	data_5	 as data5
+	</sql>
+
+	<!-- 查询（根据主键ID查询） -->
+	<select id="get" resultMap="capitalLogResultMap" parameterType="java.lang.Long">
+		SELECT
+		<include refid="Base_Column_List" />
+		FROM tb_capital_log
+		WHERE  status = 1  and id = #{id}
+	</select>
+
+	<!-- 查询（根据查询条件查询） -->
+	<select id="getList" resultMap="capitalLogResultMap" parameterType="hashmap">
+		 SELECT
+		 <include refid="Base_Column_List" />
+		 FROM tb_capital_log
+		 WHERE   status = 1 
+	</select>
+
+	<!-- 查询（根据查询条件分页查询） -->
+	<select id="getListPage" resultMap="capitalLogResultMap" parameterType="hashmap">
+		 SELECT
+		 <include refid="Base_Column_List" />
+		 FROM tb_capital_log
+		 WHERE   status = 1 
+		 limit ${(page-1)*pagesize},${pagesize} 
+	</select>
+
+	<!-- 查询（根据查询条件分页查询） -->
+	<select id="getListMapPage" resultType="hashmap"  parameterType="hashmap">
+		SELECT
+		tcl.id as id,
+		tcl.account_type as accountType,
+		tcl.account_id as accountId,
+		tdm.belong_city_id as belongCityId,
+		tc.belong_city as belongCity,
+		tcl.login_name as loginName,
+		tcl.real_name as realName,
+		tcl.type as type,
+		tcl.order_id as orderId,
+		tcl.order_no as orderNo,
+		tcl.trade_from as tradeFrom,
+		tcl.trade_no as tradeNo,
+		tcl.withdrawals_id as withdrawalsId,
+		tcl.capital_change_reason as capitalChangeReason,
+		tcl.change_money as changeMoney,
+		tcl.remark as remark,
+		tcl.create_date as createDate,
+		tcl.status as status,
+		tcl.data_1 as data1,
+		tcl.data_2 as data2,
+		tcl.data_3 as data3,
+		tcl.data_4 as data4,
+		tcl.data_5 as data5
+		FROM tb_capital_log tcl
+		LEFT JOIN tb_delivery_man tdm ON tcl.account_id = tdm.id
+		LEFT JOIN tb_customer tc ON tcl.account_id = tc.id
+		WHERE  tcl.status = 1
+		<if test="loginName!=null and loginName!=''">
+			and tcl.login_name LIKE CONCAT('%', #{loginName}, '%')
+		</if>
+		<if test="type!=null and type!=''">
+			and tcl.type LIKE CONCAT('%', #{type}, '%')
+		</if>
+		<if test="createDate1!=null and createDate1!='' ">
+			and tcl.create_date &gt;= '${createDate1}'
+		</if>
+		<if test="createDate2!=null and createDate2!=''">
+			and tcl.create_date &lt;= '${createDate2}'
+		</if>
+		<if test="deliveryManId!=null and deliveryManId!=''">
+			and tcl.account_id = ${deliveryManId}
+		</if>
+		<if test="accountType!=null and accountType!=''">
+			and tcl.account_type = ${accountType}
+		</if>
+
+		<if test="capitalChangeReason!=null and capitalChangeReason!=''">
+			and tcl.capital_change_reason = #{capitalChangeReason}
+		</if>
+
+		<if test="belongCityId!=null and belongCityId!=''">
+			and tdm.belong_city_id = ${belongCityId} OR tc.belong_city LIKE CONCAT('%', #{belongCity}, '%')
+		</if>
+
+		order by tcl.create_date desc
+		limit ${(page-1)*pagesize},${pagesize}
+	</select>
+
+	<!-- 查询记录总数量（根据查询条件查询记录总数量） -->
+	<select id="getRows" resultType="long" parameterType="hashmap">
+		SELECT
+		count(*)
+		FROM tb_capital_log tcl
+		LEFT JOIN tb_delivery_man tdm ON tcl.account_id = tdm.id
+		LEFT JOIN tb_customer tc ON tcl.account_id = tc.id
+		WHERE  tcl.status = 1
+		<if test="loginName!=null and loginName!=''">
+			and tcl.login_name LIKE CONCAT('%', #{loginName}, '%')
+		</if>
+		<if test="type!=null and type!=''">
+			and tcl.type LIKE CONCAT('%', #{type}, '%')
+		</if>
+		<if test="createDate1!=null and createDate1!='' ">
+			and tcl.create_date &gt;= '${createDate1}'
+		</if>
+		<if test="createDate2!=null and createDate2!=''">
+			and tcl.create_date &lt;= '${createDate2}'
+		</if>
+		<if test="deliveryManId!=null and deliveryManId!=''">
+			and tcl.account_id = ${deliveryManId}
+		</if>
+		<if test="accountType!=null and accountType!=''">
+			and tcl.account_type = ${accountType}
+		</if>
+
+		<if test="capitalChangeReason!=null and capitalChangeReason!=''">
+			and tcl.capital_change_reason = #{capitalChangeReason}
+		</if>
+
+		<if test="belongCityId!=null and belongCityId!=''">
+			and tdm.belong_city_id = ${belongCityId} OR tc.belong_city LIKE CONCAT('%', #{belongCity}, '%')
+		</if>
+	</select>
+
+
+
+	<!-- 跑客收入排行榜 -->
+	<select id="getRankingList" resultType="hashmap"  parameterType="hashmap">
+		SELECT
+		tcl.account_id,
+		tdm.belong_city_id as belongCityId,
+		tdm.real_name as realName,
+		sum(tcl.change_money) as changeMoney
+		FROM tb_capital_log tcl,
+		 tb_delivery_man tdm
+		WHERE  tcl.status = 1
+		and  tcl.account_id = tdm.id
+
+		<if test="createDate1!=null and createDate1!='' ">
+			and tcl.create_date &gt;= '${createDate1}'
+		</if>
+		<if test="createDate2!=null and createDate2!=''">
+			and tcl.create_date &lt;= '${createDate2}'
+		</if>
+
+		<if test="accountType!=null and accountType!=''">
+			and tcl.account_type = ${accountType}
+		</if>
+
+		<if test="capitalChangeReason!=null and capitalChangeReason!=''">
+			and tcl.capital_change_reason = #{capitalChangeReason}
+		</if>
+
+		<if test="belongCityId!=null and belongCityId!=''">
+			and tdm.belong_city_id = ${belongCityId}
+		</if>
+		group BY tcl.account_id   order by  changeMoney desc
+
+	</select>
+</mapper>

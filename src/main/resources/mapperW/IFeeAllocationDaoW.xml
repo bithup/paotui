@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xgh.paotui.dao.write.IFeeAllocationDaoW">
+
+	<!--实体映射-->
+	<resultMap id="feeAllocationResultMap" type="com.xgh.paotui.entity.FeeAllocation">
+		<!--唯一id-->
+		<id property="id" column="id" />
+		<!--开通城市id-->
+		<result property="openCityId" column="open_city_id" javaType="long" jdbcType="BIGINT" />
+		<!--佣金分配方式（1：按比例； 2：按单量）-->
+		<result property="allocationType" column="allocation_type" javaType="int" jdbcType="INTEGER" />
+		<!--按比例：跑客分配比例-->
+		<result property="runProportion" column="run_proportion" javaType="BigDecimal" jdbcType="DECIMAL" />
+		<!--按比例：众包分配比例-->
+		<result property="crowdsourcingProportion" column="crowdsourcing_proportion" javaType="BigDecimal" jdbcType="DECIMAL" />
+		<!--按单量：跑客每单费用-->
+		<result property="runOrderFee" column="run_order_fee" javaType="BigDecimal" jdbcType="DECIMAL" />
+		<!--按单量：众包每单费用-->
+		<result property="crowdsourcingOrderFee" column="crowdsourcing_order_fee" javaType="BigDecimal" jdbcType="DECIMAL" />
+		<!--创建时间-->
+		<result property="createDate" column="create_date" javaType="Date" jdbcType="TIMESTAMP" />
+		<!--修改时间-->
+		<result property="updateDate" column="update_date" javaType="Date" jdbcType="TIMESTAMP" />
+		<!--状态（1：正常 2：已删除）-->
+		<result property="status" column="status" javaType="int" jdbcType="INTEGER" />
+		<!--扩展1-->
+		<result property="data1" column="data_1" javaType="long" jdbcType="BIGINT" />
+		<!--扩展2-->
+		<result property="data2" column="data_2" javaType="int" jdbcType="INTEGER" />
+		<!--扩展3-->
+		<result property="data3" column="data_3" javaType="String" jdbcType="VARCHAR" />
+		<!--扩展4-->
+		<result property="data4" column="data_4" javaType="String" jdbcType="VARCHAR" />
+		<!--扩展5-->
+		<result property="data5" column="data_5" javaType="String" jdbcType="VARCHAR" />
+	</resultMap>
+
+
+	<!--删除：根据主键ID逻辑删除-->
+	<delete id="delete" parameterType="java.lang.Long">
+		 update tb_fee_allocation
+		 set status=2  WHERE id = #{id}
+	</delete>
+
+	<!-- 添加 -->
+	<insert id="add" parameterType="com.xgh.paotui.entity.FeeAllocation">
+		 INSERT INTO tb_fee_allocation
+ 		(id,open_city_id,allocation_type,run_proportion,crowdsourcing_proportion,run_order_fee,crowdsourcing_order_fee,create_date,update_date,status,data_1,data_2,data_3,data_4,data_5) 
+		 VALUES 
+ 		(#{id},#{openCityId},#{allocationType},#{runProportion},#{crowdsourcingProportion},#{runOrderFee},#{crowdsourcingOrderFee},#{createDate},#{updateDate},#{status},#{data1},#{data2},#{data3},#{data4},#{data5}) 
+	</insert>
+
+	<!-- 修 改-->
+	<update id="update" parameterType="com.xgh.paotui.entity.FeeAllocation">
+		 UPDATE tb_fee_allocation
+		 SET 
+			 open_city_id = #{openCityId},
+			 allocation_type = #{allocationType},
+			 run_proportion = #{runProportion},
+			 crowdsourcing_proportion = #{crowdsourcingProportion},
+			 run_order_fee = #{runOrderFee},
+			 crowdsourcing_order_fee = #{crowdsourcingOrderFee},
+			 create_date = #{createDate},
+			 update_date = #{updateDate},
+			 status = #{status},
+			 data_1 = #{data1},
+			 data_2 = #{data2},
+			 data_3 = #{data3},
+			 data_4 = #{data4},
+			 data_5 = #{data5}
+		 WHERE id = #{id}
+	</update>
+
+</mapper>

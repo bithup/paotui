@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xgh.paotui.dao.read.IOrderLineupDaoR">
+
+	<!--实体映射-->
+	<resultMap id="orderLineupResultMap" type="com.xgh.paotui.entity.OrderLineup">
+		<!---->
+		<id property="id" column="id" />
+		<!--订单id-->
+		<result property="orderId" column="order_id" javaType="long" jdbcType="BIGINT" />
+		<!--排队地点定位地址-->
+		<result property="locationAddress" column="location_address" javaType="String" jdbcType="VARCHAR" />
+		<!--排队地点定位地址概述-->
+		<result property="locationAddressName" column="location_address_name" javaType="String" jdbcType="VARCHAR" />
+		<!--排队地点详细地址，如楼层/门牌号-->
+		<result property="detailAddress" column="detail_address" javaType="String" jdbcType="VARCHAR" />
+		<!--经度-->
+		<result property="longitude" column="longitude" javaType="Double" jdbcType="DOUBLE" />
+		<!--纬度-->
+		<result property="latitude" column="latitude" javaType="Double" jdbcType="DOUBLE" />
+		<!--排队要求-->
+		<result property="lineupRequire" column="lineup_require" javaType="String" jdbcType="VARCHAR" />
+		<!--排队时长，单位：分钟-->
+		<result property="lineupDuration" column="lineup_duration" javaType="int" jdbcType="INTEGER" />
+		<!--联系电话-->
+		<result property="lineupPhone" column="lineup_phone" javaType="String" jdbcType="VARCHAR" />
+		<!--排队加时支付的金额-->
+		<result property="addPayMoney" column="add_pay_money" javaType="BigDecimal" jdbcType="DECIMAL" />
+		<!--排队加时时长，单位:分钟-->
+		<result property="addPayDuration" column="add_pay_duration" javaType="int" jdbcType="INTEGER" />
+		<!--排队加时支付时间-->
+		<result property="addPayTime" column="add_pay_time" javaType="Date" jdbcType="TIMESTAMP" />
+		<!--第三方支付返回的支付订单号-->
+		<result property="addPayTransactionId" column="add_pay_transaction_id" javaType="String" jdbcType="VARCHAR" />
+		<!--排队开始时间-->
+		<result property="lineupBeginTime" column="lineup_begin_time" javaType="Date" jdbcType="TIMESTAMP" />
+		<!--排队结束时间-->
+		<result property="lineupEndTime" column="lineup_end_time" javaType="Date" jdbcType="TIMESTAMP" />
+		<!--排队实际时长-->
+		<result property="lineupRealDuration" column="lineup_real_duration" javaType="int" jdbcType="INTEGER" />
+		<!--排队实际费用-->
+		<result property="lineupRealMoney" column="lineup_real_money" javaType="BigDecimal" jdbcType="DECIMAL" />
+		<!--状态（1：正常 2：已删除）-->
+		<result property="status" column="status" javaType="int" jdbcType="INTEGER" />
+		<!--扩展1-->
+		<result property="data1" column="data_1" javaType="long" jdbcType="BIGINT" />
+		<!--扩展2-->
+		<result property="data2" column="data_2" javaType="int" jdbcType="INTEGER" />
+		<!--扩展3-->
+		<result property="data3" column="data_3" javaType="String" jdbcType="VARCHAR" />
+		<!--扩展4-->
+		<result property="data4" column="data_4" javaType="String" jdbcType="VARCHAR" />
+		<!--扩展5-->
+		<result property="data5" column="data_5" javaType="String" jdbcType="VARCHAR" />
+	</resultMap>
+
+
+	<!-- 通用查询结果列-->
+	<sql id="Base_Column_List">
+		 id as id,
+	order_id	 as orderId,
+	location_address	 as locationAddress,
+	location_address_name	 as locationAddressName,
+	detail_address	 as detailAddress,
+	longitude	 as longitude,
+	latitude	 as latitude,
+	lineup_require	 as lineupRequire,
+	lineup_duration	 as lineupDuration,
+	lineup_phone	 as lineupPhone,
+	add_pay_money	 as addPayMoney,
+	add_pay_duration	 as addPayDuration,
+	add_pay_time	 as addPayTime,
+	add_pay_transaction_id	 as addPayTransactionId,
+	lineup_begin_time	 as lineupBeginTime,
+	lineup_end_time	 as lineupEndTime,
+	lineup_real_duration	 as lineupRealDuration,
+	lineup_real_money	 as lineupRealMoney,
+	status	 as status,
+	data_1	 as data1,
+	data_2	 as data2,
+	data_3	 as data3,
+	data_4	 as data4,
+	data_5	 as data5
+	</sql>
+
+	<!-- 查询（根据主键ID查询） -->
+	<select id="get" resultMap="orderLineupResultMap" parameterType="java.lang.Long">
+		SELECT
+		<include refid="Base_Column_List" />
+		FROM tb_order_lineup
+		WHERE  status = 1
+		and id = #{id}
+	</select>
+
+	<!-- 查询（根据查询条件查询） -->
+	<select id="getList" resultMap="orderLineupResultMap" parameterType="hashmap">
+		 SELECT
+		 <include refid="Base_Column_List" />
+		 FROM tb_order_lineup
+		 WHERE   status = 1 
+	</select>
+
+	<!-- 查询（根据查询条件分页查询） -->
+	<select id="getListPage" resultMap="orderLineupResultMap" parameterType="hashmap">
+		 SELECT
+		 <include refid="Base_Column_List" />
+		 FROM tb_order_lineup
+		 WHERE   status = 1 
+		 limit ${(page-1)*pagesize},${pagesize} 
+	</select>
+
+	<!-- 查询（根据查询条件分页查询） -->
+	<select id="getListMapPage" resultType="hashmap"  parameterType="hashmap">
+		 SELECT
+		 <include refid="Base_Column_List" />
+		 FROM tb_order_lineup
+		 WHERE   status = 1 
+		 limit ${(page-1)*pagesize},${pagesize} 
+	</select>
+
+	<!-- 查询记录总数量（根据查询条件查询记录总数量） -->
+	<select id="getRows" resultType="long" parameterType="hashmap">
+		 SELECT
+		 count(*)
+		 FROM tb_order_lineup
+		 WHERE   status = 1
+	</select>
+
+	<select id="getLineup" resultMap="orderLineupResultMap" parameterType="java.lang.Long">
+		SELECT
+		<include refid="Base_Column_List" />
+		FROM tb_order_lineup
+		WHERE  status = 1
+		and order_id = #{orderId}
+	</select>
+</mapper>

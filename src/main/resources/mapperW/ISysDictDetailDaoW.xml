@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xgh.mng.dao.write.ISysDictDetailDaoW">
+
+	<resultMap id="sysDictDetailMap" type="com.xgh.mng.entity.SysDictDetail">
+		<result column="id" javaType="long" jdbcType="BIGINT" property="id"/>
+		<result column="nid" javaType="long" jdbcType="BIGINT" property="nid"/>
+		<result column="unit_id" javaType="long" jdbcType="BIGINT" property="unitId"/>
+		<result column="unit_nid" javaType="long" jdbcType="BIGINT" property="unitNid"/>
+		<result column="dict_main_id" javaType="long" jdbcType="BIGINT" property="dictMainId"/>
+		<result column="dict_main_nid" javaType="long" jdbcType="BIGINT" property="dictMainNid"/>
+		<result column="code" javaType="string" jdbcType="VARCHAR" property="code"/>
+		<result column="value" javaType="string" jdbcType="VARCHAR" property="value"/>
+		<result column="ord" javaType="long" jdbcType="BIGINT" property="ord"/>
+		<result column="create_date" javaType="date" jdbcType="TIMESTAMP" property="createDate"/>
+		<result column="update_date" javaType="date" jdbcType="TIMESTAMP" property="updateDate"/>
+		<result column="status" javaType="int" jdbcType="INTEGER" property="status"/>
+		<result column="remark" javaType="string" jdbcType="VARCHAR" property="remark"/>
+	</resultMap>
+
+	<insert id="add" parameterType="com.xgh.mng.entity.SysDictDetail">
+		<selectKey keyProperty="id" order="AFTER" resultType="long">
+			SELECT max(id) AS value from tb_sys_dict_detail
+		</selectKey>
+		insert into tb_sys_dict_detail
+		(
+		nid,
+		unit_id,
+		unit_nid,
+		dict_main_id,
+		dict_main_nid,
+		code,
+		value,
+		ord,
+		create_date,
+		update_date,
+		status,
+		remark
+		)
+		values (
+		#{nid,jdbcType=BIGINT},
+		#{unitId,jdbcType=BIGINT},
+		#{unitNid,jdbcType=BIGINT},
+		#{dictMainId,jdbcType=BIGINT},
+		#{dictMainNid,jdbcType=BIGINT},
+		#{code,jdbcType=VARCHAR},
+		#{value,jdbcType=VARCHAR},
+		#{ord,jdbcType=BIGINT},
+		#{createDate,jdbcType=TIMESTAMP},
+		#{updateDate,jdbcType=TIMESTAMP},
+		#{status,jdbcType=INTEGER},
+		#{remark,jdbcType=VARCHAR}
+		)
+	</insert>
+
+	<update id="update" parameterType="com.xgh.mng.entity.SysDictDetail">
+		update tb_sys_dict_detail
+		set
+		nid = #{nid,jdbcType=BIGINT},
+		unit_id = #{unitId,jdbcType=BIGINT},
+		unit_nid = #{unitNid,jdbcType=BIGINT},
+		dict_main_id = #{dictMainId,jdbcType=BIGINT},
+		dict_main_nid = #{dictMainNid,jdbcType=BIGINT},
+		code = #{code,jdbcType=VARCHAR},
+		value = #{value,jdbcType=VARCHAR},
+		ord = #{ord,jdbcType=BIGINT},
+		create_date = #{createDate,jdbcType=TIMESTAMP},
+		update_date = #{updateDate,jdbcType=TIMESTAMP},
+		status = #{status,jdbcType=INTEGER},
+		remark = #{remark,jdbcType=VARCHAR}
+		where id = #{id}
+	</update>
+
+	<delete id="deleteById" parameterType="long">
+		delete from
+		tb_sys_dict_detail
+		where
+		id = #{id}
+	</delete>
+
+	<delete id="deleteByNid" parameterType="long">
+		delete from
+		tb_sys_dict_detail
+		where
+		nid = #{nid}
+	</delete>
+</mapper>

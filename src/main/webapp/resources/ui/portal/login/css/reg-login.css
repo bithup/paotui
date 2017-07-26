@@ -1,0 +1,55 @@
+﻿.jx-main{ width:1000px; margin:0px auto;}
+.jx-content{background:url(../img/bg.png) no-repeat; height:521px;}
+.loginCon{width: 306px;float: right;display: inline-block;margin-right: 115px;margin-top: 160px;}
+.loginCon table{font-size:14px;}
+.loginCon table select{color:#979393;height:30px;border:1px solid #979393;line-height:30px;width:228px;}
+.login_inpIndustry{
+	background:url(../img/industry.png) no-repeat 5px center #fff;
+	border:1px solid #979393;
+	color:#979393;
+	height:32px;
+	line-height:30px;
+	padding-left:30px;
+	width:196px;
+}
+@media screen and (-webkit-min-device-pixel-ratio:0) {
+	.login_inpIndustry{line-height:14px;}
+}
+.login_inpName{
+	background:url(../img/name.png) no-repeat 5px center #fff;
+	border:1px solid #979393;
+	color:#979393;
+	height:32px;
+	line-height:30px;
+	padding-left:30px;
+	width:196px;
+	}
+@media screen and (-webkit-min-device-pixel-ratio:0) {
+    .login_inpName{line-height:14px;}
+    }
+
+.login_inpLock{
+	background:url(../img/lock.png) no-repeat 5px center #fff;
+	border:1px solid #979393;
+	color:#979393;
+	height:32px;
+	line-height:30px;
+	padding-left:30px;
+	width:196px;
+}
+@media screen and (-webkit-min-device-pixel-ratio:0) {
+    .login_inpLock{line-height:14px;}
+    }
+.login_iptBut{
+	background:#dc214c;
+	border:none;
+	color:#fff;
+	letter-spacing:0.2em;
+	height:38px;
+	width:120px;
+	border-radius: 4px;
+}
+.login_banqu{
+	text-align:center;
+	width:100%;
+}

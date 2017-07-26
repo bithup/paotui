@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xgh.paotui.dao.write.IDeliveryManStateDaoW">
+
+	<!--实体映射-->
+	<resultMap id="deliveryManStateResultMap" type="com.xgh.paotui.entity.DeliveryManState">
+		<!---->
+		<id property="id" column="id" />
+		<!--跑客id-->
+		<result property="deliverManId" column="deliver_man_id" javaType="long" jdbcType="BIGINT" />
+		<!--所属城市id-->
+		<result property="belongCityId" column="belong_city_id" javaType="long" jdbcType="BIGINT" />
+		<!--当前经度-->
+		<result property="nowLongitude" column="now_longitude" javaType="Double" jdbcType="DOUBLE" />
+		<!--当前纬度-->
+		<result property="nowLatitude" column="now_latitude" javaType="Double" jdbcType="DOUBLE" />
+		<!--当前位置-->
+		<result property="nowAddress" column="now_address" javaType="String" jdbcType="VARCHAR" />
+		<!--工作状态，1：上班，2：下班-->
+		<result property="workStatus" column="work_status" javaType="int" jdbcType="INTEGER" />
+		<!--是否允许接新订单。1：可以接单；2：有任务不能接单-->
+		<result property="gainNewOrder" column="gain_new_order" javaType="int" jdbcType="INTEGER" />
+		<!--状态更新时间-->
+		<result property="stateUpdateTime" column="state_update_time" javaType="Date" jdbcType="TIMESTAMP" />
+		<!--状态（1：正常 2：已删除）-->
+		<result property="status" column="status" javaType="int" jdbcType="INTEGER" />
+		<!--扩展1-->
+		<result property="data1" column="data_1" javaType="long" jdbcType="BIGINT" />
+		<!--扩展2-->
+		<result property="data2" column="data_2" javaType="int" jdbcType="INTEGER" />
+		<!--扩展3-->
+		<result property="data3" column="data_3" javaType="String" jdbcType="VARCHAR" />
+		<!--扩展4-->
+		<result property="data4" column="data_4" javaType="String" jdbcType="VARCHAR" />
+		<!--扩展5-->
+		<result property="data5" column="data_5" javaType="String" jdbcType="VARCHAR" />
+	</resultMap>
+
+
+	<!--删除：根据主键ID逻辑删除-->
+	<delete id="delete" parameterType="java.lang.Long">
+		 update tb_delivery_man_state
+		 set status=2  WHERE id = #{id}
+	</delete>
+
+	<!-- 添加 -->
+	<insert id="add" parameterType="com.xgh.paotui.entity.DeliveryManState">
+		 INSERT INTO tb_delivery_man_state
+ 		(id,deliver_man_id,belong_city_id,now_longitude,now_latitude,now_address,work_status,gain_new_order,state_update_time,status,data_1,data_2,data_3,data_4,data_5) 
+		 VALUES 
+ 		(#{id},#{deliverManId},#{belongCityId},#{nowLongitude},#{nowLatitude},#{nowAddress},#{workStatus},#{gainNewOrder},#{stateUpdateTime},#{status},#{data1},#{data2},#{data3},#{data4},#{data5}) 
+	</insert>
+
+	<!-- 修 改-->
+	<update id="update" parameterType="com.xgh.paotui.entity.DeliveryManState">
+		 UPDATE tb_delivery_man_state
+		 SET 
+			 deliver_man_id = #{deliverManId},
+			 belong_city_id = #{belongCityId},
+			 now_longitude = #{nowLongitude},
+			 now_latitude = #{nowLatitude},
+			 now_address = #{nowAddress},
+			 work_status = #{workStatus},
+			 gain_new_order = #{gainNewOrder},
+			 state_update_time = #{stateUpdateTime},
+			 status = #{status},
+			 data_1 = #{data1},
+			 data_2 = #{data2},
+			 data_3 = #{data3},
+			 data_4 = #{data4},
+			 data_5 = #{data5}
+		 WHERE id = #{id}
+	</update>
+
+</mapper>

@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xgh.mng.dao.write.IZoneDaoW">
+
+	<resultMap id="zoneMap" type="com.xgh.mng.entity.Zone">
+
+		<result column="id" javaType="long" jdbcType="BIGINT" property="id"/>
+		<result column="nid" javaType="long" jdbcType="BIGINT" property="nid"/>
+		<result column="code" javaType="string" jdbcType="VARCHAR" property="code"/>
+		<result column="name" javaType="string" jdbcType="VARCHAR" property="name"/>
+		<result column="pid" javaType="string" jdbcType="VARCHAR" property="pid"/>
+		<result column="pcode" javaType="string" jdbcType="VARCHAR" property="pcode"/>
+		<result column="pre_fix" javaType="string" jdbcType="VARCHAR" property="preFix"/>
+		<result column="level" javaType="string" jdbcType="VARCHAR" property="level"/>
+		<result column="is_last" javaType="string" jdbcType="VARCHAR" property="isLast"/>
+		<result column="longitude" javaType="double" jdbcType="DOUBLE" property="longitude"/>
+		<result column="latitude" javaType="double" jdbcType="DOUBLE" property="latitude"/>
+		<result column="location" javaType="string" jdbcType="VARCHAR" property="location"/>
+		<result column="spell_name" javaType="string" jdbcType="VARCHAR" property="spellName"/>
+		<result column="fir_spell_name" javaType="string" jdbcType="VARCHAR" property="firSpellName"/>
+		<result column="ord" javaType="long" jdbcType="BIGINT" property="ord"/>
+		<result column="create_date" javaType="date" jdbcType="TIMESTAMP" property="createDate"/>
+		<result column="update_date" javaType="date" jdbcType="TIMESTAMP" property="updateDate"/>
+		<result column="status" javaType="int" jdbcType="INTEGER" property="status"/>
+		<result column="remark" javaType="string" jdbcType="VARCHAR" property="remark"/>
+	</resultMap>
+
+	<insert id="add" parameterType="com.xgh.mng.entity.Zone">
+		<selectKey keyProperty="id" order="AFTER" resultType="long">
+			SELECT max(id) AS value from tb_zone
+		</selectKey>
+		insert into tb_zone
+		(
+		nid,
+		code,
+		name,
+		pid,
+		pcode,
+		pre_fix,
+		level,
+		is_last,
+		longitude,
+		latitude,
+		location,
+		spell_name,
+		fir_spell_name,
+		ord,
+		create_date,
+		update_date,
+		status,
+		remark
+		)
+		values (
+		#{nid,jdbcType=BIGINT},
+		#{code,jdbcType=VARCHAR},
+		#{name,jdbcType=VARCHAR},
+		#{pid,jdbcType=VARCHAR},
+		#{pcode,jdbcType=VARCHAR},
+		#{preFix,jdbcType=VARCHAR},
+		#{level,jdbcType=VARCHAR},
+		#{isLast,jdbcType=VARCHAR},
+		#{longitude,jdbcType=DOUBLE},
+		#{latitude,jdbcType=DOUBLE},
+		#{location,jdbcType=VARCHAR},
+		#{spellName,jdbcType=VARCHAR},
+		#{firSpellName,jdbcType=VARCHAR},
+		#{ord,jdbcType=BIGINT},
+		#{createDate,jdbcType=TIMESTAMP},
+		#{updateDate,jdbcType=TIMESTAMP},
+		#{status,jdbcType=INTEGER},
+		#{remark,jdbcType=VARCHAR}
+		)
+	</insert>
+
+	<update id="update" parameterType="com.xgh.mng.entity.Zone">
+		update tb_zone
+		set
+		nid = #{nid,jdbcType=BIGINT},
+		code = #{code,jdbcType=VARCHAR},
+		name = #{name,jdbcType=VARCHAR},
+		pid = #{pid,jdbcType=VARCHAR},
+		pcode = #{pcode,jdbcType=VARCHAR},
+		pre_fix = #{preFix,jdbcType=VARCHAR},
+		level = #{level,jdbcType=VARCHAR},
+		is_last = #{isLast,jdbcType=VARCHAR},
+		longitude = #{longitude,jdbcType=DOUBLE},
+		latitude = #{latitude,jdbcType=DOUBLE},
+		location = #{location,jdbcType=VARCHAR},
+		spell_name = #{spellName,jdbcType=VARCHAR},
+		fir_spell_name = #{firSpellName,jdbcType=VARCHAR},
+		ord = #{ord,jdbcType=BIGINT},
+		create_date = #{createDate,jdbcType=TIMESTAMP},
+		update_date = #{updateDate,jdbcType=TIMESTAMP},
+		status = #{status,jdbcType=INTEGER},
+		remark = #{remark,jdbcType=VARCHAR}
+		where id = #{id}
+	</update>
+
+	<delete id="deleteById" parameterType="long">
+		delete from
+		tb_zone
+		where
+		id = #{id}
+	</delete>
+
+	<delete id="deleteByNid" parameterType="long">
+		delete from
+		tb_zone
+		where
+		nid = #{nid}
+	</delete>
+</mapper>

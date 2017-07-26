@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xgh.mng.dao.write.ISysLogDaoW">
+
+	<resultMap id="sysLogMap" type="com.xgh.mng.entity.SysLog">
+		<result column="id" javaType="long" jdbcType="BIGINT" property="id"/>
+		<result column="nid" javaType="long" jdbcType="BIGINT" property="nid"/>
+		<result column="user_id" javaType="long" jdbcType="BIGINT" property="userId"/>
+		<result column="user_name" javaType="string" jdbcType="VARCHAR" property="userName"/>
+		<result column="account" javaType="string" jdbcType="VARCHAR" property="account"/>
+		<result column="ip" javaType="string" jdbcType="VARCHAR" property="ip"/>
+		<result column="module_name" javaType="string" jdbcType="VARCHAR" property="moduleName"/>
+		<result column="operate_date" javaType="date" jdbcType="TIMESTAMP" property="operateDate"/>
+		<result column="operate_type" javaType="string" jdbcType="VARCHAR" property="operateType"/>
+		<result column="operate_result" javaType="string" jdbcType="VARCHAR" property="operateResult"/>
+		<result column="operate_os" javaType="string" jdbcType="VARCHAR" property="operateOs"/>
+		<result column="operate_browser" javaType="string" jdbcType="VARCHAR" property="operateBrowser"/>
+		<result column="unit_id" javaType="long" jdbcType="BIGINT" property="unitId"/>
+		<result column="business_id" javaType="string" jdbcType="VARCHAR" property="businessId"/>
+		<result column="table_name" javaType="string" jdbcType="VARCHAR" property="tableName"/>
+		<result column="ord" javaType="long" jdbcType="BIGINT" property="ord"/>
+		<result column="create_date" javaType="date" jdbcType="TIMESTAMP" property="createDate"/>
+		<result column="update_date" javaType="date" jdbcType="TIMESTAMP" property="updateDate"/>
+		<result column="status" javaType="int" jdbcType="INTEGER" property="status"/>
+		<result column="remark" javaType="string" jdbcType="VARCHAR" property="remark"/>
+		<result column="data_1" javaType="string" jdbcType="VARCHAR" property="data1"/>
+		<result column="data_2" javaType="string" jdbcType="VARCHAR" property="data2"/>
+	</resultMap>
+
+	<insert id="add" parameterType="com.xgh.mng.entity.SysLog">
+		<selectKey keyProperty="id" order="AFTER" resultType="long">
+			SELECT max(id) AS value from tb_sys_log
+		</selectKey>
+		insert into tb_sys_log
+		(
+		nid,
+		user_id,
+		user_name,
+		account,
+		ip,
+		module_name,
+		operate_date,
+		operate_type,
+		operate_result,
+		operate_os,
+		operate_browser,
+		unit_id,
+		business_id,
+		table_name,
+		ord,
+		create_date,
+		update_date,
+		status,
+		remark,
+		data_1,
+		data_2
+		)
+		values (
+		#{nid,jdbcType=BIGINT},
+		#{userId,jdbcType=BIGINT},
+		#{userName,jdbcType=VARCHAR},
+		#{account,jdbcType=VARCHAR},
+		#{ip,jdbcType=VARCHAR},
+		#{moduleName,jdbcType=VARCHAR},
+		#{operateDate,jdbcType=TIMESTAMP},
+		#{operateType,jdbcType=VARCHAR},
+		#{operateResult,jdbcType=VARCHAR},
+		#{operateOs,jdbcType=VARCHAR},
+		#{operateBrowser,jdbcType=VARCHAR},
+		#{unitId,jdbcType=BIGINT},
+		#{businessId,jdbcType=VARCHAR},
+		#{tableName,jdbcType=VARCHAR},
+		#{ord,jdbcType=BIGINT},
+		#{createDate,jdbcType=TIMESTAMP},
+		#{updateDate,jdbcType=TIMESTAMP},
+		#{status,jdbcType=INTEGER},
+		#{remark,jdbcType=VARCHAR},
+		#{data1,jdbcType=VARCHAR},
+		#{data2,jdbcType=VARCHAR}
+		)
+	</insert>
+
+	<update id="update" parameterType="com.xgh.mng.entity.SysLog">
+		update tb_sys_log
+		set
+		nid = #{nid,jdbcType=BIGINT},
+		user_id = #{userId,jdbcType=BIGINT},
+		user_name = #{userName,jdbcType=VARCHAR},
+		account = #{account,jdbcType=VARCHAR},
+		ip = #{ip,jdbcType=VARCHAR},
+		module_name = #{moduleName,jdbcType=VARCHAR},
+		operate_date = #{operateDate,jdbcType=TIMESTAMP},
+		operate_type = #{operateType,jdbcType=VARCHAR},
+		operate_result = #{operateResult,jdbcType=VARCHAR},
+		operate_os = #{operateOs,jdbcType=VARCHAR},
+		operate_browser = #{operateBrowser,jdbcType=VARCHAR},
+		unit_id = #{unitId,jdbcType=BIGINT},
+		business_id = #{businessId,jdbcType=VARCHAR},
+		table_name = #{tableName,jdbcType=VARCHAR},
+		ord = #{ord,jdbcType=BIGINT},
+		create_date = #{createDate,jdbcType=TIMESTAMP},
+		update_date = #{updateDate,jdbcType=TIMESTAMP},
+		status = #{status,jdbcType=INTEGER},
+		remark = #{remark,jdbcType=VARCHAR},
+		data_1 = #{data1,jdbcType=VARCHAR},
+		data_2 = #{data2,jdbcType=VARCHAR}
+		where id = #{id}
+	</update>
+
+	<delete id="deleteById" parameterType="long">
+		delete from
+		tb_sys_log
+		where
+		id = #{id}
+	</delete>
+
+	<delete id="deleteByNid" parameterType="long">
+		delete from
+		tb_sys_log
+		where
+		nid = #{nid}
+	</delete>
+</mapper>

@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xgh.paotui.dao.read.IDeliverManMarketDaoR">
+
+	<!--实体映射-->
+	<resultMap id="deliverManMarketResultMap" type="com.xgh.paotui.entity.DeliverManMarket">
+		<!---->
+		<id property="id" column="id" />
+		<!--跑客id-->
+		<result property="deliveryManId" column="delivery_man_id" javaType="long" jdbcType="BIGINT" />
+		<!--客户id-->
+		<result property="customerId" column="customer_id" javaType="long" jdbcType="BIGINT" />
+
+		<result property="openId" column="open_id" javaType="String" jdbcType="VARCHAR" />
+		<!--推广时间-->
+		<result property="marketTime" column="market_time" javaType="Date" jdbcType="TIMESTAMP" />
+		<!--状态（1：正常 2：已删除）-->
+		<result property="status" column="status" javaType="int" jdbcType="INTEGER" />
+		<!---->
+		<result property="data1" column="data_1" javaType="String" jdbcType="VARCHAR" />
+		<!---->
+		<result property="data2" column="data_2" javaType="String" jdbcType="VARCHAR" />
+	</resultMap>
+
+
+	<!-- 通用查询结果列-->
+	<sql id="Base_Column_List">
+	id as id,
+	delivery_man_id	 as deliveryManId,
+	customer_id	 as customerId,
+	open_id as openId,
+	market_time	 as marketTime,
+	status	 as status,
+	data_1	 as data1,
+	data_2	 as data2
+	</sql>
+
+	<!-- 查询（根据主键ID查询） -->
+	<select id="get" resultMap="deliverManMarketResultMap" parameterType="java.lang.Long">
+		 SELECT
+		 <include refid="Base_Column_List" />
+		 FROM tb_deliver_man_market
+		 WHERE  status = 1  and  id = #{ id}
+	</select>
+
+	<!-- 查询（根据查询条件查询） -->
+	<select id="getList" resultMap="deliverManMarketResultMap" parameterType="hashmap">
+		 SELECT
+		 <include refid="Base_Column_List" />
+		 FROM tb_deliver_man_market
+		WHERE   status = 1
+		<if test="openId!=null and openId!='' ">
+			and open_id= #{openId}
+		</if>
+
+
+	</select>
+
+	<!-- 查询（根据查询条件分页查询） -->
+	<select id="getListPage" resultMap="deliverManMarketResultMap" parameterType="hashmap">
+		 SELECT
+		 <include refid="Base_Column_List" />
+		 FROM tb_deliver_man_market
+		 WHERE   status = 1 
+		 limit ${(page-1)*pagesize},${pagesize} 
+	</select>
+
+	<!-- 查询（根据查询条件分页查询） -->
+	<select id="getListMapPage" resultType="hashmap"  parameterType="hashmap">
+		 SELECT
+		tdmm.id as id,
+		tdmm.delivery_man_id	 as deliveryManId,
+		tdmm.customer_id	 as customerId,
+		tdmm.open_id	 as openId,
+		tdmm.market_time	 as marketTime,
+		tdmm.status	 as status,
+		tdmm.data_1	 as data1,
+		tdmm.data_2	 as data2,
+
+		tdm.id as deliveryManId,
+		tdm.login_name as deliveryManLoginName,
+		tdm.real_name as deliveryManRealName,
+		tdm.belong_city_id as belongCityId,
+
+		tc.id as customerId,
+		tc.login_name as customerLoginName,
+		tc.real_name as customerRealName
+
+		FROM tb_deliver_man_market tdmm
+		left join  tb_delivery_man tdm on (tdmm.delivery_man_id=tdm.id)
+		left join  tb_customer tc on (tdmm.customer_id=tc.id)
+		WHERE  tdmm.status = 1
+		<if test="deliveryManLoginName!=null and deliveryManLoginName!=''">
+			and tdm.login_name LIKE CONCAT('%', #{deliveryManLoginName}, '%')
+		</if>
+		<if test="marketTime1!=null and marketTime1!='' ">
+			and tdmm.market_time &gt;= '${marketTime1}'
+		</if>
+		<if test="marketTime2!=null and marketTime2!=''">
+			and tdmm.market_time &lt;= '${marketTime2}'
+		</if>
+		<if test="belongCityId!=null and belongCityId!=''">
+			and tdm.belong_city_id = #{belongCityId}
+		</if>
+		limit ${(page-1)*pagesize},${pagesize}
+	</select>
+
+	<!-- 查询记录总数量（根据查询条件查询记录总数量） -->
+	<select id="getRows" resultType="long" parameterType="hashmap">
+		SELECT
+		count(tdmm.id)
+		FROM tb_deliver_man_market tdmm
+		left join  tb_delivery_man tdm on (tdmm.delivery_man_id=tdm.id)
+		left join  tb_customer tc on (tdmm.customer_id=tc.id)
+		WHERE  tdmm.status = 1
+		<if test="deliveryManLoginName!=null and deliveryManLoginName!=''">
+			and tdm.login_name LIKE CONCAT('%', #{deliveryManLoginName}, '%')
+		</if>
+		<if test="marketTime1!=null and marketTime1!='' ">
+			and tdmm.market_time &gt;= '${marketTime1}'
+		</if>
+		<if test="marketTime2!=null and marketTime2!=''">
+			and tdmm.market_time &lt;= '${marketTime2}'
+		</if>
+		<if test="belongCityId!=null and belongCityId!=''">
+			and tdm.belong_city_id = #{belongCityId}
+		</if>
+	</select>
+</mapper>

@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xgh.paotui.dao.read.ICustomerRechargeDaoR">
+
+	<!--实体映射-->
+	<resultMap id="customerRechargeResultMap" type="com.xgh.paotui.entity.CustomerRecharge">
+		<!--唯一id-->
+		<id property="id" column="id" />
+		<!--客户id-->
+		<result property="customerId" column="customer_id" javaType="long" jdbcType="BIGINT" />
+		<!--充值金额-->
+		<result property="rechargeMoney" column="recharge_money" javaType="BigDecimal" jdbcType="DECIMAL" />
+		<!--赠送金额-->
+		<result property="giveMoney" column="give_money" javaType="BigDecimal" jdbcType="DECIMAL" />
+		<!--充值前余额-->
+		<result property="rechargeBeforeMoney" column="recharge_before_money" javaType="BigDecimal" jdbcType="DECIMAL" />
+		<!--充值后余额-->
+		<result property="rechargeAfterMoney" column="recharge_after_money" javaType="BigDecimal" jdbcType="DECIMAL" />
+		<!--充值来源（1：支付宝 2：微信 3：网银）-->
+		<result property="rechargeFrom" column="recharge_from" javaType="int" jdbcType="INTEGER" />
+		<!--第三方支付返回的支付订单号-->
+		<result property="rechargeTransactionId" column="recharge_transaction_id" javaType="String" jdbcType="VARCHAR" />
+		<!--充值时间-->
+		<result property="rechargeDate" column="recharge_date" javaType="Date" jdbcType="TIMESTAMP" />
+		<!--状态（1：正常 2：已删除）-->
+		<result property="status" column="status" javaType="int" jdbcType="INTEGER" />
+		<!--扩展1-->
+		<result property="data1" column="data_1" javaType="long" jdbcType="BIGINT" />
+		<!--扩展2-->
+		<result property="data2" column="data_2" javaType="int" jdbcType="INTEGER" />
+		<!--扩展3-->
+		<result property="data3" column="data_3" javaType="String" jdbcType="VARCHAR" />
+		<!--扩展4-->
+		<result property="data4" column="data_4" javaType="String" jdbcType="VARCHAR" />
+		<!--扩展5-->
+		<result property="data5" column="data_5" javaType="String" jdbcType="VARCHAR" />
+	</resultMap>
+
+
+	<!-- 通用查询结果列-->
+	<sql id="Base_Column_List">
+	id as id,
+	customer_id	 as customerId,
+	recharge_money	 as rechargeMoney,
+	give_money	 as giveMoney,
+	recharge_before_money	 as rechargeBeforeMoney,
+	recharge_after_money	 as rechargeAfterMoney,
+	recharge_from	 as rechargeFrom,
+	recharge_transaction_id	 as rechargeTransactionId,
+	recharge_date	 as rechargeDate,
+	status	 as status,
+	data_1	 as data1,
+	data_2	 as data2,
+	data_3	 as data3,
+	data_4	 as data4,
+	data_5	 as data5
+	</sql>
+
+	<!-- 查询（根据主键ID查询） -->
+	<select id="get" resultMap="customerRechargeResultMap" parameterType="java.lang.Long">
+		 SELECT
+		 <include refid="Base_Column_List" />
+		 FROM tb_customer_recharge
+		 WHERE  cr.status = 1  and id = #{id}
+	</select>
+
+	<!-- 查询（根据查询条件查询） -->
+	<select id="getList" resultMap="customerRechargeResultMap" parameterType="hashmap">
+		 SELECT
+		 <include refid="Base_Column_List" />
+		 FROM tb_customer_recharge
+		 WHERE   status = 1 
+	</select>
+
+	<!-- 查询（根据查询条件分页查询） -->
+	<select id="getListPage" resultMap="customerRechargeResultMap" parameterType="hashmap">
+		 SELECT
+		 <include refid="Base_Column_List" />
+		 FROM tb_customer_recharge
+		 WHERE   status = 1 
+		 limit ${(page-1)*pagesize},${pagesize} 
+	</select>
+
+	<!-- 查询（根据查询条件分页查询） -->
+	<select id="getListMapPage" resultType="hashmap"  parameterType="hashmap">
+		SELECT
+			tcr.id as id,
+			tcr.customer_id	 as customerId,
+			tc.real_name as realName,
+			tc.mobile_phone	 as mobilePhone,
+			tcr.recharge_money	as rechargeMoney,
+			tcr.give_money	 as giveMoney,
+			tcr.recharge_before_money as rechargeBeforeMoney,
+			tcr.recharge_after_money as rechargeAfterMoney,
+			tcr.recharge_from	 as rechargeFrom,
+			tcr.recharge_transaction_id	 as rechargeTransactionId,
+			tcr.recharge_date	 as rechargeDate,
+			tcr.status	as status,
+			tcr.data_1	as data1,
+			tcr.data_2	as data2,
+			tcr.data_3	as data3,
+			tcr.data_4	as data4,
+			tcr.data_5	as data5
+		FROM tb_customer_recharge tcr
+		left JOIN tb_customer tc ON tcr.customer_id=tc.id
+		WHERE   tcr.status = 1
+		<if test="realName!=null and realName!=''">
+			and tc.real_name LIKE CONCAT('%', #{realName}, '%')
+		</if>
+		<if test="mobilePhone!=null and mobilePhone!=''">
+			and tc.mobile_phone LIKE CONCAT('%', #{mobilePhone}, '%')
+		</if>
+		<if test="rechargeDate1!=null and rechargeDate1!=''">
+		and tcr.recharge_date &gt;= '${rechargeDate1}'
+		</if>
+		<if test="rechargeDate2!=null and rechargeDate2!=''">
+			and tcr.recharge_date &lt;= '${rechargeDate2}'
+		</if>
+		<if test="belongCity!=null and belongCity!=''">
+			and tc.belong_city LIKE CONCAT('%', #{belongCity}, '%')
+		</if>
+		limit ${(page-1)*pagesize},${pagesize}
+	</select>
+
+	<!-- 查询记录总数量（根据查询条件查询记录总数量） -->
+	<select id="getRows" resultType="long" parameterType="hashmap">
+		SELECT
+		count(tcr.id)
+		FROM tb_customer_recharge tcr
+		left JOIN tb_customer tc ON tcr.customer_id=tc.id
+		WHERE   tcr.status = 1
+		<if test="realName!=null and realName!=''">
+			and tc.real_name LIKE CONCAT('%', #{realName}, '%')
+		</if>
+		<if test="mobilePhone!=null and mobilePhone!=''">
+			and tc.mobile_phone LIKE CONCAT('%', #{mobilePhone}, '%')
+		</if>
+		<if test="rechargeDate1!=null and rechargeDate1!=''">
+			and tcr.recharge_date &gt;= '${rechargeDate1}'
+		</if>
+		<if test="rechargeDate2!=null and rechargeDate2!=''">
+			and tcr.recharge_date &lt;= '${rechargeDate2}'
+		</if>
+		<if test="belongCity!=null and belongCity!=''">
+			and tc.belong_city LIKE CONCAT('%', #{belongCity}, '%')
+		</if>
+	</select>
+</mapper>

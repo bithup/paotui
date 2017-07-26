@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xgh.paotui.dao.write.IDictDaoW">
+
+	<!--实体映射-->
+	<resultMap id="dictResultMap" type="com.xgh.paotui.entity.Dict">
+		<!--编号-->
+		<id property="id" column="id" />
+		<!--数据值-->
+		<result property="value" column="value" javaType="String" jdbcType="VARCHAR" />
+		<!--标签名-->
+		<result property="label" column="label" javaType="String" jdbcType="VARCHAR" />
+		<!--类型-->
+		<result property="type" column="type" javaType="String" jdbcType="VARCHAR" />
+		<!--描述-->
+		<result property="description" column="description" javaType="String" jdbcType="VARCHAR" />
+		<!--排序（升序）-->
+		<result property="sort" column="sort" javaType="BigDecimal" jdbcType="DECIMAL" />
+		<!--创建时间-->
+		<result property="createDate" column="create_date" javaType="Date" jdbcType="TIMESTAMP" />
+		<!--更新时间-->
+		<result property="updateDate" column="update_date" javaType="Date" jdbcType="TIMESTAMP" />
+		<!--备注信息-->
+		<result property="remarks" column="remarks" javaType="String" jdbcType="VARCHAR" />
+		<!--状态（1：正常 2：已删除）-->
+		<result property="status" column="status" javaType="String" jdbcType="VARCHAR" />
+	</resultMap>
+
+
+	<!--删除：根据主键ID逻辑删除-->
+	<delete id="delete" parameterType="java.lang.Long">
+		 update tb_dict
+		 set status=2  WHERE id = #{id}
+	</delete>
+
+	<!-- 添加 -->
+	<insert id="add" parameterType="com.xgh.paotui.entity.Dict">
+		 INSERT INTO tb_dict
+ 		(id,value,label,type,description,sort,create_date,update_date,remarks,status) 
+		 VALUES 
+ 		(#{id},#{value},#{label},#{type},#{description},#{sort},#{createDate},#{updateDate},#{remarks},#{status}) 
+	</insert>
+
+	<!-- 修 改-->
+	<update id="update" parameterType="com.xgh.paotui.entity.Dict">
+		 UPDATE tb_dict
+		 SET 
+			 value = #{value},
+			 label = #{label},
+			 type = #{type},
+			 description = #{description},
+			 sort = #{sort},
+			 create_date = #{createDate},
+			 update_date = #{updateDate},
+			 remarks = #{remarks},
+			 status = #{status}
+		 WHERE id = #{id}
+	</update>
+
+</mapper>

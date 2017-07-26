@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xgh.paotui.dao.write.IOrderGoodsDaoW">
+
+	<!--实体映射-->
+	<resultMap id="orderGoodsResultMap" type="com.xgh.paotui.entity.OrderGoods">
+		<!---->
+		<id property="id" column="id" />
+		<!--订单id-->
+		<result property="orderId" column="order_id" javaType="long" jdbcType="BIGINT" />
+		<!--定位地址-帮送：发货地；帮取：取货地；帮买：购买地-->
+		<result property="locationAddressA" column="location_address_a" javaType="String" jdbcType="VARCHAR" />
+		<!--定位地址概述-帮送：发货地；帮取：取货地；帮买：购买地-->
+		<result property="locationAddressNameA" column="location_address_name_a" javaType="String" jdbcType="VARCHAR" />
+		<!--详细地址，如楼层/门牌号-帮送：发货地；帮取：取货地；帮买：购买地-->
+		<result property="detailAddressA" column="detail_address_a" javaType="String" jdbcType="VARCHAR" />
+		<!--经度-帮送：发货地；帮取：取货地；帮买：购买地-->
+		<result property="longitudeA" column="longitude_a" javaType="Double" jdbcType="DOUBLE" />
+		<!--纬度-帮送：发货地；帮取：取货地；帮买：购买地-->
+		<result property="latitudeA" column="latitude_a" javaType="Double" jdbcType="DOUBLE" />
+		<!--手机号-帮送：发货人；帮取：取货地联系人-->
+		<result property="mobilePhoneA" column="mobile_phone_a" javaType="String" jdbcType="VARCHAR" />
+		<!--联系人姓名-帮送：发货人；帮取：取货地联系人-->
+		<result property="linkmanNameA" column="linkman_name_a" javaType="String" jdbcType="VARCHAR" />
+		<!--定位地址-收货地-->
+		<result property="locationAddressB" column="location_address_b" javaType="String" jdbcType="VARCHAR" />
+		<!--定位地址概述-收货地-->
+		<result property="locationAddressNameB" column="location_address_name_b" javaType="String" jdbcType="VARCHAR" />
+		<!--详细地址，如楼层/门牌号-收货地-->
+		<result property="detailAddressB" column="detail_address_b" javaType="String" jdbcType="VARCHAR" />
+		<!--经度-收货地-->
+		<result property="longitudeB" column="longitude_b" javaType="Double" jdbcType="DOUBLE" />
+		<!--纬度-收货地-->
+		<result property="latitudeB" column="latitude_b" javaType="Double" jdbcType="DOUBLE" />
+		<!--收货人联系电话-->
+		<result property="mobilePhoneB" column="mobile_phone_b" javaType="String" jdbcType="VARCHAR" />
+		<!--收货人姓名（可不填）-->
+		<result property="linkmanNameB" column="linkman_name_b" javaType="String" jdbcType="VARCHAR" />
+		<!--货物类型（帮送、帮取）-->
+		<result property="goodsTypeId" column="goods_type_id" javaType="int" jdbcType="INTEGER" />
+		<!--货物类型名称（帮送、帮取）-->
+		<result property="goodsTypeName" column="goods_type_name" javaType="String" jdbcType="VARCHAR" />
+		<!--购买要求（帮买）-->
+		<result property="buyRequire" column="buy_require" javaType="String" jdbcType="VARCHAR" />
+		<!--帮买联系电话（帮买）-->
+		<result property="buyLinkPhone" column="buy_link_phone" javaType="String" jdbcType="VARCHAR" />
+		<!--是否知道价格；1、知道价格；2、不知道价格（帮买）-->
+		<result property="isKonwPrice" column="is_konw_price" javaType="int" jdbcType="INTEGER" />
+		<!--知道价格时，输入的商品价格（帮买）-->
+		<result property="buyPrice" column="buy_price" javaType="BigDecimal" jdbcType="DECIMAL" />
+		<!--是否就近购买(1：收货地附近就近购买；2：指定购买地）-->
+		<result property="isNearBuy" column="is_near_buy" javaType="int" jdbcType="INTEGER" />
+		<!--购买中支付的商品费（帮买）-->
+		<result property="addPayMoney" column="add_pay_money" javaType="BigDecimal" jdbcType="DECIMAL" />
+		<!--购买中支付商品费的时间（帮买）-->
+		<result property="addPayTime" column="add_pay_time" javaType="Date" jdbcType="TIMESTAMP" />
+		<!--第三方支付返回的支付订单号（帮买）-->
+		<result property="addPayTransactionId" column="add_pay_transaction_id" javaType="String" jdbcType="VARCHAR" />
+		<!--订单总里程(单位：公里）-->
+		<result property="totalDistance" column="total_distance" javaType="BigDecimal" jdbcType="DECIMAL" />
+		<!--订单总时间（从拿到货到签收时间,单位：分钟）-->
+		<result property="totalTime" column="total_time" javaType="int" jdbcType="INTEGER" />
+		<!--状态（1：正常 2：已删除）-->
+		<result property="status" column="status" javaType="int" jdbcType="INTEGER" />
+		<!--扩展1-->
+		<result property="data1" column="data_1" javaType="long" jdbcType="BIGINT" />
+		<!--扩展2-->
+		<result property="data2" column="data_2" javaType="int" jdbcType="INTEGER" />
+		<!--扩展3-->
+		<result property="data3" column="data_3" javaType="String" jdbcType="VARCHAR" />
+		<!--扩展4-->
+		<result property="data4" column="data_4" javaType="String" jdbcType="VARCHAR" />
+		<!--扩展5-->
+		<result property="data5" column="data_5" javaType="String" jdbcType="VARCHAR" />
+	</resultMap>
+
+
+	<!--删除：根据主键ID逻辑删除-->
+	<delete id="delete" parameterType="java.lang.Long">
+		 update tb_order_goods
+		 set status=2  WHERE id = #{id}
+	</delete>
+
+	<!-- 添加 -->
+	<insert id="add" parameterType="com.xgh.paotui.entity.OrderGoods">
+		 INSERT INTO tb_order_goods
+ 		(id,order_id,location_address_a,location_address_name_a,detail_address_a,longitude_a,latitude_a,mobile_phone_a,linkman_name_a,location_address_b,location_address_name_b,detail_address_b,longitude_b,latitude_b,mobile_phone_b,linkman_name_b,goods_type_id,goods_type_name,buy_require,buy_link_phone,is_konw_price,buy_price,is_near_buy,add_pay_money,add_pay_time,add_pay_transaction_id,total_distance,total_time,status,data_1,data_2,data_3,data_4,data_5) 
+		 VALUES 
+ 		(#{id},#{orderId},#{locationAddressA},#{locationAddressNameA},#{detailAddressA},#{longitudeA},#{latitudeA},#{mobilePhoneA},#{linkmanNameA},#{locationAddressB},#{locationAddressNameB},#{detailAddressB},#{longitudeB},#{latitudeB},#{mobilePhoneB},#{linkmanNameB},#{goodsTypeId},#{goodsTypeName},#{buyRequire},#{buyLinkPhone},#{isKonwPrice},#{buyPrice},#{isNearBuy},#{addPayMoney},#{addPayTime},#{addPayTransactionId},#{totalDistance},#{totalTime},#{status},#{data1},#{data2},#{data3},#{data4},#{data5}) 
+	</insert>
+
+	<!-- 修 改-->
+	<update id="update" parameterType="com.xgh.paotui.entity.OrderGoods">
+		 UPDATE tb_order_goods
+		 SET 
+			 order_id = #{orderId},
+			 location_address_a = #{locationAddressA},
+			 location_address_name_a = #{locationAddressNameA},
+			 detail_address_a = #{detailAddressA},
+			 longitude_a = #{longitudeA},
+			 latitude_a = #{latitudeA},
+			 mobile_phone_a = #{mobilePhoneA},
+			 linkman_name_a = #{linkmanNameA},
+			 location_address_b = #{locationAddressB},
+			 location_address_name_b = #{locationAddressNameB},
+			 detail_address_b = #{detailAddressB},
+			 longitude_b = #{longitudeB},
+			 latitude_b = #{latitudeB},
+			 mobile_phone_b = #{mobilePhoneB},
+			 linkman_name_b = #{linkmanNameB},
+			 goods_type_id = #{goodsTypeId},
+			 goods_type_name = #{goodsTypeName},
+			 buy_require = #{buyRequire},
+			 buy_link_phone = #{buyLinkPhone},
+			 is_konw_price = #{isKonwPrice},
+			 buy_price = #{buyPrice},
+			 is_near_buy = #{isNearBuy},
+			 add_pay_money = #{addPayMoney},
+			 add_pay_time = #{addPayTime},
+			 add_pay_transaction_id = #{addPayTransactionId},
+			 total_distance = #{totalDistance},
+			 total_time = #{totalTime},
+			 status = #{status},
+			 data_1 = #{data1},
+			 data_2 = #{data2},
+			 data_3 = #{data3},
+			 data_4 = #{data4},
+			 data_5 = #{data5}
+		 WHERE id = #{id}
+	</update>
+
+</mapper>

@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xgh.paotui.dao.read.IDeliveryManDaoR">
+	<!--实体映射-->
+	<resultMap id="deliveryManResultMap" type="com.xgh.paotui.entity.DeliveryMan">
+		<!---->
+		<id property="id" column="id" />
+		<!---->
+		<result property="loginName" column="login_name" javaType="String" jdbcType="VARCHAR" />
+		<!--密码-->
+		<result property="password" column="password" javaType="String" jdbcType="VARCHAR" />
+		<!--真实名字-->
+		<result property="headImage" column="head_image" javaType="String" jdbcType="VARCHAR" />
+		<!--头像-->
+		<result property="realName" column="real_name" javaType="String" jdbcType="VARCHAR" />
+		<!--姓氏-->
+		<result property="surname" column="surname" javaType="String" jdbcType="VARCHAR" />
+		<!--出生日期-->
+		<result property="birthday" column="birthday" javaType="Date" jdbcType="TIMESTAMP" />
+		<!--性别-->
+		<result property="sex" column="sex" javaType="String" jdbcType="VARCHAR" />
+		<!--手机号-->
+		<result property="mobilePhone" column="mobile_phone" javaType="String" jdbcType="VARCHAR" />
+		<!--账户余额-->
+		<result property="balance" column="balance" javaType="BigDecimal" jdbcType="DECIMAL" />
+		<!--个人推广二维码-->
+		<result property="qrCode" column="qr_code" javaType="String" jdbcType="VARCHAR" />
+		<!--跑客星级-->
+		<result property="starLevel" column="star_level" javaType="int" jdbcType="INTEGER" />
+		<!--跑客类别，1：众包；2：公司员工-->
+		<result property="belongType" column="belong_type" javaType="int" jdbcType="INTEGER" />
+		<!--所属城市,跑客只能接所属城市的订单-->
+		<result property="belongCityId" column="belong_city_id" javaType="long" jdbcType="BIGINT" />
+		<!--接单数-->
+		<result property="getOrderCount" column="get_order_count" javaType="int" jdbcType="INTEGER" />
+		<!--好评率-->
+		<result property="praiseRate" column="praise_rate" javaType="Double" jdbcType="DOUBLE" />
+		<!--认证状态，1、已认证；2、未认证；3、已注销；4、已冻结-->
+		<result property="authStatus" column="auth_status" javaType="int" jdbcType="INTEGER" />
+		<!--用户的微信openid-->
+		<result property="token" column="token" javaType="String" jdbcType="VARCHAR" />
+		<!--状态（1：正常 2：已删除）-->
+		<result property="status" column="status" javaType="int" jdbcType="INTEGER" />
+		<!--扩展1-->
+		<result property="data1" column="data_1" javaType="long" jdbcType="BIGINT" />
+		<!--扩展2-->
+		<result property="data2" column="data_2" javaType="int" jdbcType="INTEGER" />
+		<!--扩展3-->
+		<result property="data3" column="data_3" javaType="String" jdbcType="VARCHAR" />
+		<!--扩展4-->
+		<result property="data4" column="data_4" javaType="String" jdbcType="VARCHAR" />
+		<!--扩展5-->
+		<result property="data5" column="data_5" javaType="String" jdbcType="VARCHAR" />
+	</resultMap>
+
+	<!-- 通用查询结果列-->
+	<sql id="Base_Column_List">
+		 id as id,
+	login_name	 as loginName,
+	password	 as password,
+	real_name	 as realName,
+	head_image as headImage,
+	surname	 as surname,
+	birthday	 as birthday,
+	sex	 as sex,
+	mobile_phone	 as mobilePhone,
+	balance	 as balance,
+	qr_code	 as qrCode,
+	star_level	 as starLevel,
+	belong_type	 as belongType,
+	belong_city_id	 as belongCityId,
+	get_order_count	 as getOrderCount,
+	praise_rate	 as praiseRate,
+	auth_status	 as authStatus,
+	token	 as token,
+	status	 as status,
+	data_1	 as data1,
+	data_2	 as data2,
+	data_3	 as data3,
+	data_4	 as data4,
+	data_5	 as data5
+	</sql>
+
+	<!-- 查询（根据主键ID查询） -->
+	<select id="get" resultMap="deliveryManResultMap" parameterType="java.lang.Long">
+		 SELECT
+		 <include refid="Base_Column_List" />
+		 FROM tb_delivery_man
+		 WHERE  status = 1  and id = #{id}
+	</select>
+
+	<!-- 查询（根据查询条件查询） -->
+	<select id="getList" resultMap="deliveryManResultMap" parameterType="hashmap">
+		 SELECT
+		 <include refid="Base_Column_List" />
+		 FROM tb_delivery_man
+		 WHERE   status = 1 
+	</select>
+
+	<!-- 查询（根据查询条件分页查询） -->
+	<select id="getListPage" resultMap="deliveryManResultMap" parameterType="hashmap">
+		 SELECT
+		 <include refid="Base_Column_List" />
+		 FROM tb_delivery_man
+		 WHERE   status = 1 
+		 limit ${(page-1)*pagesize},${pagesize} 
+	</select>
+
+	<!-- 查询（根据查询条件分页查询） -->
+	<select id="getListMapPage" resultType="hashmap"  parameterType="hashmap">
+		 SELECT
+		 <include refid="Base_Column_List" />
+		 FROM tb_delivery_man
+		 WHERE   status = 1
+		<if test="realName!=null and realName!=''">
+			and real_name LIKE CONCAT('%', #{realName}, '%')
+		</if>
+		<if test="mobilePhone!=null and mobilePhone!=''">
+			and mobile_phone LIKE CONCAT('%', #{mobilePhone}, '%')
+		</if>
+		<if test="belongCityId!=null and belongCityId!=''">
+			and belong_city_id = ${belongCityId}
+		</if>
+		 limit ${(page-1)*pagesize},${pagesize}
+	</select>
+
+	<!-- 查询记录总数量（根据查询条件查询记录总数量） -->
+	<select id="getRows" resultType="long" parameterType="hashmap">
+		 SELECT 
+		 count(*)
+		 FROM tb_delivery_man
+		 WHERE   status = 1
+		<if test="realName!=null and realName!=''">
+			and real_name LIKE CONCAT('%', #{realName}, '%')
+		</if>
+		<if test="mobilePhone!=null and mobilePhone!=''">
+			and mobile_phone LIKE CONCAT('%', #{mobilePhone}, '%')
+		</if>
+		<if test="belongCityId!=null and belongCityId!=''">
+			and belong_city_id = ${belongCityId}
+		</if>
+	</select>
+
+	<!-- 登录 -->
+	<select id="login" parameterType="hashmap" resultMap="deliveryManResultMap">
+		select * from tb_delivery_man
+		where login_name = #{loginName}
+		AND status = 1
+	</select>
+
+</mapper>

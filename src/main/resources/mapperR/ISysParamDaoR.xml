@@ -1,0 +1,325 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xgh.mng.dao.read.ISysParamDaoR">
+
+	<resultMap id="sysParamMap" type="com.xgh.mng.entity.SysParam">
+		<result column="id" javaType="long" jdbcType="BIGINT" property="id"/>
+		<result column="nid" javaType="long" jdbcType="BIGINT" property="nid"/>
+		<result column="unit_id" javaType="long" jdbcType="BIGINT" property="unitId"/>
+		<result column="unit_nid" javaType="long" jdbcType="BIGINT" property="unitNid"/>
+		<result column="type_id" javaType="long" jdbcType="BIGINT" property="typeId"/>
+		<result column="type_nid" javaType="long" jdbcType="BIGINT" property="typeNid"/>
+		<result column="params_code" javaType="string" jdbcType="VARCHAR" property="paramsCode"/>
+		<result column="params_value" javaType="string" jdbcType="VARCHAR" property="paramsValue"/>
+		<result column="ord" javaType="long" jdbcType="BIGINT" property="ord"/>
+		<result column="create_date" javaType="date" jdbcType="TIMESTAMP" property="createDate"/>
+		<result column="update_date" javaType="date" jdbcType="TIMESTAMP" property="updateDate"/>
+		<result column="status" javaType="int" jdbcType="INTEGER" property="status"/>
+		<result column="remark" javaType="string" jdbcType="VARCHAR" property="remark"/>
+	</resultMap>
+
+	<resultMap id="sysParamMap2" type="java.util.Map">
+		<result column="id" javaType="long" jdbcType="BIGINT" property="ID"/>
+		<result column="nid" javaType="long" jdbcType="BIGINT" property="NID"/>
+		<result column="unit_id" javaType="long" jdbcType="BIGINT" property="UNIT_ID"/>
+		<result column="unit_nid" javaType="long" jdbcType="BIGINT" property="UNIT_NID"/>
+		<result column="type_id" javaType="long" jdbcType="BIGINT" property="TYPE_ID"/>
+		<result column="type_nid" javaType="long" jdbcType="BIGINT" property="TYPE_NID"/>
+		<result column="params_code" javaType="string" jdbcType="VARCHAR" property="PARAMS_CODE"/>
+		<result column="params_value" javaType="string" jdbcType="VARCHAR" property="PARAMS_VALUE"/>
+		<result column="ord" javaType="long" jdbcType="BIGINT" property="ORD"/>
+		<result column="create_date" javaType="date" jdbcType="TIMESTAMP" property="CREATE_DATE"/>
+		<result column="update_date" javaType="date" jdbcType="TIMESTAMP" property="UPDATE_DATE"/>
+		<result column="status" javaType="int" jdbcType="INTEGER" property="STATUS"/>
+		<result column="remark" javaType="string" jdbcType="VARCHAR" property="REMARK"/>
+	</resultMap>
+
+	<select id="get" parameterType="long" resultMap="sysParamMap">
+		select * from tb_sys_param where id = #{id}
+	</select>
+
+	<select id="getList" parameterType="com.xgh.mng.entity.SysParam"
+			resultMap="sysParamMap">
+		select * from
+		tb_sys_param
+		<trim prefix="WHERE" prefixOverrides="AND |OR ">
+
+			<if test="id!= null">
+				and id = #{id}
+			</if>
+			<if test="nid!= null">
+				and nid = #{nid}
+			</if>
+			<if test="unitId!= null">
+				and unit_id = #{unitId}
+			</if>
+			<if test="unitNid!= null">
+				and unit_nid = #{unitNid}
+			</if>
+			<if test="typeId!= null">
+				and type_id = #{typeId}
+			</if>
+			<if test="typeNid!= null">
+				and type_nid = #{typeNid}
+			</if>
+			<if test="paramsCode!= null and paramsCode!=''">
+				and params_code = #{paramsCode}
+			</if>
+			<if test="paramsValue!= null and paramsValue!=''">
+				and params_value = #{paramsValue}
+			</if>
+			<if test="ord!= null">
+				and ord = #{ord}
+			</if>
+			<if test="createDate!= null and createDate!=''">
+				and create_date = #{createDate}
+			</if>
+			<if test="updateDate!= null and updateDate!=''">
+				and update_date = #{updateDate}
+			</if>
+			<if test="status!= null">
+				and status = #{status}
+			</if>
+			<if test="remark!= null and remark!=''">
+				and remark = #{remark}
+			</if>
+		</trim>
+	</select>
+
+
+	<select id="getListPage" parameterType="hashmap" resultMap="sysParamMap">
+		select
+		*
+		from
+		tb_sys_param
+		<if test="keySysParam!= null">
+			<trim prefix="WHERE" prefixOverrides="AND |OR ">
+
+				<if test="keySysParam.id!= null">
+					and id = #{keySysParam.id}
+				</if>
+				<if test="keySysParam.nid!= null">
+					and nid = #{keySysParam.nid}
+				</if>
+				<if test="keySysParam.unitId!= null">
+					and unit_id = #{keySysParam.unitId}
+				</if>
+				<if test="keySysParam.unitNid!= null">
+					and unit_nid = #{keySysParam.unitNid}
+				</if>
+				<if test="keySysParam.typeId!= null">
+					and type_id = #{keySysParam.typeId}
+				</if>
+				<if test="keySysParam.typeNid!= null">
+					and type_nid = #{keySysParam.typeNid}
+				</if>
+				<if test="keySysParam.paramsCode!= null and keySysParam.paramsCode!=''">
+					and params_code = #{keySysParam.paramsCode}
+				</if>
+				<if test="keySysParam.paramsValue!= null and keySysParam.paramsValue!=''">
+					and params_value = #{keySysParam.paramsValue}
+				</if>
+				<if test="keySysParam.ord!= null">
+					and ord = #{keySysParam.ord}
+				</if>
+				<if test="keySysParam.createDate!= null and keySysParam.createDate!=''">
+					and create_date = #{keySysParam.createDate}
+				</if>
+				<if test="keySysParam.updateDate!= null and keySysParam.updateDate!=''">
+					and update_date = #{keySysParam.updateDate}
+				</if>
+				<if test="keySysParam.status!= null">
+					and status = #{keySysParam.status}
+				</if>
+				<if test="keySysParam.remark!= null and keySysParam.remark!=''">
+					and remark = #{keySysParam.remark}
+				</if>
+			</trim>
+		</if>
+		limit ${(page-1)*pagesize},${pagesize}
+	</select>
+
+	<select id="getRows" parameterType="hashmap" resultType="long">
+		select
+		count(*) from
+		tb_sys_param
+		<if test="keySysParam!= null">
+			<trim prefix="WHERE" prefixOverrides="AND |OR ">
+				<if test="keySysParam.id!= null">
+					and id = #{keySysParam.id}
+				</if>
+				<if test="keySysParam.nid!= null">
+					and nid = #{keySysParam.nid}
+				</if>
+				<if test="keySysParam.unitId!= null">
+					and unit_id = #{keySysParam.unitId}
+				</if>
+				<if test="keySysParam.unitNid!= null">
+					and unit_nid = #{keySysParam.unitNid}
+				</if>
+				<if test="keySysParam.typeId!= null">
+					and type_id = #{keySysParam.typeId}
+				</if>
+				<if test="keySysParam.typeNid!= null">
+					and type_nid = #{keySysParam.typeNid}
+				</if>
+				<if test="keySysParam.paramsCode!= null and keySysParam.paramsCode!=''">
+					and params_code = #{keySysParam.paramsCode}
+				</if>
+				<if test="keySysParam.paramsValue!= null and keySysParam.paramsValue!=''">
+					and params_value = #{keySysParam.paramsValue}
+				</if>
+				<if test="keySysParam.ord!= null">
+					and ord = #{keySysParam.ord}
+				</if>
+				<if test="keySysParam.createDate!= null and keySysParam.createDate!=''">
+					and create_date = #{keySysParam.createDate}
+				</if>
+				<if test="keySysParam.updateDate!= null and keySysParam.updateDate!=''">
+					and update_date = #{keySysParam.updateDate}
+				</if>
+				<if test="keySysParam.status!= null">
+					and status = #{keySysParam.status}
+				</if>
+				<if test="keySysParam.remark!= null and keySysParam.remark!=''">
+					and remark = #{keySysParam.remark}
+				</if>
+			</trim>
+		</if>
+	</select>
+
+	<select id="getListMap" parameterType="hashmap" resultMap="sysParamMap2">
+		SELECT
+		*
+		FROM
+		(
+		SELECT
+		*
+		FROM
+		tb_sys_param
+		WHERE
+		unit_id = #{unitId}
+		AND type_id = #{typeId}
+		<if test="unitId != 1">
+			UNION
+			SELECT
+			*
+			FROM
+			tb_sys_param
+			WHERE
+			unit_id = 1
+			AND type_id = #{typeId}
+			AND params_code NOT IN(
+			SELECT
+			params_code
+			FROM
+			tb_sys_param
+			WHERE
+			unit_id = #{unitId}
+			AND type_id = #{typeId}
+			)
+		</if>
+		)a
+		<if test="sortname !=null and sortname !='' ">
+			order by ${sortname}
+			<if test="sortorder !=null and sortorder !='' ">
+				${sortorder}
+			</if>
+		</if>
+		limit ${(page-1)*pagesize},${pagesize}
+	</select>
+
+	<select id="getListRows" parameterType="hashmap" resultType="long">
+		SELECT
+		count(id)
+		FROM
+		(
+		SELECT
+		id
+		FROM
+		tb_sys_param
+		WHERE
+		unit_id = #{unitId}
+		AND type_id = #{typeId}
+		<if test="unitId != 1">
+			UNION
+			SELECT
+			id
+			FROM
+			tb_sys_param
+			WHERE
+			unit_id = 1
+			AND type_id = #{typeId}
+			AND params_code NOT IN(
+			SELECT
+			params_code
+			FROM
+			tb_sys_param
+			WHERE
+			unit_id = #{unitId}
+			AND type_id = #{typeId}
+			)
+		</if>
+		)a
+	</select>
+
+
+	<select id="getRowsByTypeIdAndCode" parameterType="hashmap" resultType="long">
+		select
+		count(id)
+		from
+		tb_sys_param
+		<trim prefix="WHERE" prefixOverrides="AND |OR ">
+			unit_id = #{unitId}
+			and type_id = #{typeId}
+			and params_code = #{paramsCode}
+			<if test="id!=null">
+				and id &lt;&gt; #{id}
+			</if>
+		</trim>
+	</select>
+
+	<select id="getByTypeIdAndCode" parameterType="hashmap" resultMap="sysParamMap">
+		select
+		*
+		from
+		tb_sys_param
+		where
+		unit_id = #{unitId}
+		and type_id = #{typeId}
+		and params_code = #{paramsCode}
+		limit 0,1
+	</select>
+
+	<select id="getListByTypeId" parameterType="hashmap" resultMap="sysParamMap">
+
+		select * from (
+		SELECT
+		*
+		FROM
+		tb_sys_param
+		WHERE
+		unit_id = #{unitId}
+		AND type_id = #{typeId}
+		<if test="unitId != 1">
+			UNION
+			SELECT
+			*
+			FROM
+			tb_sys_param
+			WHERE
+			unit_id = 1
+			AND type_id = #{typeId}
+			AND params_code NOT IN(
+			SELECT
+			params_code
+			FROM
+			tb_sys_param
+			WHERE
+			unit_id = #{unitId}
+			AND type_id = #{typeId}
+			)
+		</if>) a order by a.ord
+	</select>
+</mapper>

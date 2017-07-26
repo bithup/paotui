@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+		"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xgh.paotui.dao.write.IOpenCityDaoW">
+
+	<!--实体映射-->
+	<resultMap id="openCityResultMap" type="com.xgh.paotui.entity.OpenCity">
+		<!--唯一id-->
+		<id property="id" column="id" />
+		<!--城市名称-->
+		<result property="cityName" column="city_name" javaType="String" jdbcType="VARCHAR" />
+		<!--经营类别（1：自营； 2：加盟商）-->
+		<result property="managementType" column="management_type" javaType="int" jdbcType="INTEGER" />
+		<!--负责人姓名-->
+		<result property="responsibleName" column="responsible_name" javaType="String" jdbcType="VARCHAR" />
+		<!--负责人电话-->
+		<result property="responsiblePhone" column="responsible_phone" javaType="String" jdbcType="VARCHAR" />
+		<!--办公地址-->
+		<result property="officeAddress" column="office_address" javaType="String" jdbcType="VARCHAR" />
+		<!--订单前缀-->
+		<result property="orderPrefix" column="order_prefix" javaType="String" jdbcType="VARCHAR" />
+		<!--订单流水号所在的日期-->
+		<result property="orderSerialDate" column="order_serial_date" javaType="Date" jdbcType="TIMESTAMP" />
+		<!--当天订单流水号-->
+		<result property="orderSerialNo" column="order_serial_no" javaType="int" jdbcType="INTEGER" />
+		<!--创建时间-->
+		<result property="createDate" column="create_date" javaType="Date" jdbcType="TIMESTAMP" />
+		<!--修改时间-->
+		<result property="updateDate" column="update_date" javaType="Date" jdbcType="TIMESTAMP" />
+		<!--状态（1：正常 2：已删除）-->
+		<result property="status" column="status" javaType="int" jdbcType="INTEGER" />
+		<!--扩展1-->
+		<result property="data1" column="data_1" javaType="long" jdbcType="BIGINT" />
+		<!--扩展2-->
+		<result property="data2" column="data_2" javaType="int" jdbcType="INTEGER" />
+		<!--扩展3-->
+		<result property="data3" column="data_3" javaType="String" jdbcType="VARCHAR" />
+		<!--扩展4-->
+		<result property="data4" column="data_4" javaType="String" jdbcType="VARCHAR" />
+		<!--扩展5-->
+		<result property="data5" column="data_5" javaType="String" jdbcType="VARCHAR" />
+	</resultMap>
+
+
+	<!--删除：根据主键ID逻辑删除-->
+	<delete id="delete" parameterType="java.lang.Long">
+		update tb_open_city
+		set status=2  WHERE id = #{id}
+	</delete>
+
+	<!-- 添加 -->
+	<insert id="add" parameterType="com.xgh.paotui.entity.OpenCity">
+		INSERT INTO tb_open_city
+		(id,city_name,management_type,responsible_name,responsible_phone,office_address,order_prefix,order_serial_date,order_serial_no,create_date,update_date,status,data_1,data_2,data_3,data_4,data_5)
+		VALUES
+		(#{id},#{cityName},#{managementType},#{responsibleName},#{responsiblePhone},#{officeAddress},#{orderPrefix},#{orderSerialDate},#{orderSerialNo},#{createDate},#{updateDate},#{status},#{data1},#{data2},#{data3},#{data4},#{data5})
+	</insert>
+
+	<!-- 修 改-->
+	<update id="update" parameterType="com.xgh.paotui.entity.OpenCity">
+		 UPDATE tb_open_city
+		 SET
+			 city_name = #{cityName},
+			 management_type = #{managementType},
+			 responsible_name = #{responsibleName},
+			 responsible_phone = #{responsiblePhone},
+			 office_address = #{officeAddress},
+			 order_prefix = #{orderPrefix},
+			 order_serial_date = #{orderSerialDate},
+			 order_serial_no = #{orderSerialNo},
+			 create_date = #{createDate},
+			 update_date = #{updateDate},
+			 status = #{status},
+			 data_1 = #{data1},
+			 data_2 = #{data2},
+			 data_3 = #{data3},
+			 data_4 = #{data4},
+			 data_5 = #{data5}
+		 WHERE id = #{id}
+	</update>
+
+</mapper>

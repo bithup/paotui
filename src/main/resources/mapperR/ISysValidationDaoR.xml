@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xgh.mng.dao.read.ISysValidationDaoR">
+
+	<resultMap id="sysValidationMap" type="com.xgh.mng.entity.SysValidation">
+		<result column="id" javaType="long" jdbcType="BIGINT" property="id"/>
+		<result column="nid" javaType="long" jdbcType="BIGINT" property="nid"/>
+		<result column="join_id" javaType="long" jdbcType="BIGINT" property="joinId"/>
+		<result column="join_nid" javaType="long" jdbcType="BIGINT" property="joinNid"/>
+		<result column="join_type" javaType="string" jdbcType="VARCHAR" property="joinType"/>
+		<result column="field" javaType="string" jdbcType="VARCHAR" property="field"/>
+		<result column="rule_type" javaType="string" jdbcType="VARCHAR" property="ruleType"/>
+		<result column="rule_type_value" javaType="string" jdbcType="VARCHAR" property="ruleTypeValue"/>
+		<result column="msg" javaType="string" jdbcType="VARCHAR" property="msg"/>
+		<result column="ord" javaType="long" jdbcType="BIGINT" property="ord"/>
+		<result column="create_date" javaType="date" jdbcType="TIMESTAMP" property="createDate"/>
+		<result column="update_date" javaType="date" jdbcType="TIMESTAMP" property="updateDate"/>
+		<result column="status" javaType="int" jdbcType="INTEGER" property="status"/>
+		<result column="remark" javaType="string" jdbcType="VARCHAR" property="remark"/>
+	</resultMap>
+
+	<resultMap id="sysValidationMap2" type="java.util.Map">
+		<result column="id" javaType="long" jdbcType="BIGINT" property="ID"/>
+		<result column="nid" javaType="long" jdbcType="BIGINT" property="NID"/>
+		<result column="join_id" javaType="long" jdbcType="BIGINT" property="JOIN_ID"/>
+		<result column="join_nid" javaType="long" jdbcType="BIGINT" property="JOIN_NID"/>
+		<result column="join_type" javaType="string" jdbcType="VARCHAR" property="JOIN_TYPE"/>
+		<result column="field" javaType="string" jdbcType="VARCHAR" property="FIELD"/>
+		<result column="rule_type" javaType="string" jdbcType="VARCHAR" property="RULE_TYPE"/>
+		<result column="rule_type_value" javaType="string" jdbcType="VARCHAR" property="RULE_TYPE_VALUE"/>
+		<result column="msg" javaType="string" jdbcType="VARCHAR" property="MSG"/>
+		<result column="ord" javaType="long" jdbcType="BIGINT" property="ORD"/>
+		<result column="create_date" javaType="date" jdbcType="TIMESTAMP" property="CREATE_DATE"/>
+		<result column="update_date" javaType="date" jdbcType="TIMESTAMP" property="UPDATE_DATE"/>
+		<result column="status" javaType="int" jdbcType="INTEGER" property="STATUS"/>
+		<result column="remark" javaType="string" jdbcType="VARCHAR" property="REMARK"/>
+	</resultMap>
+
+	<select id="get" parameterType="long" resultMap="sysValidationMap">
+		select * from tb_sys_validation where id = #{id}
+	</select>
+
+	<select id="getList" parameterType="hashmap"
+			resultMap="sysValidationMap">
+		select
+		*
+		from
+		tb_sys_validation
+		where join_id = #{joinId} and join_type = #{joinType} order by field
+	</select>
+
+
+	<select id="getListPage" parameterType="hashmap" resultMap="sysValidationMap">
+		select
+		*
+		from
+		tb_sys_validation
+		<if test="keySysValidation!= null">
+			<trim prefix="WHERE" prefixOverrides="AND |OR ">
+
+				<if test="keySysValidation.id!= null">
+					and id = #{keySysValidation.id}
+				</if>
+				<if test="keySysValidation.nid!= null">
+					and nid = #{keySysValidation.nid}
+				</if>
+				<if test="keySysValidation.joinId!= null">
+					and join_id = #{keySysValidation.joinId}
+				</if>
+				<if test="keySysValidation.joinNid!= null">
+					and join_nid = #{keySysValidation.joinNid}
+				</if>
+				<if test="keySysValidation.joinType!= null and keySysValidation.joinType!=''">
+					and join_type = #{keySysValidation.joinType}
+				</if>
+				<if test="keySysValidation.field!= null and keySysValidation.field!=''">
+					and field = #{keySysValidation.field}
+				</if>
+				<if test="keySysValidation.ruleType!= null and keySysValidation.ruleType!=''">
+					and rule_type = #{keySysValidation.ruleType}
+				</if>
+				<if test="keySysValidation.ruleTypeValue!= null and keySysValidation.ruleTypeValue!=''">
+					and rule_type_value = #{keySysValidation.ruleTypeValue}
+				</if>
+				<if test="keySysValidation.msg!= null and keySysValidation.msg!=''">
+					and msg = #{keySysValidation.msg}
+				</if>
+				<if test="keySysValidation.ord!= null">
+					and ord = #{keySysValidation.ord}
+				</if>
+				<if test="keySysValidation.createDate!= null and keySysValidation.createDate!=''">
+					and create_date = #{keySysValidation.createDate}
+				</if>
+				<if test="keySysValidation.updateDate!= null and keySysValidation.updateDate!=''">
+					and update_date = #{keySysValidation.updateDate}
+				</if>
+				<if test="keySysValidation.status!= null">
+					and status = #{keySysValidation.status}
+				</if>
+				<if test="keySysValidation.remark!= null and keySysValidation.remark!=''">
+					and remark = #{keySysValidation.remark}
+				</if>
+			</trim>
+		</if>
+		limit ${(page-1)*pagesize},${pagesize}
+	</select>
+
+	<select id="getRows" parameterType="hashmap" resultType="long">
+		select
+		count(*) from
+		tb_sys_validation
+		<if test="keySysValidation!= null">
+			<trim prefix="WHERE" prefixOverrides="AND |OR ">
+				<if test="keySysValidation.id!= null">
+					and id = #{keySysValidation.id}
+				</if>
+				<if test="keySysValidation.nid!= null">
+					and nid = #{keySysValidation.nid}
+				</if>
+				<if test="keySysValidation.joinId!= null">
+					and join_id = #{keySysValidation.joinId}
+				</if>
+				<if test="keySysValidation.joinNid!= null">
+					and join_nid = #{keySysValidation.joinNid}
+				</if>
+				<if test="keySysValidation.joinType!= null and keySysValidation.joinType!=''">
+					and join_type = #{keySysValidation.joinType}
+				</if>
+				<if test="keySysValidation.field!= null and keySysValidation.field!=''">
+					and field = #{keySysValidation.field}
+				</if>
+				<if test="keySysValidation.ruleType!= null and keySysValidation.ruleType!=''">
+					and rule_type = #{keySysValidation.ruleType}
+				</if>
+				<if test="keySysValidation.ruleTypeValue!= null and keySysValidation.ruleTypeValue!=''">
+					and rule_type_value = #{keySysValidation.ruleTypeValue}
+				</if>
+				<if test="keySysValidation.msg!= null and keySysValidation.msg!=''">
+					and msg = #{keySysValidation.msg}
+				</if>
+				<if test="keySysValidation.ord!= null">
+					and ord = #{keySysValidation.ord}
+				</if>
+				<if test="keySysValidation.createDate!= null and keySysValidation.createDate!=''">
+					and create_date = #{keySysValidation.createDate}
+				</if>
+				<if test="keySysValidation.updateDate!= null and keySysValidation.updateDate!=''">
+					and update_date = #{keySysValidation.updateDate}
+				</if>
+				<if test="keySysValidation.status!= null">
+					and status = #{keySysValidation.status}
+				</if>
+				<if test="keySysValidation.remark!= null and keySysValidation.remark!=''">
+					and remark = #{keySysValidation.remark}
+				</if>
+			</trim>
+		</if>
+	</select>
+
+	<select id="getListMap" parameterType="hashmap" resultMap="sysValidationMap2">
+		select
+		*
+		from
+		tb_sys_validation
+		where join_id = #{joinId} and join_type = #{joinType} order by field
+	</select>
+
+	<select id="getListByJoinType" parameterType="hashmap" resultMap="sysValidationMap">
+		select
+		*
+		from
+		tb_sys_validation
+		where join_id = #{joinId} and join_type = #{joinType} and status = 1 order by field
+	</select>
+</mapper>

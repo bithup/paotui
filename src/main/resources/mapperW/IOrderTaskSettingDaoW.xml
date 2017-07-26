@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xgh.paotui.dao.write.IOrderTaskSettingDaoW">
+
+	<!--实体映射-->
+	<resultMap id="orderTaskSettingResultMap" type="com.xgh.paotui.entity.OrderTaskSetting">
+		<!--唯一id-->
+		<id property="id" column="id" />
+		<!--开通城市id-->
+		<result property="openCityId" column="open_city_id" javaType="long" jdbcType="BIGINT" />
+		<!--等级-->
+		<result property="level" column="level" javaType="int" jdbcType="INTEGER" />
+		<!--公司员工抢单数-->
+		<result property="staffOrderNum" column="staff_order_num" javaType="int" jdbcType="INTEGER" />
+		<!--众包抢单数-->
+		<result property="crowdsourcingOrderNum" column="crowdsourcing_order_num" javaType="int" jdbcType="INTEGER" />
+		<!--创建时间-->
+		<result property="createDate" column="create_date" javaType="Date" jdbcType="TIMESTAMP" />
+		<!--修改时间-->
+		<result property="updateDate" column="update_date" javaType="Date" jdbcType="TIMESTAMP" />
+		<!--状态（1：正常 2：已删除）-->
+		<result property="status" column="status" javaType="int" jdbcType="INTEGER" />
+		<!--扩展1-->
+		<result property="data1" column="data_1" javaType="long" jdbcType="BIGINT" />
+		<!--扩展2-->
+		<result property="data2" column="data_2" javaType="int" jdbcType="INTEGER" />
+		<!--扩展3-->
+		<result property="data3" column="data_3" javaType="String" jdbcType="VARCHAR" />
+		<!--扩展4-->
+		<result property="data4" column="data_4" javaType="String" jdbcType="VARCHAR" />
+		<!--扩展5-->
+		<result property="data5" column="data_5" javaType="String" jdbcType="VARCHAR" />
+	</resultMap>
+
+
+	<!--删除：根据主键ID逻辑删除-->
+	<delete id="delete" parameterType="java.lang.Long">
+		 update tb_order_task_setting
+		 set status=2  WHERE id = #{id}
+	</delete>
+
+	<!-- 添加 -->
+	<insert id="add" parameterType="com.xgh.paotui.entity.OrderTaskSetting">
+		 INSERT INTO tb_order_task_setting
+ 		(id,open_city_id,level,staff_order_num,crowdsourcing_order_num,create_date,update_date,status,data_1,data_2,data_3,data_4,data_5) 
+		 VALUES 
+ 		(#{id},#{openCityId},#{level},#{staffOrderNum},#{crowdsourcingOrderNum},#{createDate},#{updateDate},#{status},#{data1},#{data2},#{data3},#{data4},#{data5}) 
+	</insert>
+
+	<!-- 修 改-->
+	<update id="update" parameterType="com.xgh.paotui.entity.OrderTaskSetting">
+		 UPDATE tb_order_task_setting
+		 SET 
+			 open_city_id = #{openCityId},
+			 level = #{level},
+			 staff_order_num = #{staffOrderNum},
+			 crowdsourcing_order_num = #{crowdsourcingOrderNum},
+			 create_date = #{createDate},
+			 update_date = #{updateDate},
+			 status = #{status},
+			 data_1 = #{data1},
+			 data_2 = #{data2},
+			 data_3 = #{data3},
+			 data_4 = #{data4},
+			 data_5 = #{data5}
+		 WHERE id = #{id}
+	</update>
+
+</mapper>

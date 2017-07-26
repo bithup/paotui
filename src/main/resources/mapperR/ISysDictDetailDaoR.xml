@@ -1,0 +1,221 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xgh.mng.dao.read.ISysDictDetailDaoR">
+
+	<resultMap id="sysDictDetailMap" type="com.xgh.mng.entity.SysDictDetail">
+		<result column="id" javaType="long" jdbcType="BIGINT" property="id"/>
+		<result column="nid" javaType="long" jdbcType="BIGINT" property="nid"/>
+		<result column="unit_id" javaType="long" jdbcType="BIGINT" property="unitId"/>
+		<result column="unit_nid" javaType="long" jdbcType="BIGINT" property="unitNid"/>
+		<result column="dict_main_id" javaType="long" jdbcType="BIGINT" property="dictMainId"/>
+		<result column="dict_main_nid" javaType="long" jdbcType="BIGINT" property="dictMainNid"/>
+		<result column="code" javaType="string" jdbcType="VARCHAR" property="code"/>
+		<result column="value" javaType="string" jdbcType="VARCHAR" property="value"/>
+		<result column="ord" javaType="long" jdbcType="BIGINT" property="ord"/>
+		<result column="create_date" javaType="date" jdbcType="TIMESTAMP" property="createDate"/>
+		<result column="update_date" javaType="date" jdbcType="TIMESTAMP" property="updateDate"/>
+		<result column="status" javaType="int" jdbcType="INTEGER" property="status"/>
+		<result column="remark" javaType="string" jdbcType="VARCHAR" property="remark"/>
+	</resultMap>
+
+	<resultMap id="sysDictDetailMap2" type="java.util.Map">
+		<result column="id" javaType="long" jdbcType="BIGINT" property="ID"/>
+		<result column="nid" javaType="long" jdbcType="BIGINT" property="NID"/>
+		<result column="unit_id" javaType="long" jdbcType="BIGINT" property="UNIT_ID"/>
+		<result column="unit_nid" javaType="long" jdbcType="BIGINT" property="UNIT_NID"/>
+		<result column="dict_main_id" javaType="long" jdbcType="BIGINT" property="DICT_MAIN_ID"/>
+		<result column="dict_main_nid" javaType="long" jdbcType="BIGINT" property="DICT_MAIN_NID"/>
+		<result column="code" javaType="string" jdbcType="VARCHAR" property="CODE"/>
+		<result column="value" javaType="string" jdbcType="VARCHAR" property="VALUE"/>
+		<result column="ord" javaType="long" jdbcType="BIGINT" property="ORD"/>
+		<result column="create_date" javaType="date" jdbcType="TIMESTAMP" property="CREATE_DATE"/>
+		<result column="update_date" javaType="date" jdbcType="TIMESTAMP" property="UPDATE_DATE"/>
+		<result column="status" javaType="int" jdbcType="INTEGER" property="STATUS"/>
+		<result column="remark" javaType="string" jdbcType="VARCHAR" property="REMARK"/>
+	</resultMap>
+
+	<select id="get" parameterType="long" resultMap="sysDictDetailMap">
+		select * from tb_sys_dict_detail where id = #{id}
+	</select>
+
+	<select id="getList" parameterType="com.xgh.mng.entity.SysDictDetail"
+			resultMap="sysDictDetailMap">
+		select * from
+		tb_sys_dict_detail
+		<trim prefix="WHERE" prefixOverrides="AND |OR ">
+
+			<if test="id!= null">
+				and id = #{id}
+			</if>
+			<if test="unitId!= null">
+				and unit_id = #{unitId}
+			</if>
+			<if test="dictMainId!= null">
+				and dict_main_id = #{dictMainId}
+			</if>
+		</trim>
+	</select>
+
+
+	<select id="getListPage" parameterType="hashmap" resultMap="sysDictDetailMap">
+		select * from tb_sys_dict_detail
+		where dict_main_id = #{dictMainId}
+		and (unit_id = 1 or unit_id = #{unitId})
+		<choose>
+			<when test="sortname !=null and sortname !=''">
+				order by ${sortname}
+				<if test="sortorder !=null and sortorder !='' ">
+					${sortorder}
+				</if>
+			</when>
+			<otherwise>
+				order by ord desc
+			</otherwise>
+		</choose>
+		limit ${(page-1)*pagesize},${pagesize}
+	</select>
+
+	<select id="getRows" parameterType="hashmap" resultType="long">
+		select count(id) from tb_sys_dict_detail
+		where dict_main_id = #{dictMainId}
+		and (unit_id = 1 or unit_id = #{unitId})
+	</select>
+
+	<select id="getListMap" parameterType="hashmap" resultMap="sysDictDetailMap2">
+		select * from tb_sys_dict_detail
+		where dict_main_id = #{dictMainId}
+		and (unit_id = 1 or unit_id = #{unitId})
+		<choose>
+			<when test="sortname !=null and sortname !=''">
+				order by ${sortname}
+				<if test="sortorder !=null and sortorder !='' ">
+					${sortorder}
+				</if>
+			</when>
+			<otherwise>
+				order by ord desc
+			</otherwise>
+		</choose>
+		limit ${(page-1)*pagesize},${pagesize}
+	</select>
+
+
+	<select id="getListRows" parameterType="hashmap" resultType="long">
+		select count(id) from tb_sys_dict_detail
+		where dict_main_id = #{dictMainId}
+		and (unit_id = 1 or unit_id = #{unitId})
+	</select>
+
+
+	<select id="getRowsByCode" parameterType="hashmap" resultType="long">
+		select count(id) from tb_sys_dict_detail
+		where dict_main_id = #{dictMainId}
+		and code = #{code}
+		and (unit_id = 1 or unit_id = #{unitId})
+		<if test="id!=null">
+			and id &lt;&gt; #{id}
+		</if>
+	</select>
+
+
+	<select id="getAllList" resultMap="sysDictDetailMap">
+		select * from tb_sys_dict_detail
+	</select>
+
+	<select id="getDetailListByMainCode" parameterType="hashmap" resultMap="sysDictDetailMap">
+		SELECT
+		dd.*
+		FROM
+		tb_sys_dict_detail dd,
+		tb_sys_dict_main dm
+		WHERE
+		dd.dict_main_id = dm.id
+		AND dm.dict_code = #{mainCode}
+		AND(dd.unit_id = 1 OR dd.unit_id = #{unitId})
+	</select>
+
+
+	<select id="getDetailByMainCode" parameterType="hashmap" resultMap="sysDictDetailMap">
+		SELECT
+		dd.*
+		FROM
+		tb_sys_dict_detail dd,
+		tb_sys_dict_main dm
+		WHERE
+		dd.dict_main_id = dm.id
+		AND dm.dict_code = #{mainCode}
+		AND(dd.unit_id = 1 OR dd.unit_id = #{unitId})
+		And dd.code = #{code} limit 0,1
+	</select>
+
+	<select id="getExtendsListMap" parameterType="hashmap" resultMap="sysDictDetailMap">
+		SELECT * FROM
+		(
+		SELECT * FROM
+		tb_sys_dict_detail
+		WHERE
+		unit_id = #{unitId}
+		AND dict_main_id = #{dictMainId}
+		<if test="unitId != 1">
+			UNION
+			SELECT * FROM
+			tb_sys_dict_detail
+			WHERE
+			unit_id = 1
+			AND dict_main_id = #{dictMainId}
+			AND code NOT IN(
+			SELECT code FROM
+			tb_sys_dict_detail
+			WHERE
+			unit_id = #{unitId}
+			AND dict_main_id = #{dictMainId}
+			)
+		</if>
+		)a
+		<choose>
+			<when test="sortname !=null and sortname !=''">
+				order by ${sortname}
+				<if test="sortorder !=null and sortorder !='' ">
+					${sortorder}
+				</if>
+			</when>
+			<otherwise>
+				order by a.ord desc
+			</otherwise>
+		</choose>
+		limit ${(page-1)*pagesize},${pagesize}
+	</select>
+
+
+	<select id="getExtendsListRows" parameterType="hashmap" resultType="long">
+		SELECT
+		count(id) FROM
+		(
+		SELECT * FROM
+		tb_sys_dict_detail
+		WHERE
+		unit_id = #{unitId}
+		AND dict_main_id = #{dictMainId}
+		<if test="unitId != 1">
+			UNION
+			SELECT
+			*
+			FROM
+			tb_sys_dict_detail
+			WHERE
+			unit_id = 1
+			AND dict_main_id = #{dictMainId}
+			AND code NOT IN(
+			SELECT
+			code
+			FROM
+			tb_sys_dict_detail
+			WHERE
+			unit_id = #{unitId}
+			AND dict_main_id = #{dictMainId}
+			)
+		</if>
+		)a
+	</select>
+</mapper>

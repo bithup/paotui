@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xgh.mng.dao.write.ISysUserDaoW">
+
+	<resultMap id="sysUserMap" type="com.xgh.mng.entity.SysUser">
+		<result column="id" javaType="long" jdbcType="BIGINT" property="id"/>
+		<result column="nid" javaType="long" jdbcType="BIGINT" property="nid"/>
+		<result column="inst_id" javaType="long" jdbcType="BIGINT" property="instId"/>
+		<result column="inst_nid" javaType="long" jdbcType="BIGINT" property="instNid"/>
+		<result column="inst_code" javaType="string" jdbcType="VARCHAR" property="instCode"/>
+		<result column="unit_id" javaType="long" jdbcType="BIGINT" property="unitId"/>
+		<result column="unit_nid" javaType="long" jdbcType="BIGINT" property="unitNid"/>
+		<result column="unit_code" javaType="string" jdbcType="VARCHAR" property="unitCode"/>
+		<result column="account" javaType="string" jdbcType="VARCHAR" property="account"/>
+		<result column="password" javaType="string" jdbcType="VARCHAR" property="password"/>
+		<result column="user_name" javaType="string" jdbcType="VARCHAR" property="userName"/>
+		<result column="mobile" javaType="string" jdbcType="VARCHAR" property="mobile"/>
+		<result column="email" javaType="string" jdbcType="VARCHAR" property="email"/>
+		<result column="user_cord" javaType="string" jdbcType="VARCHAR" property="userCord"/>
+		<result column="is_sys" javaType="long" jdbcType="BIGINT" property="isSys"/>
+		<result column="ord" javaType="long" jdbcType="BIGINT" property="ord"/>
+		<result column="create_date" javaType="date" jdbcType="TIMESTAMP" property="createDate"/>
+		<result column="update_date" javaType="date" jdbcType="TIMESTAMP" property="updateDate"/>
+		<result column="status" javaType="int" jdbcType="INTEGER" property="status"/>
+		<result column="remark" javaType="string" jdbcType="VARCHAR" property="remark"/>
+		<result column="data_1" javaType="long" jdbcType="BIGINT" property="data1"/>
+		<result column="data_2" javaType="string" jdbcType="VARCHAR" property="data2"/>
+		<result column="data_3" javaType="string" jdbcType="VARCHAR" property="data3"/>
+		<!--所属城市id-->
+		<result property="openCityId" column="open_city_id" javaType="long" jdbcType="BIGINT" />
+		<!--所属城市名称-->
+		<result property="openCityName" column="open_city_Name" javaType="String" jdbcType="VARCHAR" />
+	</resultMap>
+
+	<insert id="add" parameterType="com.xgh.mng.entity.SysUser">
+		<selectKey keyProperty="id" order="AFTER" resultType="long">
+			SELECT max(id) AS value from tb_sys_user
+		</selectKey>
+		insert into tb_sys_user
+		(
+		nid,
+		inst_id,
+		inst_nid,
+		inst_code,
+		unit_id,
+		unit_nid,
+		unit_code,
+		account,
+		password,
+		user_name,
+		mobile,
+		email,
+		user_cord,
+		is_sys,
+		ord,
+		create_date,
+		update_date,
+		status,
+		remark,
+		data_1,
+		data_2,
+		data_3,
+		open_city_id,
+		open_city_Name
+		)
+		values (
+		#{nid,jdbcType=BIGINT},
+		#{instId,jdbcType=BIGINT},
+		#{instNid,jdbcType=BIGINT},
+		#{instCode,jdbcType=VARCHAR},
+		#{unitId,jdbcType=BIGINT},
+		#{unitNid,jdbcType=BIGINT},
+		#{unitCode,jdbcType=VARCHAR},
+		#{account,jdbcType=VARCHAR},
+		#{password,jdbcType=VARCHAR},
+		#{userName,jdbcType=VARCHAR},
+		#{mobile,jdbcType=VARCHAR},
+		#{email,jdbcType=VARCHAR},
+		#{userCord,jdbcType=VARCHAR},
+		#{isSys,jdbcType=BIGINT},
+		#{ord,jdbcType=BIGINT},
+		#{createDate,jdbcType=TIMESTAMP},
+		#{updateDate,jdbcType=TIMESTAMP},
+		#{status,jdbcType=INTEGER},
+		#{remark,jdbcType=VARCHAR},
+		#{data1,jdbcType=BIGINT},
+		#{data2,jdbcType=VARCHAR},
+		#{data3,jdbcType=VARCHAR},
+		#{openCityId,jdbcType=BIGINT},
+		#{openCityName,jdbcType=VARCHAR}
+		)
+	</insert>
+
+	<update id="update" parameterType="com.xgh.mng.entity.SysUser">
+		update tb_sys_user
+		set
+		nid = #{nid,jdbcType=BIGINT},
+		inst_id = #{instId,jdbcType=BIGINT},
+		inst_nid = #{instNid,jdbcType=BIGINT},
+		inst_code = #{instCode,jdbcType=VARCHAR},
+		unit_id = #{unitId,jdbcType=BIGINT},
+		unit_nid = #{unitNid,jdbcType=BIGINT},
+		unit_code = #{unitCode,jdbcType=VARCHAR},
+		account = #{account,jdbcType=VARCHAR},
+		password = #{password,jdbcType=VARCHAR},
+		user_name = #{userName,jdbcType=VARCHAR},
+		mobile = #{mobile,jdbcType=VARCHAR},
+		email = #{email,jdbcType=VARCHAR},
+		user_cord = #{userCord,jdbcType=VARCHAR},
+		is_sys = #{isSys,jdbcType=BIGINT},
+		ord = #{ord,jdbcType=BIGINT},
+		create_date = #{createDate,jdbcType=TIMESTAMP},
+		update_date = #{updateDate,jdbcType=TIMESTAMP},
+		status = #{status,jdbcType=INTEGER},
+		remark = #{remark,jdbcType=VARCHAR},
+		data_1 = #{data1,jdbcType=BIGINT},
+		data_2 = #{data2,jdbcType=VARCHAR},
+		data_3 = #{data3,jdbcType=VARCHAR},
+		open_city_id = #{openCityId,jdbcType=VARCHAR},
+		open_city_Name = #{openCityName,jdbcType=VARCHAR}
+		where id = #{id}
+	</update>
+
+	<delete id="deleteById" parameterType="long">
+		delete from
+		tb_sys_user
+		where
+		id = #{id}
+	</delete>
+
+	<delete id="deleteByNid" parameterType="long">
+		delete from
+		tb_sys_user
+		where
+		nid = #{nid}
+	</delete>
+</mapper>

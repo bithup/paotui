@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xgh.paotui.dao.read.IDeliveryManWithdrawalsDaoR">
+	<!--实体映射-->
+	<resultMap id="deliveryManWithdrawalsResultMap" type="com.xgh.paotui.entity.DeliveryManWithdrawals">
+		<!--唯一id-->
+		<id property="id" column="id" />
+		<!--跑客id-->
+		<result property="deliverManId" column="deliver_man_id" javaType="long" jdbcType="BIGINT" />
+		<!--提现前账户余额-->
+		<result property="withdrawalsBeforeMoney" column="withdrawals_before_money" javaType="BigDecimal" jdbcType="DECIMAL" />
+		<!--提现金额-->
+		<result property="withdrawalsMoney" column="withdrawals_money" javaType="BigDecimal" jdbcType="DECIMAL" />
+		<!--提现后账户余额-->
+		<result property="withdrawalsAfterMoney" column="withdrawals_after_money" javaType="BigDecimal" jdbcType="DECIMAL" />
+		<!--提现时间-->
+		<result property="withdrawalsDate" column="withdrawals_date" javaType="Date" jdbcType="TIMESTAMP" />
+		<!--备注-->
+		<result property="remark" column="remark" javaType="String" jdbcType="VARCHAR" />
+		<!--创建时间-->
+		<result property="createDate" column="create_date" javaType="Date" jdbcType="TIMESTAMP" />
+		<!--提现审核人id-->
+		<result property="checkUserId" column="check_user_id" javaType="long" jdbcType="BIGINT" />
+		<!--提现审核时间-->
+		<result property="checkDate" column="check_date" javaType="Date" jdbcType="TIMESTAMP" />
+		<!--提现审核状态（1：已审核 2：未审核 3：审核未通过 ）-->
+		<result property="checkState" column="check_state" javaType="int" jdbcType="INTEGER" />
+		<!--状态（1：正常 2：已删除）-->
+		<result property="status" column="status" javaType="int" jdbcType="INTEGER" />
+		<!--扩展1-->
+		<result property="data1" column="data_1" javaType="long" jdbcType="BIGINT" />
+		<!--扩展2-->
+		<result property="data2" column="data_2" javaType="int" jdbcType="INTEGER" />
+		<!--扩展3-->
+		<result property="data3" column="data_3" javaType="String" jdbcType="VARCHAR" />
+		<!--扩展4-->
+		<result property="data4" column="data_4" javaType="String" jdbcType="VARCHAR" />
+		<!--扩展5-->
+		<result property="data5" column="data_5" javaType="String" jdbcType="VARCHAR" />
+	</resultMap>
+
+	<!-- 通用查询结果列-->
+	<sql id="Base_Column_List">
+	id as id,
+	deliver_man_id	 as deliverManId,
+	withdrawals_before_money	 as withdrawalsBeforeMoney,
+	withdrawals_money	 as withdrawalsMoney,
+	withdrawals_after_money	 as withdrawalsAfterMoney,
+	withdrawals_date	 as withdrawalsDate,
+	remark	 as remark,
+	create_date	 as createDate,
+	check_user_id	 as checkUserId,
+	check_date	 as checkDate,
+	check_state	 as checkState,
+	status	 as status,
+	data_1	 as data1,
+	data_2	 as data2,
+	data_3	 as data3,
+	data_4	 as data4,
+	data_5	 as data5
+	</sql>
+
+	<!-- 查询（根据主键ID查询） -->
+	<select id="get" resultMap="deliveryManWithdrawalsResultMap" parameterType="java.lang.Long">
+		 SELECT
+		 <include refid="Base_Column_List" />
+		 FROM tb_delivery_man_withdrawals
+		 WHERE  status = 1  and id = #{id}
+	</select>
+
+	<!-- 查询（根据查询条件查询） -->
+	<select id="getList" resultMap="deliveryManWithdrawalsResultMap" parameterType="hashmap">
+		 SELECT
+		 <include refid="Base_Column_List" />
+		 FROM tb_delivery_man_withdrawals
+		 WHERE   status = 1 
+	</select>
+
+	<!-- 查询（根据查询条件分页查询） -->
+	<select id="getListPage" resultMap="deliveryManWithdrawalsResultMap" parameterType="hashmap">
+		 SELECT
+		 <include refid="Base_Column_List" />
+		 FROM tb_delivery_man_withdrawals
+		 WHERE   status = 1 
+		 limit ${(page-1)*pagesize},${pagesize} 
+	</select>
+
+	<!-- 查询（根据查询条件分页查询） -->
+	<select id="getListMapPage" resultType="hashmap"  parameterType="hashmap">
+		SELECT
+		tdmw.id as id,
+		tdmw.deliver_man_id	 as deliverManId,
+		tdm.real_name as realName,
+		tdmw.withdrawals_before_money	 as withdrawalsBeforeMoney,
+		tdmw.withdrawals_money	 as withdrawalsMoney,
+		tdmw.withdrawals_after_money	 as withdrawalsAfterMoney,
+		tdmw.withdrawals_date	 as withdrawalsDate,
+		tdmw.remark	 as remark,
+		tdmw.create_date	 as createDate,
+		tdmw.check_user_id	 as checkUserId,
+		tdmw.check_date	 as checkDate,
+		tdmw.check_state	 as checkState,
+		tdmw.status	 as status,
+		tdmw.data_1	 as data1,
+		tdmw.data_2	 as data2,
+		tdmw.data_3	 as data3,
+		tdmw.data_4	 as data4,
+		tdmw.data_5	 as data5
+		FROM tb_delivery_man_withdrawals tdmw
+		LEFT JOIN tb_delivery_man tdm ON tdmw.deliver_man_id = tdm.id
+		WHERE   tdmw.status = 1
+		<if test="realName!=null and realName!=''">
+			and tdm.real_name LIKE CONCAT('%', #{realName}, '%')
+		</if>
+		<if test="checkState!=null and checkState!=''">
+			and tdmw.check_state = ${checkState}
+		</if>
+		<if test="belongCityId!=null and belongCityId!=''">
+			and tdm.belong_city_id = ${belongCityId}
+		</if>
+		order BY FIELD(tdmw.check_state,2,3,1)
+		limit ${(page-1)*pagesize},${pagesize}
+	</select>
+
+	<!-- 查询记录总数量（根据查询条件查询记录总数量） -->
+	<select id="getRows" resultType="long" parameterType="hashmap">
+		SELECT
+		count(*)
+		FROM tb_delivery_man_withdrawals tdmw
+		LEFT JOIN tb_delivery_man tdm ON tdmw.deliver_man_id = tdm.id
+		WHERE   tdmw.status = 1
+		<if test="realName!=null and realName!=''">
+			and tdm.real_name LIKE CONCAT('%', #{realName}, '%')
+		</if>
+		<if test="checkState!=null and checkState!=''">
+			and tdmw.check_state = ${checkState}
+		</if>
+		<if test="belongCityId!=null and belongCityId!=''">
+			and tdm.belong_city_id = ${belongCityId}
+		</if>
+	</select></mapper>

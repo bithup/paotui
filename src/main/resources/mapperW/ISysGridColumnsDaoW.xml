@@ -1,0 +1,182 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xgh.mng.dao.write.ISysGridColumnsDaoW">
+
+	<resultMap id="sysGridColumnsMap" type="com.xgh.mng.entity.SysGridColumns">
+		<result column="id" javaType="long" jdbcType="BIGINT" property="id"/>
+		<result column="nid" javaType="long" jdbcType="BIGINT" property="nid"/>
+		<result column="join_type" javaType="string" jdbcType="VARCHAR" property="joinType"/>
+		<result column="join_id" javaType="long" jdbcType="BIGINT" property="joinId"/>
+		<result column="join_nid" javaType="long" jdbcType="BIGINT" property="joinNid"/>
+		<result column="title" javaType="string" jdbcType="VARCHAR" property="title"/>
+		<result column="name" javaType="string" jdbcType="VARCHAR" property="name"/>
+		<result column="width" javaType="string" jdbcType="VARCHAR" property="width"/>
+		<result column="align" javaType="string" jdbcType="VARCHAR" property="align"/>
+		<result column="data_type" javaType="string" jdbcType="VARCHAR" property="dataType"/>
+		<result column="editor_type" javaType="string" jdbcType="VARCHAR" property="editorType"/>
+		<result column="render" javaType="string" jdbcType="VARCHAR" property="render"/>
+		<result column="is_sort" javaType="long" jdbcType="BIGINT" property="isSort"/>
+		<result column="is_width" javaType="long" jdbcType="BIGINT" property="isWidth"/>
+		<result column="is_visible" javaType="long" jdbcType="BIGINT" property="isVisible"/>
+		<result column="ord" javaType="long" jdbcType="BIGINT" property="ord"/>
+		<result column="create_date" javaType="date" jdbcType="TIMESTAMP" property="createDate"/>
+		<result column="update_date" javaType="date" jdbcType="TIMESTAMP" property="updateDate"/>
+		<result column="status" javaType="int" jdbcType="INTEGER" property="status"/>
+		<result column="remark" javaType="string" jdbcType="VARCHAR" property="remark"/>
+	</resultMap>
+
+	<insert id="add" parameterType="com.xgh.mng.entity.SysGridColumns">
+		<selectKey keyProperty="id" order="AFTER" resultType="long">
+			SELECT max(id) AS value from tb_sys_grid_columns
+		</selectKey>
+		insert into tb_sys_grid_columns
+		(
+		nid,
+		join_type,
+		join_id,
+		join_nid,
+		title,
+		name,
+		width,
+		align,
+		data_type,
+		editor_type,
+		render,
+		is_sort,
+		is_width,
+		is_visible,
+		ord,
+		create_date,
+		update_date,
+		status,
+		remark
+		)
+		values (
+		#{nid,jdbcType=BIGINT},
+		#{joinType,jdbcType=VARCHAR},
+		#{joinId,jdbcType=BIGINT},
+		#{joinNid,jdbcType=BIGINT},
+		#{title,jdbcType=VARCHAR},
+		#{name,jdbcType=VARCHAR},
+		#{width,jdbcType=VARCHAR},
+		#{align,jdbcType=VARCHAR},
+		#{dataType,jdbcType=VARCHAR},
+		#{editorType,jdbcType=VARCHAR},
+		#{render,jdbcType=VARCHAR},
+		#{isSort,jdbcType=BIGINT},
+		#{isWidth,jdbcType=BIGINT},
+		#{isVisible,jdbcType=BIGINT},
+		#{ord,jdbcType=BIGINT},
+		#{createDate,jdbcType=TIMESTAMP},
+		#{updateDate,jdbcType=TIMESTAMP},
+		#{status,jdbcType=INTEGER},
+		#{remark,jdbcType=VARCHAR}
+		)
+	</insert>
+
+	<update id="update" parameterType="com.xgh.mng.entity.SysGridColumns">
+		update tb_sys_grid_columns
+		set
+		nid = #{nid,jdbcType=BIGINT},
+		join_type = #{joinType,jdbcType=VARCHAR},
+		join_id = #{joinId,jdbcType=BIGINT},
+		join_nid = #{joinNid,jdbcType=BIGINT},
+		title = #{title,jdbcType=VARCHAR},
+		name = #{name,jdbcType=VARCHAR},
+		width = #{width,jdbcType=VARCHAR},
+		align = #{align,jdbcType=VARCHAR},
+		data_type = #{dataType,jdbcType=VARCHAR},
+		editor_type = #{editorType,jdbcType=VARCHAR},
+		render = #{render,jdbcType=VARCHAR},
+		is_sort = #{isSort,jdbcType=BIGINT},
+		is_width = #{isWidth,jdbcType=BIGINT},
+		is_visible = #{isVisible,jdbcType=BIGINT},
+		ord = #{ord,jdbcType=BIGINT},
+		create_date = #{createDate,jdbcType=TIMESTAMP},
+		update_date = #{updateDate,jdbcType=TIMESTAMP},
+		status = #{status,jdbcType=INTEGER},
+		remark = #{remark,jdbcType=VARCHAR}
+		where id = #{id}
+	</update>
+
+	<delete id="deleteById" parameterType="long">
+		delete from
+		tb_sys_grid_columns
+		where
+		id = #{id}
+	</delete>
+
+	<delete id="deleteByNid" parameterType="long">
+		delete from
+		tb_sys_grid_columns
+		where
+		nid = #{nid}
+	</delete>
+
+	<delete id="deleteByIds">
+		delete from
+		tb_sys_grid_columns
+		where
+		id in
+		<foreach close=")" collection="list" item="id" open="("
+				 separator=",">#{id}
+		</foreach>
+	</delete>
+
+	<delete id="deleteByJoinType" parameterType="hashmap">
+		delete from
+		tb_sys_grid_columns
+		where join_id = #{joinId} and join_type = #{joinType}
+	</delete>
+
+
+	<insert id="addBatch" parameterType="com.xgh.mng.entity.SysGridColumns">
+		insert into tb_sys_grid_columns
+		(
+		nid,
+		join_type,
+		join_id,
+		join_nid,
+		title,
+		name,
+		width,
+		align,
+		data_type,
+		editor_type,
+		render,
+		is_sort,
+		is_width,
+		is_visible,
+		ord,
+		create_date,
+		update_date,
+		status,
+		remark
+		)
+		values
+		<foreach collection="list" item="item" separator=",">
+			(
+			#{item.nid,jdbcType=BIGINT},
+			#{item.joinType,jdbcType=VARCHAR},
+			#{item.joinId,jdbcType=BIGINT},
+			#{item.joinNid,jdbcType=BIGINT},
+			#{item.title,jdbcType=VARCHAR},
+			#{item.name,jdbcType=VARCHAR},
+			#{item.width,jdbcType=VARCHAR},
+			#{item.align,jdbcType=VARCHAR},
+			#{item.dataType,jdbcType=VARCHAR},
+			#{item.editorType,jdbcType=VARCHAR},
+			#{item.render,jdbcType=VARCHAR},
+			#{item.isSort,jdbcType=BIGINT},
+			#{item.isWidth,jdbcType=BIGINT},
+			#{item.isVisible,jdbcType=BIGINT},
+			#{item.ord,jdbcType=BIGINT},
+			#{item.createDate,jdbcType=TIMESTAMP},
+			#{item.updateDate,jdbcType=TIMESTAMP},
+			#{item.status,jdbcType=INTEGER},
+			#{item.remark,jdbcType=VARCHAR}
+			)
+		</foreach>
+	</insert>
+</mapper>

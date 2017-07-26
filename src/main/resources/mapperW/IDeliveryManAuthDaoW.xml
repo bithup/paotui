@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xgh.paotui.dao.write.IDeliveryManAuthDaoW">
+
+	<!--实体映射-->
+	<resultMap id="deliveryManAuthResultMap" type="com.xgh.paotui.entity.DeliveryManAuth">
+		<!---->
+		<id property="id" column="id" />
+		<!--跑客id-->
+		<result property="deliveryManId" column="delivery_man_id" javaType="long" jdbcType="BIGINT" />
+		<!--身份证号码-->
+		<result property="idCardNo" column="id_card_no" javaType="String" jdbcType="VARCHAR" />
+		<!--身份证照1(正面、背面、手持)-->
+		<result property="idCardPicture1" column="id_card_picture1" javaType="String" jdbcType="VARCHAR" />
+		<!--身份证照2(正面、背面、手持)-->
+		<result property="idCardPicture2" column="id_card_picture2" javaType="String" jdbcType="VARCHAR" />
+		<!--身份证照3(正面、背面、手持)-->
+		<result property="idCardPicture3" column="id_card_picture3" javaType="String" jdbcType="VARCHAR" />
+		<!--微信OpendID-->
+		<result property="weixinOpenId" column="weixin_open_id" javaType="String" jdbcType="VARCHAR" />
+		<!--微信认证时间-->
+		<result property="weixinAuthTime" column="weixin_auth_time" javaType="Date" jdbcType="TIMESTAMP" />
+		<!--微信认证状态，0：未认证，1：已认证，2：认证失败 3 ：审核中-->
+		<result property="weixinAuthStatus" column="weixin_auth_status" javaType="int" jdbcType="INTEGER" />
+		<!--认证提交时间-->
+		<result property="authSubmitTime" column="auth_submit_time" javaType="Date" jdbcType="TIMESTAMP" />
+		<!--认证审核时间-->
+		<result property="authCheckTime" column="auth_check_time" javaType="Date" jdbcType="TIMESTAMP" />
+		<!--认证审核人-->
+		<result property="authUserId" column="auth_user_id" javaType="long" jdbcType="BIGINT" />
+		<!--状态（1：正常 2：已删除）-->
+		<result property="status" column="status" javaType="int" jdbcType="INTEGER" />
+		<!--扩展1-->
+		<result property="data1" column="data_1" javaType="long" jdbcType="BIGINT" />
+		<!--扩展2-->
+		<result property="data2" column="data_2" javaType="int" jdbcType="INTEGER" />
+		<!--扩展3-->
+		<result property="data3" column="data_3" javaType="String" jdbcType="VARCHAR" />
+		<!--扩展4-->
+		<result property="data4" column="data_4" javaType="String" jdbcType="VARCHAR" />
+		<!--扩展5-->
+		<result property="data5" column="data_5" javaType="String" jdbcType="VARCHAR" />
+	</resultMap>
+
+
+	<!--删除：根据主键ID逻辑删除-->
+	<delete id="delete" parameterType="java.lang.Long">
+		 update tb_delivery_man_auth
+		 set status=2  WHERE id = #{id}
+	</delete>
+
+	<!-- 添加 -->
+	<insert id="add" parameterType="com.xgh.paotui.entity.DeliveryManAuth">
+		<selectKey keyProperty="id" resultType="long" order="AFTER">
+			SELECT max(id)  AS value  from tb_delivery_man_auth
+		</selectKey>
+		 INSERT INTO tb_delivery_man_auth
+ 		(id,delivery_man_id,id_card_no,id_card_picture1,id_card_picture2,id_card_picture3,weixin_open_id,weixin_auth_time,weixin_auth_status,auth_submit_time,auth_check_time,auth_user_id,status,data_1,data_2,data_3,data_4,data_5) 
+		 VALUES 
+ 		(#{id},#{deliveryManId},#{idCardNo},#{idCardPicture1},#{idCardPicture2},#{idCardPicture3},#{weixinOpenId},#{weixinAuthTime},#{weixinAuthStatus},#{authSubmitTime},#{authCheckTime},#{authUserId},#{status},#{data1},#{data2},#{data3},#{data4},#{data5}) 
+	</insert>
+
+	<!-- 修 改-->
+	<update id="update" parameterType="com.xgh.paotui.entity.DeliveryManAuth">
+		 UPDATE tb_delivery_man_auth
+		 SET 
+			 delivery_man_id = #{deliveryManId},
+			 id_card_no = #{idCardNo},
+			 id_card_picture1 = #{idCardPicture1},
+			 id_card_picture2 = #{idCardPicture2},
+			 id_card_picture3 = #{idCardPicture3},
+			 weixin_open_id = #{weixinOpenId},
+			 weixin_auth_time = #{weixinAuthTime},
+			 weixin_auth_status = #{weixinAuthStatus},
+			 auth_submit_time = #{authSubmitTime},
+			 auth_check_time = #{authCheckTime},
+			 auth_user_id = #{authUserId},
+			 status = #{status},
+			 data_1 = #{data1},
+			 data_2 = #{data2},
+			 data_3 = #{data3},
+			 data_4 = #{data4},
+			 data_5 = #{data5}
+		 WHERE id = #{id}
+	</update>
+
+</mapper>

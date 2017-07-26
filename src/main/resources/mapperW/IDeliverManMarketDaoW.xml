@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xgh.paotui.dao.write.IDeliverManMarketDaoW">
+
+	<!--实体映射-->
+	<resultMap id="deliverManMarketResultMap" type="com.xgh.paotui.entity.DeliverManMarket">
+		<!---->
+		<id property=" id" column=" id" />
+		<!--跑客id-->
+		<result property="deliveryManId" column="delivery_man_id" javaType="long" jdbcType="BIGINT" />
+		<!--客户id-->
+		<result property="customerId" column="customer_id" javaType="long" jdbcType="BIGINT" />
+
+		<result property="openId" column="open_id" javaType="String" jdbcType="VARCHAR" />
+		<!--推广时间-->
+		<result property="marketTime" column="market_time" javaType="Date" jdbcType="TIMESTAMP" />
+		<!--状态（1：正常 2：已删除）-->
+		<result property="status" column="status" javaType="int" jdbcType="INTEGER" />
+		<!---->
+		<result property="data1" column="data_1" javaType="String" jdbcType="VARCHAR" />
+		<!---->
+		<result property="data2" column="data_2" javaType="String" jdbcType="VARCHAR" />
+	</resultMap>
+
+
+	<!--删除：根据主键ID逻辑删除-->
+	<delete id="delete" parameterType="java.lang.Long">
+		 update tb_deliver_man_market
+		 set status=2  WHERE  id = #{ id}
+	</delete>
+
+	<!-- 添加 -->
+	<insert id="add" parameterType="com.xgh.paotui.entity.DeliverManMarket">
+		 INSERT INTO tb_deliver_man_market
+ 		( id,delivery_man_id,customer_id,open_id,market_time,status,data_1,data_2)
+		 VALUES 
+ 		(#{ id},#{deliveryManId},#{customerId},#{openId},#{marketTime},#{status},#{data1},#{data2})
+	</insert>
+
+	<!-- 修 改-->
+	<update id="update" parameterType="com.xgh.paotui.entity.DeliverManMarket">
+		 UPDATE tb_deliver_man_market
+		 SET 
+			 delivery_man_id = #{deliveryManId},
+			 customer_id = #{customerId},
+			 open_id = #{openId},
+			 market_time = #{marketTime},
+			 status = #{status},
+			 data_1 = #{data1},
+			 data_2 = #{data2}
+		 WHERE  id = #{ id}
+	</update>
+
+</mapper>

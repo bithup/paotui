@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xgh.mng.dao.read.IFileDataDaoR">
+
+	<resultMap type="com.xgh.mng.entity.FileData" id="fileDataMap">
+		<!---->
+		<id property="id" column="id" javaType="Long" />
+		<!--nid-->
+		<result property="nid" column="nid" javaType="long" jdbcType="BIGINT" />
+		<!--行业Id-->
+		<result property="instId" column="inst_id" javaType="long" jdbcType="BIGINT" />
+		<!--行业nid-->
+		<result property="instNid" column="inst_nid" javaType="long" jdbcType="BIGINT" />
+		<!--行业编号-->
+		<result property="instCode" column="inst_code" javaType="String" jdbcType="VARCHAR" />
+		<!--单位id-->
+		<result property="unitId" column="unit_id" javaType="long" jdbcType="BIGINT" />
+		<!--单位nid-->
+		<result property="unitNid" column="unit_nid" javaType="long" jdbcType="BIGINT" />
+		<!--单位编码-->
+		<result property="unitCode" column="unit_code" javaType="String" jdbcType="VARCHAR" />
+		<!--业务数据类型编码，-->
+		<result property="dataCode" column="data_code" javaType="String" jdbcType="VARCHAR" />
+		<!--数据类型，配合data_code使用-->
+		<result property="dataType" column="data_type" javaType="int" jdbcType="INTEGER" />
+		<!--对应主表Id-->
+		<result property="dataId" column="data_id" javaType="long" jdbcType="BIGINT" />
+		<!--主表信息版本号-->
+		<result property="dataVersion" column="data_version" javaType="int" jdbcType="INTEGER" />
+		<!--根路径，不包含文件名-->
+		<result property="path" column="path" javaType="String" jdbcType="VARCHAR" />
+		<!--相对路径，不包括文件名-->
+		<result property="relativePath" column="relative_path" javaType="String" jdbcType="VARCHAR" />
+		<!--硬盘存储文件名称-->
+		<result property="fileName" column="file_name" javaType="String" jdbcType="VARCHAR" />
+		<!--文件原始名称-->
+		<result property="oldName" column="old_name" javaType="String" jdbcType="VARCHAR" />
+		<!--文件大小，单位B-->
+		<result property="fileSize" column="file_size" javaType="long" jdbcType="BIGINT" />
+		<!--文件后缀（扩展名）-->
+		<result property="fileSuffix" column="file_suffix" javaType="String" jdbcType="VARCHAR" />
+		<!--状态，1：正常、-1：删除-->
+		<result property="status" column="status" javaType="int" jdbcType="INTEGER" />
+		<!--上传时间-->
+		<result property="createDate" column="create_date" javaType="Date" jdbcType="TIMESTAMP" />
+		<!---->
+		<result property="ord" column="ord" javaType="int" jdbcType="INTEGER" />
+
+	</resultMap>
+	
+	<resultMap type="java.util.Map" id="fileDataMap2">
+		<result property="ID" column="id" javaType="long" jdbcType="BIGINT" />
+		<result property="NID" column="nid" javaType="long" jdbcType="BIGINT" />
+		<result property="INST_ID" column="inst_id" javaType="long" jdbcType="BIGINT" />
+		<result property="INST_NID" column="inst_nid" javaType="long" jdbcType="BIGINT" />
+		<result property="INST_CODE" column="inst_code" javaType="string" jdbcType="VARCHAR" />
+		<result property="UNIT_ID" column="unit_id" javaType="long" jdbcType="BIGINT" />
+		<result property="UNIT_NID" column="unit_nid" javaType="long" jdbcType="BIGINT" />
+		<result property="UNIT_CODE" column="unit_code" javaType="string" jdbcType="VARCHAR" />
+		<result property="DATA_CODE" column="data_code" javaType="string" jdbcType="VARCHAR" />
+		<result property="DATA_TYPE" column="data_type" javaType="int" jdbcType="INTEGER" />
+		<result property="DATA_ID" column="data_id" javaType="long" jdbcType="BIGINT" />
+		<result property="DATA_VERSION" column="data_version" javaType="int" jdbcType="INTEGER" />
+		<result property="PATH" column="path" javaType="string" jdbcType="VARCHAR" />
+		<result property="RELATIVE_PATH" column="relative_path" javaType="string" jdbcType="VARCHAR" />
+		<result property="FILE_NAME" column="file_name" javaType="string" jdbcType="VARCHAR" />
+		<result property="OLD_NAME" column="old_name" javaType="string" jdbcType="VARCHAR" />
+		<result property="FILE_SIZE" column="file_size" javaType="long" jdbcType="BIGINT" />
+		<result property="FILE_SUFFIX" column="file_suffix" javaType="string" jdbcType="VARCHAR" />
+		<result property="STATUS" column="status" javaType="int" jdbcType="INTEGER" />
+		<result property="CREATE_DATE" column="create_date" javaType="date" jdbcType="TIMESTAMP" />
+		<result property="ORD" column="ord" javaType="int" jdbcType="INTEGER" />
+
+	</resultMap>
+	
+	<select id="get" parameterType="long" resultMap="fileDataMap">
+		select * from tb_file_data where id = #{id}
+	</select>
+
+	<select id="getList" parameterType="hashmap" resultMap="fileDataMap">
+
+		select * from
+		tb_file_data
+		WHERE
+		data_id = #{dataId}
+		AND inst_id = #{instId}
+		AND data_version = #{dataVersion}
+		AND data_code = #{dataCode}
+		AND status = 1
+	</select>
+
+
+	<select id="getListPage" parameterType="hashmap" resultMap="fileDataMap">
+		select
+		*
+		from
+		tb_file_data
+		<if test="keyFileData!= null">
+			<trim prefix="WHERE" prefixOverrides="AND |OR ">
+				AND status = 1
+				<if test="keyFileData.id!= null">
+				and id = #{keyFileData.id}
+				</if>
+				<if test="keyFileData.instId!= null">
+				and inst_id = #{keyFileData.instId}
+				</if>
+				<if test="keyFileData.unitId!= null">
+				and unit_id = #{keyFileData.unitId}
+				</if>
+			</trim>
+		</if> 
+		limit ${(page-1)*pagesize},${pagesize}
+	</select>
+
+	<select id="getRows" parameterType="hashmap" resultType="long">
+		select
+		count(*) from
+		tb_file_data
+		<if test="keyFileData!= null">
+			<trim prefix="WHERE" prefixOverrides="AND |OR ">
+				AND status = 1
+				<if test="keyFileData.id!= null">
+				and id = #{keyFileData.id}
+				</if>
+				<if test="keyFileData.instId!= null">
+				and inst_id = #{keyFileData.instId}
+				</if>
+			</trim>
+		</if>
+	</select>
+</mapper>

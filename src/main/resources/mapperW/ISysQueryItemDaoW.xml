@@ -1,0 +1,207 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xgh.mng.dao.write.ISysQueryItemDaoW">
+
+	<resultMap id="sysQueryItemMap" type="com.xgh.mng.entity.SysQueryItem">
+		<result column="id" javaType="long" jdbcType="BIGINT" property="id"/>
+		<result column="nid" javaType="long" jdbcType="BIGINT" property="nid"/>
+		<result column="unit_id" javaType="long" jdbcType="BIGINT" property="unitId"/>
+		<result column="unit_nid" javaType="long" jdbcType="BIGINT" property="unitNid"/>
+		<result column="join_id" javaType="long" jdbcType="BIGINT" property="joinId"/>
+		<result column="join_nid" javaType="long" jdbcType="BIGINT" property="joinNid"/>
+		<result column="join_type" javaType="string" jdbcType="VARCHAR" property="joinType"/>
+		<result column="name" javaType="string" jdbcType="VARCHAR" property="name"/>
+		<result column="field_name" javaType="string" jdbcType="VARCHAR" property="fieldName"/>
+		<result column="form_name" javaType="string" jdbcType="VARCHAR" property="formName"/>
+		<result column="input_name" javaType="string" jdbcType="VARCHAR" property="inputName"/>
+		<result column="data_type" javaType="string" jdbcType="VARCHAR" property="dataType"/>
+		<result column="value" javaType="string" jdbcType="VARCHAR" property="value"/>
+		<result column="datasource_type" javaType="string" jdbcType="VARCHAR" property="datasourceType"/>
+		<result column="datasource_value" javaType="string" jdbcType="VARCHAR" property="datasourceValue"/>
+		<result column="query_type" javaType="string" jdbcType="VARCHAR" property="queryType"/>
+		<result column="operator" javaType="string" jdbcType="VARCHAR" property="operator"/>
+		<result column="row" javaType="long" jdbcType="BIGINT" property="row"/>
+		<result column="rowspan" javaType="long" jdbcType="BIGINT" property="rowspan"/>
+		<result column="width" javaType="long" jdbcType="BIGINT" property="width"/>
+		<result column="x" javaType="long" jdbcType="BIGINT" property="x"/>
+		<result column="ord" javaType="long" jdbcType="BIGINT" property="ord"/>
+		<result column="create_date" javaType="date" jdbcType="TIMESTAMP" property="createDate"/>
+		<result column="update_date" javaType="date" jdbcType="TIMESTAMP" property="updateDate"/>
+		<result column="status" javaType="int" jdbcType="INTEGER" property="status"/>
+		<result column="remark" javaType="string" jdbcType="VARCHAR" property="remark"/>
+	</resultMap>
+
+	<insert id="add" parameterType="com.xgh.mng.entity.SysQueryItem">
+		<selectKey keyProperty="id" order="AFTER" resultType="long">
+			SELECT max(id) AS value from tb_sys_query_item
+		</selectKey>
+		insert into tb_sys_query_item
+		(
+		nid,
+		unit_id,
+		unit_nid,
+		join_id,
+		join_nid,
+		join_type,
+		name,
+		field_name,
+		form_name,
+		input_name,
+		data_type,
+		value,
+		datasource_type,
+		datasource_value,
+		query_type,
+		operator,
+		row,
+		rowspan,
+		width,
+		x,
+		ord,
+		create_date,
+		update_date,
+		status,
+		remark
+		)
+		values (
+		#{nid,jdbcType=BIGINT},
+		#{unitId,jdbcType=BIGINT},
+		#{unitNid,jdbcType=BIGINT},
+		#{joinId,jdbcType=BIGINT},
+		#{joinNid,jdbcType=BIGINT},
+		#{joinType,jdbcType=VARCHAR},
+		#{name,jdbcType=VARCHAR},
+		#{fieldName,jdbcType=VARCHAR},
+		#{formName,jdbcType=VARCHAR},
+		#{inputName,jdbcType=VARCHAR},
+		#{dataType,jdbcType=VARCHAR},
+		#{value,jdbcType=VARCHAR},
+		#{datasourceType,jdbcType=VARCHAR},
+		#{datasourceValue,jdbcType=VARCHAR},
+		#{queryType,jdbcType=VARCHAR},
+		#{operator,jdbcType=VARCHAR},
+		#{row,jdbcType=BIGINT},
+		#{rowspan,jdbcType=BIGINT},
+		#{width,jdbcType=BIGINT},
+		#{x,jdbcType=BIGINT},
+		#{ord,jdbcType=BIGINT},
+		#{createDate,jdbcType=TIMESTAMP},
+		#{updateDate,jdbcType=TIMESTAMP},
+		#{status,jdbcType=INTEGER},
+		#{remark,jdbcType=VARCHAR}
+		)
+	</insert>
+
+	<update id="update" parameterType="com.xgh.mng.entity.SysQueryItem">
+		update tb_sys_query_item
+		set
+		nid = #{nid,jdbcType=BIGINT},
+		unit_id = #{unitId,jdbcType=BIGINT},
+		unit_nid = #{unitNid,jdbcType=BIGINT},
+		join_id = #{joinId,jdbcType=BIGINT},
+		join_nid = #{joinNid,jdbcType=BIGINT},
+		join_type = #{joinType,jdbcType=VARCHAR},
+		name = #{name,jdbcType=VARCHAR},
+		field_name = #{fieldName,jdbcType=VARCHAR},
+		form_name = #{formName,jdbcType=VARCHAR},
+		input_name = #{inputName,jdbcType=VARCHAR},
+		data_type = #{dataType,jdbcType=VARCHAR},
+		value = #{value,jdbcType=VARCHAR},
+		datasource_type = #{datasourceType,jdbcType=VARCHAR},
+		datasource_value = #{datasourceValue,jdbcType=VARCHAR},
+		query_type = #{queryType,jdbcType=VARCHAR},
+		operator = #{operator,jdbcType=VARCHAR},
+		row = #{row,jdbcType=BIGINT},
+		rowspan = #{rowspan,jdbcType=BIGINT},
+		width = #{width,jdbcType=BIGINT},
+		x = #{x,jdbcType=BIGINT},
+		ord = #{ord,jdbcType=BIGINT},
+		create_date = #{createDate,jdbcType=TIMESTAMP},
+		update_date = #{updateDate,jdbcType=TIMESTAMP},
+		status = #{status,jdbcType=INTEGER},
+		remark = #{remark,jdbcType=VARCHAR}
+		where id = #{id}
+	</update>
+
+	<delete id="deleteById" parameterType="long">
+		delete from
+		tb_sys_query_item
+		where
+		id = #{id}
+	</delete>
+
+	<delete id="deleteByNid" parameterType="long">
+		delete from
+		tb_sys_query_item
+		where
+		nid = #{nid}
+	</delete>
+
+	<insert id="addBatch" parameterType="com.xgh.mng.entity.SysQueryItem">
+		insert into tb_sys_query_item
+		(
+		nid,
+		unit_id,
+		unit_nid,
+		join_id,
+		join_nid,
+		join_type,
+		name,
+		field_name,
+		form_name,
+		input_name,
+		data_type,
+		value,
+		datasource_type,
+		datasource_value,
+		query_type,
+		operator,
+		row,
+		rowspan,
+		width,
+		x,
+		ord,
+		create_date,
+		update_date,
+		status,
+		remark
+		)
+		values
+		<foreach collection="list" item="item" separator=",">
+			(
+			#{item.nid,jdbcType=BIGINT},
+			#{item.unitId,jdbcType=BIGINT},
+			#{item.unitNid,jdbcType=BIGINT},
+			#{item.joinId,jdbcType=BIGINT},
+			#{item.joinNid,jdbcType=BIGINT},
+			#{item.joinType,jdbcType=VARCHAR},
+			#{item.name,jdbcType=VARCHAR},
+			#{item.fieldName,jdbcType=VARCHAR},
+			#{item.formName,jdbcType=VARCHAR},
+			#{item.inputName,jdbcType=VARCHAR},
+			#{item.dataType,jdbcType=VARCHAR},
+			#{item.value,jdbcType=VARCHAR},
+			#{item.datasourceType,jdbcType=VARCHAR},
+			#{item.datasourceValue,jdbcType=VARCHAR},
+			#{item.queryType,jdbcType=VARCHAR},
+			#{item.operator,jdbcType=VARCHAR},
+			#{item.row,jdbcType=BIGINT},
+			#{item.rowspan,jdbcType=BIGINT},
+			#{item.width,jdbcType=BIGINT},
+			#{item.x,jdbcType=BIGINT},
+			#{item.ord,jdbcType=BIGINT},
+			#{item.createDate,jdbcType=TIMESTAMP},
+			#{item.updateDate,jdbcType=TIMESTAMP},
+			#{item.status,jdbcType=INTEGER},
+			#{item.remark,jdbcType=VARCHAR}
+			)
+		</foreach>
+	</insert>
+
+	<delete id="deleteByJoinType" parameterType="hashmap">
+		delete from
+		tb_sys_query_item
+		where join_id = #{joinId} and join_type = #{joinType}
+	</delete>
+</mapper>

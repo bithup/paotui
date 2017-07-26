@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xgh.paotui.dao.write.IOrderLineupDaoW">
+
+	<!--实体映射-->
+	<resultMap id="orderLineupResultMap" type="com.xgh.paotui.entity.OrderLineup">
+		<!---->
+		<id property="id" column="id" />
+		<!--订单id-->
+		<result property="orderId" column="order_id" javaType="long" jdbcType="BIGINT" />
+		<!--排队地点定位地址-->
+		<result property="locationAddress" column="location_address" javaType="String" jdbcType="VARCHAR" />
+		<!--排队地点定位地址概述-->
+		<result property="locationAddressName" column="location_address_name" javaType="String" jdbcType="VARCHAR" />
+		<!--排队地点详细地址，如楼层/门牌号-->
+		<result property="detailAddress" column="detail_address" javaType="String" jdbcType="VARCHAR" />
+		<!--经度-->
+		<result property="longitude" column="longitude" javaType="Double" jdbcType="DOUBLE" />
+		<!--纬度-->
+		<result property="latitude" column="latitude" javaType="Double" jdbcType="DOUBLE" />
+		<!--排队要求-->
+		<result property="lineupRequire" column="lineup_require" javaType="String" jdbcType="VARCHAR" />
+		<!--排队时长，单位：分钟-->
+		<result property="lineupDuration" column="lineup_duration" javaType="int" jdbcType="INTEGER" />
+		<!--联系电话-->
+		<result property="lineupPhone" column="lineup_phone" javaType="String" jdbcType="VARCHAR" />
+		<!--排队加时支付的金额-->
+		<result property="addPayMoney" column="add_pay_money" javaType="BigDecimal" jdbcType="DECIMAL" />
+		<!--排队加时时长，单位:分钟-->
+		<result property="addPayDuration" column="add_pay_duration" javaType="int" jdbcType="INTEGER" />
+		<!--排队加时支付时间-->
+		<result property="addPayTime" column="add_pay_time" javaType="Date" jdbcType="TIMESTAMP" />
+		<!--第三方支付返回的支付订单号-->
+		<result property="addPayTransactionId" column="add_pay_transaction_id" javaType="String" jdbcType="VARCHAR" />
+		<!--排队开始时间-->
+		<result property="lineupBeginTime" column="lineup_begin_time" javaType="Date" jdbcType="TIMESTAMP" />
+		<!--排队结束时间-->
+		<result property="lineupEndTime" column="lineup_end_time" javaType="Date" jdbcType="TIMESTAMP" />
+		<!--排队实际时长-->
+		<result property="lineupRealDuration" column="lineup_real_duration" javaType="int" jdbcType="INTEGER" />
+		<!--排队实际费用-->
+		<result property="lineupRealMoney" column="lineup_real_money" javaType="BigDecimal" jdbcType="DECIMAL" />
+		<!--状态（1：正常 2：已删除）-->
+		<result property="status" column="status" javaType="int" jdbcType="INTEGER" />
+		<!--扩展1-->
+		<result property="data1" column="data_1" javaType="long" jdbcType="BIGINT" />
+		<!--扩展2-->
+		<result property="data2" column="data_2" javaType="int" jdbcType="INTEGER" />
+		<!--扩展3-->
+		<result property="data3" column="data_3" javaType="String" jdbcType="VARCHAR" />
+		<!--扩展4-->
+		<result property="data4" column="data_4" javaType="String" jdbcType="VARCHAR" />
+		<!--扩展5-->
+		<result property="data5" column="data_5" javaType="String" jdbcType="VARCHAR" />
+	</resultMap>
+
+
+	<!--删除：根据主键ID逻辑删除-->
+	<delete id="delete" parameterType="java.lang.Long">
+		 update tb_order_lineup
+		 set status=2  WHERE id = #{id}
+	</delete>
+
+	<!-- 添加 -->
+	<insert id="add" parameterType="com.xgh.paotui.entity.OrderLineup">
+		 INSERT INTO tb_order_lineup
+ 		(id,order_id,location_address,location_address_name,detail_address,longitude,latitude,lineup_require,lineup_duration,lineup_phone,add_pay_money,add_pay_duration,add_pay_time,add_pay_transaction_id,lineup_begin_time,lineup_end_time,lineup_real_duration,lineup_real_money,status,data_1,data_2,data_3,data_4,data_5) 
+		 VALUES 
+ 		(#{id},#{orderId},#{locationAddress},#{locationAddressName},#{detailAddress},#{longitude},#{latitude},#{lineupRequire},#{lineupDuration},#{lineupPhone},#{addPayMoney},#{addPayDuration},#{addPayTime},#{addPayTransactionId},#{lineupBeginTime},#{lineupEndTime},#{lineupRealDuration},#{lineupRealMoney},#{status},#{data1},#{data2},#{data3},#{data4},#{data5}) 
+	</insert>
+
+	<!-- 修 改-->
+	<update id="update" parameterType="com.xgh.paotui.entity.OrderLineup">
+		 UPDATE tb_order_lineup
+		 SET 
+			 order_id = #{orderId},
+			 location_address = #{locationAddress},
+			 location_address_name = #{locationAddressName},
+			 detail_address = #{detailAddress},
+			 longitude = #{longitude},
+			 latitude = #{latitude},
+			 lineup_require = #{lineupRequire},
+			 lineup_duration = #{lineupDuration},
+			 lineup_phone = #{lineupPhone},
+			 add_pay_money = #{addPayMoney},
+			 add_pay_duration = #{addPayDuration},
+			 add_pay_time = #{addPayTime},
+			 add_pay_transaction_id = #{addPayTransactionId},
+			 lineup_begin_time = #{lineupBeginTime},
+			 lineup_end_time = #{lineupEndTime},
+			 lineup_real_duration = #{lineupRealDuration},
+			 lineup_real_money = #{lineupRealMoney},
+			 status = #{status},
+			 data_1 = #{data1},
+			 data_2 = #{data2},
+			 data_3 = #{data3},
+			 data_4 = #{data4},
+			 data_5 = #{data5}
+		 WHERE id = #{id}
+	</update>
+
+</mapper>

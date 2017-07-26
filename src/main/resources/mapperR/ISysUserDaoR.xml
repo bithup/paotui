@@ -1,0 +1,262 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xgh.mng.dao.read.ISysUserDaoR">
+
+	<resultMap id="sysUserMap" type="com.xgh.mng.entity.SysUser">
+		<result column="id" javaType="long" jdbcType="BIGINT" property="id"/>
+		<result column="nid" javaType="long" jdbcType="BIGINT" property="nid"/>
+		<result column="inst_id" javaType="long" jdbcType="BIGINT" property="instId"/>
+		<result column="inst_nid" javaType="long" jdbcType="BIGINT" property="instNid"/>
+		<result column="inst_code" javaType="string" jdbcType="VARCHAR" property="instCode"/>
+		<result column="unit_id" javaType="long" jdbcType="BIGINT" property="unitId"/>
+		<result column="unit_nid" javaType="long" jdbcType="BIGINT" property="unitNid"/>
+		<result column="unit_code" javaType="string" jdbcType="VARCHAR" property="unitCode"/>
+		<result column="account" javaType="string" jdbcType="VARCHAR" property="account"/>
+		<result column="password" javaType="string" jdbcType="VARCHAR" property="password"/>
+		<result column="user_name" javaType="string" jdbcType="VARCHAR" property="userName"/>
+		<result column="mobile" javaType="string" jdbcType="VARCHAR" property="mobile"/>
+		<result column="email" javaType="string" jdbcType="VARCHAR" property="email"/>
+		<result column="user_cord" javaType="string" jdbcType="VARCHAR" property="userCord"/>
+		<result column="is_sys" javaType="long" jdbcType="BIGINT" property="isSys"/>
+		<result column="ord" javaType="long" jdbcType="BIGINT" property="ord"/>
+		<result column="create_date" javaType="date" jdbcType="TIMESTAMP" property="createDate"/>
+		<result column="update_date" javaType="date" jdbcType="TIMESTAMP" property="updateDate"/>
+		<result column="status" javaType="int" jdbcType="INTEGER" property="status"/>
+		<result column="remark" javaType="string" jdbcType="VARCHAR" property="remark"/>
+		<result column="data_1" javaType="long" jdbcType="BIGINT" property="data1"/>
+		<result column="data_2" javaType="string" jdbcType="VARCHAR" property="data2"/>
+		<result column="data_3" javaType="string" jdbcType="VARCHAR" property="data3"/>
+		<!--所属城市id-->
+		<result property="openCityId" column="open_city_id" javaType="long" jdbcType="BIGINT" />
+		<!--所属城市名称-->
+		<result property="openCityName" column="open_city_Name" javaType="String" jdbcType="VARCHAR" />
+	</resultMap>
+
+	<resultMap id="sysUserMap2" type="java.util.Map">
+		<result column="id" javaType="long" jdbcType="BIGINT" property="ID"/>
+		<result column="nid" javaType="long" jdbcType="BIGINT" property="NID"/>
+		<result column="inst_id" javaType="long" jdbcType="BIGINT" property="INST_ID"/>
+		<result column="inst_nid" javaType="long" jdbcType="BIGINT" property="INST_NID"/>
+		<result column="inst_code" javaType="string" jdbcType="VARCHAR" property="INST_CODE"/>
+		<result column="unit_id" javaType="long" jdbcType="BIGINT" property="UNIT_ID"/>
+		<result column="unit_nid" javaType="long" jdbcType="BIGINT" property="UNIT_NID"/>
+		<result column="unit_code" javaType="string" jdbcType="VARCHAR" property="UNIT_CODE"/>
+		<result column="account" javaType="string" jdbcType="VARCHAR" property="ACCOUNT"/>
+		<result column="password" javaType="string" jdbcType="VARCHAR" property="PASSWORD"/>
+		<result column="user_name" javaType="string" jdbcType="VARCHAR" property="USER_NAME"/>
+		<result column="mobile" javaType="string" jdbcType="VARCHAR" property="MOBILE"/>
+		<result column="email" javaType="string" jdbcType="VARCHAR" property="EMAIL"/>
+		<result column="user_cord" javaType="string" jdbcType="VARCHAR" property="USER_CORD"/>
+		<result column="is_sys" javaType="long" jdbcType="BIGINT" property="IS_SYS"/>
+		<result column="ord" javaType="long" jdbcType="BIGINT" property="ORD"/>
+		<result column="create_date" javaType="date" jdbcType="TIMESTAMP" property="CREATE_DATE"/>
+		<result column="update_date" javaType="date" jdbcType="TIMESTAMP" property="UPDATE_DATE"/>
+		<result column="status" javaType="int" jdbcType="INTEGER" property="STATUS"/>
+		<result column="remark" javaType="string" jdbcType="VARCHAR" property="REMARK"/>
+		<result column="data_1" javaType="long" jdbcType="BIGINT" property="DATA_1"/>
+		<result column="data_2" javaType="string" jdbcType="VARCHAR" property="DATA_2"/>
+		<result column="data_3" javaType="string" jdbcType="VARCHAR" property="DATA_3"/>
+		<!--所属城市id-->
+		<result property="openCityId" column="open_city_id" javaType="long" jdbcType="BIGINT" />
+		<!--所属城市名称-->
+		<result property="openCityName" column="open_city_Name" javaType="String" jdbcType="VARCHAR" />
+	</resultMap>
+
+	<select id="get" parameterType="long" resultMap="sysUserMap">
+		select * from tb_sys_user where id = #{id}
+	</select>
+
+	<select id="getList" parameterType="com.xgh.mng.entity.SysUser"
+			resultMap="sysUserMap">
+		select * from
+		tb_sys_user
+		<trim prefix="WHERE" prefixOverrides="AND |OR ">
+			<if test="unitId!= null">
+				and unit_id = #{unitId}
+			</if>
+		</trim>
+	</select>
+
+
+	<select id="getListPage" parameterType="hashmap" resultMap="sysUserMap">
+		select
+		*
+		from
+		tb_sys_user
+		<if test="keySysUser!= null">
+			<trim prefix="WHERE" prefixOverrides="AND |OR ">
+
+				<if test="keySysUser.id!= null">
+					and id = #{keySysUser.id}
+				</if>
+			</trim>
+		</if>
+		limit ${(page-1)*pagesize},${pagesize}
+	</select>
+
+	<select id="getRows" parameterType="hashmap" resultType="long">
+		select
+		count(*) from
+		tb_sys_user
+		<if test="keySysUser!= null">
+			<trim prefix="WHERE" prefixOverrides="AND |OR ">
+				<if test="keySysUser.id!= null">
+					and id = #{keySysUser.id}
+				</if>
+			</trim>
+		</if>
+	</select>
+
+	<select id="getListMap" parameterType="hashmap" resultMap="sysUserMap2">
+		SELECT
+		u.id,
+		u.account,
+		u.user_name,
+		u.user_cord,
+		u.mobile,
+		u.email,
+		du.ord,
+		u.status,
+		u.open_city_id as openCityId,
+		u.open_city_Name as openCityName,
+		du.user_level as USER_LEVEL,
+		du.id as DEPT_USER_ID
+		FROM
+		tb_sys_user u
+		JOIN tb_sys_dept_user du ON u.id = du.user_id
+		<trim prefix="WHERE" prefixOverrides="AND |OR ">
+			u.status = 1 and u.is_sys = 0
+<!--			<choose>
+				<when test="isCascade == 'no'">
+					and du.dept_id = #{deptId}
+				</when>
+				<otherwise>
+					and du.dept_code like #{deptCode}
+				</otherwise>
+			</choose>-->
+			<if test="userName!=null">
+				and (u.user_name like #{userName} or u.account like #{userName})
+			</if>
+			<if test="mobile!=null">
+				and u.mobile like #{mobile}
+			</if>
+			<if test="email!=null">
+				and u.email like #{email}
+			</if>
+		</trim>
+		<if test="sortname !=null and sortname !='' ">
+			order by ${sortname}
+			<if test="sortorder !=null and sortorder !='' ">
+				${sortorder}
+			</if>
+		</if>
+		limit ${(page-1)*pagesize},${pagesize}
+	</select>
+
+
+	<select id="getListRows" parameterType="hashmap" resultType="long">
+		SELECT
+		count(u.id)
+		FROM
+		tb_sys_user u
+		JOIN tb_sys_dept_user du ON u.id = du.user_id
+		<trim prefix="WHERE" prefixOverrides="AND |OR ">
+			u.status = 1 and u.is_sys = 0
+			<choose>
+				<when test="isCascade == 'no'">
+					and du.dept_id = #{deptId}
+				</when>
+				<otherwise>
+					and du.dept_code like #{deptCode}
+				</otherwise>
+			</choose>
+			<if test="userName!=null">
+				and (u.user_name like #{userName} or u.account like #{userName})
+			</if>
+			<if test="mobile!=null">
+				and u.mobile like #{mobile}
+			</if>
+			<if test="email!=null">
+				and u.email like #{email}
+			</if>
+		</trim>
+	</select>
+
+
+	<select id="getSameAcountRows" parameterType="hashmap" resultType="long">
+		SELECT
+		count(id)
+		FROM
+		tb_sys_user
+		WHERE
+		account = #{account}
+		and unit_id = #{unitId}
+		AND status = 1
+		<if test="id!= null">
+			and id &lt;&gt; #{id}
+		</if>
+	</select>
+
+	<select id="getDeptUserRowsByUserId" parameterType="hashmap" resultType="long">
+		SELECT
+		count(du.id)
+		FROM
+		tb_sys_dept_user du
+		JOIN tb_sys_department d ON du.dept_id = d.id
+		where d.status = 1
+		and du.user_id = #{userId}
+	</select>
+
+
+	<select id="getSelectDialogUserList" parameterType="hashmap" resultType="hashmap">
+		SELECT
+		DISTINCT
+		u.id as ID,
+		u.user_name AS USER_NAME
+		FROM
+		tb_sys_user u
+		JOIN tb_sys_dept_user du ON u.id = du.user_id
+		where u.status = 1
+		and u.unit_id = #{unitId}
+		and u.is_sys = 0
+		<choose>
+			<when test="isCascade == 'no'">
+				and du.dept_id = #{deptId}
+			</when>
+			<otherwise>
+				and du.dept_code like #{deptCode}
+			</otherwise>
+		</choose>
+		<if test="searchName!=null">
+			and u.user_name like #{searchName}
+		</if>
+		order by du.ord
+	</select>
+
+	<select id="getLoginCheckUserList" parameterType="hashmap" resultMap="sysUserMap">
+		select u.* from tb_sys_user u,tb_sys_units su
+		where
+		u.status = 1
+		and u.unit_code = #{unitCode} and u.account = #{account}
+		and u.unit_id = su.id and su.unit_status = 'pass' and su.stop_date &gt;= now();
+	</select>
+
+	<select id="getUserByAccountAndUnitId" parameterType="hashmap" resultMap="sysUserMap">
+		SELECT
+		u.*
+		FROM tb_sys_user u
+		where u.status = 0
+		and u.unit_id = #{unitId}
+		and u.account = #{account} limit 0,1
+	</select>
+
+	<select id="getAdmin" parameterType="hashmap" resultMap="sysUserMap">
+		SELECT
+		u.*
+		FROM tb_sys_user u
+		where u.status = 1
+		and u.unit_id = #{unitId}
+		and u.account = 'admin' limit 0,1
+	</select>
+</mapper>

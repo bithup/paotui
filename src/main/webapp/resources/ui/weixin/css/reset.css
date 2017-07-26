@@ -1,0 +1,205 @@
+﻿@charset "utf-8";
+/*=========================Reset_start==========================*/
+*{padding: 0;margin: 0;}
+body,h1,h2,h3,h4,h5,h6,div,p,dl,dt,dd,ol,ul,li,form,table,th,td,a,img,span,strong,var,em,input,textarea,select,option,button{margin: 0; padding: 0;}
+html,body{font-family:"微软雅黑"; font-size: 30px; text-align: left;color:#666;}
+body{width:100%;max-width:750px;width:expression_r(document.body.clientWidth > 750 ? "750px": "auto" );background: #e9efef;}
+ul,ol{list-style: none;}
+img{border: 0;}
+input,select,textarea,button{outline:0;border: 0;background: transparent;font-family: "微软雅黑";}
+textarea{resize:none; overflow: auto;background: #fff;}
+table{border-collapse: collapse; border-spacing: 0;}
+h1,h2,h3,h4,h5,h6,th,strong,var,em,b,i{font-weight: normal; font-style: normal;}
+a{text-decoration: none;display: inline-block;font-family: '微软雅黑';color: #fff;}
+
+/*==========================Reset_End===========================*/
+/* 头部样式 */
+.head{
+	width: 100%;
+	height: 88px;
+	background: #35ccab;
+	overflow: hidden;
+	text-align: center;
+	position: relative;
+	font-size: 32px;
+	color: #fff;
+}
+.ver{
+	line-height: 88px;
+}
+.city_sel{
+	margin: 19px 0 0 20px;
+	float: left;
+}
+.city_sel a{
+	color: #fff;
+}
+.city_sel a img{
+	margin-left: 12px;
+}
+.head .return{
+	position: absolute;
+	background: url(../images/return.png) 0 0 no-repeat;
+	width: 24px;
+	height: 44px;
+	background-size: cover;
+	display: inline-block;
+	top: 22px;
+	left: 24px;
+}
+/* 底部样式 */
+.foot{
+	font-size: 22px;
+	background: #fff;
+	position: fixed;
+	bottom: 0;
+	left: 0;
+	margin-top: 20px;
+}
+.foot ul{
+	width: 72%;
+	margin: 0 auto;
+	overflow: hidden;
+	padding: 10px 0;
+}
+.foot ul li{
+	float: left;
+	width: 8%;
+	text-align: center;
+	margin-right: 22%
+}
+.foot ul li:nth-child(4){
+	margin-right: 0;
+	margin-top: 5px;
+}
+.foot ul li:nth-child(2){
+	margin-top: 6px;
+}
+.foot ul li:nth-child(3){
+	margin-top: 6px;
+}
+.foot ul li span{
+	display: block;
+	font-size: 18px;
+	color: #333;
+}
+.foot ul li b{
+	display: inline-block;
+}
+.foot ul li .indexlogo{
+	background: url(../images/index.png) 0 0 no-repeat;
+	width: 42px;
+	height: 38px;
+}
+.foot ul li .indexlogoact{
+	background: url(../images/index_act.png) 0 0 no-repeat;
+}
+.foot ul li .joblogo{
+	background: url(../images/job.png) 0 0 no-repeat;
+	width: 37px;
+	height: 33px;
+}
+.foot ul li .joblogoact{
+	background: url(../images/job_act.png) 0 0 no-repeat;
+}
+.foot ul li .msglogo{
+	background: url(../images/msg.png) 0 0 no-repeat;
+	width: 34px;
+	height: 32px;
+}
+.foot ul li .msglogoact{
+	background: url(../images/msg_act.png) 0 0 no-repeat;
+}
+.foot ul li .mylogo{
+	background: url(../images/my.png) 0 0 no-repeat;
+	width: 32px;
+	height: 33px;
+}
+.foot ul li .mylogoact{
+	background: url(../images/my_act.png) 0 0 no-repeat;
+}
+.foot .footactive{
+	color: #02cc9f;
+}
+.msg_count01{
+	padding: 5px 10px;
+	background: #E60012;
+	border-radius: 17px;
+	font-size: 24px;
+	color: #fff;
+	line-height: 24px;
+	text-align: center;
+	display: inline-block;
+	position: absolute;
+	top: -14px;
+	right: auto;
+	left: 21px;
+	z-index: 999;
+}
+.msg_po{
+	position: relative;
+}
+/* 蒙版样式 */
+.mask{
+	width: 100%;
+	position: absolute;
+	top: 0;
+	left: 0;
+	background: rgba(0,0,0,.5);
+	display: none; 
+}
+.state{
+	position: absolute;
+	top: 250px;
+	left: 50%;
+	margin-left: -310px;
+	width: 620px;
+	background: #fff;
+}
+.state_tit{
+	color: #333;
+	text-align: center;
+	border-bottom: 1px solid #35ccab;
+	line-height: 90px;
+}
+.state ul{
+	width: 100%;
+}
+.state ul li{
+	width: 84%;
+	margin: 0 auto;
+	border-bottom: 1px solid #eee;
+	line-height: 100px;
+}
+.state .active{
+	color: #35ccaa;
+	background: url(../images/mark.png) 92% center no-repeat;
+}
+.footeriframe{
+	width: 100%;
+	height: 90px;
+	position: fixed;
+	left: 0px;
+	bottom: 0px;
+	overflow: hidden;
+}
+/* 清除浮动 */
+.clear{
+	clear: both;
+}
+
+/* placeholder样式 */
+::-webkit-input-placeholder { /* WebKit browsers */  
+    color: #ccc;
+}  
+:-moz-placeholder { /* Mozilla Firefox 4 to 18 */  
+   color: #ccc;
+   opacity: 1;
+}  
+::-moz-placeholder { /* Mozilla Firefox 19+ */  
+   color: #ccc;
+   opacity: 1;
+}  
+:-ms-input-placeholder { /* Internet Explorer 10+ */  
+   color: #ccc;
+}

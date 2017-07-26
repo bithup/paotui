@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xgh.paotui.dao.read.IOrderActionDaoR">
+
+	<!--实体映射-->
+	<resultMap id="orderActionResultMap" type="com.xgh.paotui.entity.OrderAction">
+		<!---->
+		<id property="id" column="id" />
+		<!--订单id-->
+		<result property="orderId" column="order_id" javaType="long" jdbcType="BIGINT" />
+		<!--订单动作名称-->
+		<result property="actionName" column="action_name" javaType="String" jdbcType="VARCHAR" />
+		<!--订单动作时间-->
+		<result property="actionTime" column="action_time" javaType="Date" jdbcType="TIMESTAMP" />
+		<!--动作类型，1、完成动作；2、进行中动作-->
+		<result property="actionType" column="action_type" javaType="int" jdbcType="INTEGER" />
+		<!--部分环节，拍的照片。多个照片，用“||”隔开-->
+		<result property="actionImage" column="action_image" javaType="String" jdbcType="VARCHAR" />
+		<!--显示标志，完成动作后，上一个进行中动作要设置为不显示，1：显示；2、不显示-->
+		<result property="showFlag" column="show_flag" javaType="int" jdbcType="INTEGER" />
+		<!--状态（1：正常 2：已删除）-->
+		<result property="status" column="status" javaType="int" jdbcType="INTEGER" />
+		<!--扩展1-->
+		<result property="data1" column="data_1" javaType="long" jdbcType="BIGINT" />
+		<!--扩展2-->
+		<result property="data2" column="data_2" javaType="int" jdbcType="INTEGER" />
+		<!--扩展3-->
+		<result property="data3" column="data_3" javaType="String" jdbcType="VARCHAR" />
+		<!--扩展4-->
+		<result property="data4" column="data_4" javaType="String" jdbcType="VARCHAR" />
+		<!--扩展5-->
+		<result property="data5" column="data_5" javaType="String" jdbcType="VARCHAR" />
+	</resultMap>
+
+
+	<!-- 通用查询结果列-->
+	<sql id="Base_Column_List">
+		id as id,
+		order_id	 as orderId,
+		action_name	 as actionName,
+		action_time	 as actionTime,
+		action_type	 as actionType,
+		action_image	 as actionImage,
+		show_flag	 as showFlag,
+		status	 as status,
+		data_1	 as data1,
+		data_2	 as data2,
+		data_3	 as data3,
+		data_4	 as data4,
+		data_5	 as data5
+	</sql>
+	<!-- 查询（根据主键ID查询） -->
+	<select id="get" resultMap="orderActionResultMap" parameterType="java.lang.Long">
+		 SELECT
+		 <include refid="Base_Column_List" />
+		 FROM tb_order_action
+		 WHERE  status = 1  and show_flag=1  and id = #{id}
+	</select>
+
+	<!-- 查询（根据查询条件查询） -->
+	<select id="getList" resultMap="orderActionResultMap" parameterType="hashmap">
+		 SELECT
+		 <include refid="Base_Column_List" />
+		 FROM tb_order_action
+		 WHERE   status = 1 and show_flag=1
+		<if test="orderId!=null and orderId!=''">
+			and order_id=#{orderId}
+		</if>
+		<if test="actionType!=null and actionType!=''">
+			and action_type=#{actionType}
+		</if>
+	</select>
+
+	<!-- 查询（根据查询条件分页查询） -->
+	<select id="getListPage" resultMap="orderActionResultMap" parameterType="hashmap">
+		 SELECT
+		 <include refid="Base_Column_List" />
+		 FROM tb_order_action
+		 WHERE   status = 1 and show_flag=1
+		<if test="orderId!=null and orderId!=''">
+			and order_id=#{orderId}
+		</if>
+		 limit ${(page-1)*pagesize},${pagesize} 
+	</select>
+
+	<!-- 查询（根据查询条件分页查询） -->
+	<select id="getListMapPage" resultType="hashmap"  parameterType="hashmap">
+		 SELECT
+		 <include refid="Base_Column_List" />
+		 FROM tb_order_action
+		 WHERE   status = 1 and show_flag=1
+		<if test="orderId!=null and orderId!=''">
+			and order_id=#{orderId}
+		</if>
+		 limit ${(page-1)*pagesize},${pagesize}
+	</select>
+
+	<!-- 查询记录总数量（根据查询条件查询记录总数量） -->
+	<select id="getRows" resultType="long" parameterType="hashmap">
+		 SELECT 
+		 count(*)  
+		 FROM tb_order_action
+		 WHERE   status = 1  and show_flag=1
+		<if test="orderId!=null and orderId!=''">
+			and order_id=#{orderId}
+		</if>
+	</select></mapper>

@@ -1,0 +1,224 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xgh.mng.dao.read.ISysGridColumnsDaoR">
+
+	<resultMap id="sysGridColumnsMap" type="com.xgh.mng.entity.SysGridColumns">
+		<result column="id" javaType="long" jdbcType="BIGINT" property="id"/>
+		<result column="nid" javaType="long" jdbcType="BIGINT" property="nid"/>
+		<result column="join_type" javaType="string" jdbcType="VARCHAR" property="joinType"/>
+		<result column="join_id" javaType="long" jdbcType="BIGINT" property="joinId"/>
+		<result column="join_nid" javaType="long" jdbcType="BIGINT" property="joinNid"/>
+		<result column="title" javaType="string" jdbcType="VARCHAR" property="title"/>
+		<result column="name" javaType="string" jdbcType="VARCHAR" property="name"/>
+		<result column="width" javaType="string" jdbcType="VARCHAR" property="width"/>
+		<result column="align" javaType="string" jdbcType="VARCHAR" property="align"/>
+		<result column="data_type" javaType="string" jdbcType="VARCHAR" property="dataType"/>
+		<result column="editor_type" javaType="string" jdbcType="VARCHAR" property="editorType"/>
+		<result column="render" javaType="string" jdbcType="VARCHAR" property="render"/>
+		<result column="is_sort" javaType="long" jdbcType="BIGINT" property="isSort"/>
+		<result column="is_width" javaType="long" jdbcType="BIGINT" property="isWidth"/>
+		<result column="is_visible" javaType="long" jdbcType="BIGINT" property="isVisible"/>
+		<result column="ord" javaType="long" jdbcType="BIGINT" property="ord"/>
+		<result column="create_date" javaType="date" jdbcType="TIMESTAMP" property="createDate"/>
+		<result column="update_date" javaType="date" jdbcType="TIMESTAMP" property="updateDate"/>
+		<result column="status" javaType="int" jdbcType="INTEGER" property="status"/>
+		<result column="remark" javaType="string" jdbcType="VARCHAR" property="remark"/>
+	</resultMap>
+
+	<resultMap id="sysGridColumnsMap2" type="java.util.Map">
+		<result column="id" javaType="long" jdbcType="BIGINT" property="ID"/>
+		<result column="nid" javaType="long" jdbcType="BIGINT" property="NID"/>
+		<result column="join_type" javaType="string" jdbcType="VARCHAR" property="JOIN_TYPE"/>
+		<result column="join_id" javaType="long" jdbcType="BIGINT" property="JOIN_ID"/>
+		<result column="join_nid" javaType="long" jdbcType="BIGINT" property="JOIN_NID"/>
+		<result column="title" javaType="string" jdbcType="VARCHAR" property="TITLE"/>
+		<result column="name" javaType="string" jdbcType="VARCHAR" property="NAME"/>
+		<result column="width" javaType="string" jdbcType="VARCHAR" property="WIDTH"/>
+		<result column="align" javaType="string" jdbcType="VARCHAR" property="ALIGN"/>
+		<result column="data_type" javaType="string" jdbcType="VARCHAR" property="DATA_TYPE"/>
+		<result column="editor_type" javaType="string" jdbcType="VARCHAR" property="EDITOR_TYPE"/>
+		<result column="render" javaType="string" jdbcType="VARCHAR" property="RENDER"/>
+		<result column="is_sort" javaType="long" jdbcType="BIGINT" property="IS_SORT"/>
+		<result column="is_width" javaType="long" jdbcType="BIGINT" property="IS_WIDTH"/>
+		<result column="is_visible" javaType="long" jdbcType="BIGINT" property="IS_VISIBLE"/>
+		<result column="ord" javaType="long" jdbcType="BIGINT" property="ORD"/>
+		<result column="create_date" javaType="date" jdbcType="TIMESTAMP" property="CREATE_DATE"/>
+		<result column="update_date" javaType="date" jdbcType="TIMESTAMP" property="UPDATE_DATE"/>
+		<result column="status" javaType="int" jdbcType="INTEGER" property="STATUS"/>
+		<result column="remark" javaType="string" jdbcType="VARCHAR" property="REMARK"/>
+	</resultMap>
+
+	<select id="get" parameterType="long" resultMap="sysGridColumnsMap">
+		select * from tb_sys_grid_columns where id = #{id}
+	</select>
+
+	<select id="getList" parameterType="hashmap"
+			resultMap="sysGridColumnsMap">
+		select
+		*
+		from
+		tb_sys_grid_columns
+		where join_id = #{joinId} and join_type = #{joinType} order by ord desc
+	</select>
+
+
+	<select id="getListPage" parameterType="hashmap" resultMap="sysGridColumnsMap">
+		select
+		*
+		from
+		tb_sys_grid_columns
+		<if test="keySysGridColumns!= null">
+			<trim prefix="WHERE" prefixOverrides="AND |OR ">
+
+				<if test="keySysGridColumns.id!= null">
+					and id = #{keySysGridColumns.id}
+				</if>
+				<if test="keySysGridColumns.nid!= null">
+					and nid = #{keySysGridColumns.nid}
+				</if>
+				<if test="keySysGridColumns.joinType!= null and keySysGridColumns.joinType!=''">
+					and join_type = #{keySysGridColumns.joinType}
+				</if>
+				<if test="keySysGridColumns.joinId!= null">
+					and join_id = #{keySysGridColumns.joinId}
+				</if>
+				<if test="keySysGridColumns.joinNid!= null">
+					and join_nid = #{keySysGridColumns.joinNid}
+				</if>
+				<if test="keySysGridColumns.title!= null and keySysGridColumns.title!=''">
+					and title = #{keySysGridColumns.title}
+				</if>
+				<if test="keySysGridColumns.name!= null and keySysGridColumns.name!=''">
+					and name = #{keySysGridColumns.name}
+				</if>
+				<if test="keySysGridColumns.width!= null and keySysGridColumns.width!=''">
+					and width = #{keySysGridColumns.width}
+				</if>
+				<if test="keySysGridColumns.align!= null and keySysGridColumns.align!=''">
+					and align = #{keySysGridColumns.align}
+				</if>
+				<if test="keySysGridColumns.dataType!= null and keySysGridColumns.dataType!=''">
+					and data_type = #{keySysGridColumns.dataType}
+				</if>
+				<if test="keySysGridColumns.editorType!= null and keySysGridColumns.editorType!=''">
+					and editor_type = #{keySysGridColumns.editorType}
+				</if>
+				<if test="keySysGridColumns.render!= null and keySysGridColumns.render!=''">
+					and render = #{keySysGridColumns.render}
+				</if>
+				<if test="keySysGridColumns.isSort!= null">
+					and is_sort = #{keySysGridColumns.isSort}
+				</if>
+				<if test="keySysGridColumns.isWidth!= null">
+					and is_width = #{keySysGridColumns.isWidth}
+				</if>
+				<if test="keySysGridColumns.isVisible!= null">
+					and is_visible = #{keySysGridColumns.isVisible}
+				</if>
+				<if test="keySysGridColumns.ord!= null">
+					and ord = #{keySysGridColumns.ord}
+				</if>
+				<if test="keySysGridColumns.createDate!= null and keySysGridColumns.createDate!=''">
+					and create_date = #{keySysGridColumns.createDate}
+				</if>
+				<if test="keySysGridColumns.updateDate!= null and keySysGridColumns.updateDate!=''">
+					and update_date = #{keySysGridColumns.updateDate}
+				</if>
+				<if test="keySysGridColumns.status!= null">
+					and status = #{keySysGridColumns.status}
+				</if>
+				<if test="keySysGridColumns.remark!= null and keySysGridColumns.remark!=''">
+					and remark = #{keySysGridColumns.remark}
+				</if>
+			</trim>
+		</if>
+		limit ${(page-1)*pagesize},${pagesize}
+	</select>
+
+	<select id="getRows" parameterType="hashmap" resultType="long">
+		select
+		count(*) from
+		tb_sys_grid_columns
+		<if test="keySysGridColumns!= null">
+			<trim prefix="WHERE" prefixOverrides="AND |OR ">
+				<if test="keySysGridColumns.id!= null">
+					and id = #{keySysGridColumns.id}
+				</if>
+				<if test="keySysGridColumns.nid!= null">
+					and nid = #{keySysGridColumns.nid}
+				</if>
+				<if test="keySysGridColumns.joinType!= null and keySysGridColumns.joinType!=''">
+					and join_type = #{keySysGridColumns.joinType}
+				</if>
+				<if test="keySysGridColumns.joinId!= null">
+					and join_id = #{keySysGridColumns.joinId}
+				</if>
+				<if test="keySysGridColumns.joinNid!= null">
+					and join_nid = #{keySysGridColumns.joinNid}
+				</if>
+				<if test="keySysGridColumns.title!= null and keySysGridColumns.title!=''">
+					and title = #{keySysGridColumns.title}
+				</if>
+				<if test="keySysGridColumns.name!= null and keySysGridColumns.name!=''">
+					and name = #{keySysGridColumns.name}
+				</if>
+				<if test="keySysGridColumns.width!= null and keySysGridColumns.width!=''">
+					and width = #{keySysGridColumns.width}
+				</if>
+				<if test="keySysGridColumns.align!= null and keySysGridColumns.align!=''">
+					and align = #{keySysGridColumns.align}
+				</if>
+				<if test="keySysGridColumns.dataType!= null and keySysGridColumns.dataType!=''">
+					and data_type = #{keySysGridColumns.dataType}
+				</if>
+				<if test="keySysGridColumns.editorType!= null and keySysGridColumns.editorType!=''">
+					and editor_type = #{keySysGridColumns.editorType}
+				</if>
+				<if test="keySysGridColumns.render!= null and keySysGridColumns.render!=''">
+					and render = #{keySysGridColumns.render}
+				</if>
+				<if test="keySysGridColumns.isSort!= null">
+					and is_sort = #{keySysGridColumns.isSort}
+				</if>
+				<if test="keySysGridColumns.isWidth!= null">
+					and is_width = #{keySysGridColumns.isWidth}
+				</if>
+				<if test="keySysGridColumns.isVisible!= null">
+					and is_visible = #{keySysGridColumns.isVisible}
+				</if>
+				<if test="keySysGridColumns.ord!= null">
+					and ord = #{keySysGridColumns.ord}
+				</if>
+				<if test="keySysGridColumns.createDate!= null and keySysGridColumns.createDate!=''">
+					and create_date = #{keySysGridColumns.createDate}
+				</if>
+				<if test="keySysGridColumns.updateDate!= null and keySysGridColumns.updateDate!=''">
+					and update_date = #{keySysGridColumns.updateDate}
+				</if>
+				<if test="keySysGridColumns.status!= null">
+					and status = #{keySysGridColumns.status}
+				</if>
+				<if test="keySysGridColumns.remark!= null and keySysGridColumns.remark!=''">
+					and remark = #{keySysGridColumns.remark}
+				</if>
+			</trim>
+		</if>
+	</select>
+
+	<select id="getListMap" parameterType="hashmap" resultMap="sysGridColumnsMap2">
+		select
+		*
+		from
+		tb_sys_grid_columns
+		where join_id = #{joinId} and join_type = #{joinType} order by ord desc
+	</select>
+
+	<select id="getListByJoinType" parameterType="hashmap" resultMap="sysGridColumnsMap">
+		select
+		*
+		from
+		tb_sys_grid_columns
+		where join_id = #{joinId} and join_type = #{joinType} and is_visible = 1 order by ord desc
+	</select>
+</mapper>

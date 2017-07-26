@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xgh.paotui.dao.write.ICustomerRechargeDaoW">
+
+	<!--实体映射-->
+	<resultMap id="customerRechargeResultMap" type="com.xgh.paotui.entity.CustomerRecharge">
+		<!--唯一id-->
+		<id property="id" column="id" />
+		<!--客户id-->
+		<result property="customerId" column="customer_id" javaType="long" jdbcType="BIGINT" />
+		<!--充值金额-->
+		<result property="rechargeMoney" column="recharge_money" javaType="BigDecimal" jdbcType="DECIMAL" />
+		<!--赠送金额-->
+		<result property="giveMoney" column="give_money" javaType="BigDecimal" jdbcType="DECIMAL" />
+		<!--充值前余额-->
+		<result property="rechargeBeforeMoney" column="recharge_before_money" javaType="BigDecimal" jdbcType="DECIMAL" />
+		<!--充值后余额-->
+		<result property="rechargeAfterMoney" column="recharge_after_money" javaType="BigDecimal" jdbcType="DECIMAL" />
+		<!--充值来源（1：支付宝 2：微信 3：网银）-->
+		<result property="rechargeFrom" column="recharge_from" javaType="int" jdbcType="INTEGER" />
+		<!--第三方支付返回的支付订单号-->
+		<result property="rechargeTransactionId" column="recharge_transaction_id" javaType="String" jdbcType="VARCHAR" />
+		<!--充值时间-->
+		<result property="rechargeDate" column="recharge_date" javaType="Date" jdbcType="TIMESTAMP" />
+		<!--状态（1：正常 2：已删除）-->
+		<result property="status" column="status" javaType="int" jdbcType="INTEGER" />
+		<!--扩展1-->
+		<result property="data1" column="data_1" javaType="long" jdbcType="BIGINT" />
+		<!--扩展2-->
+		<result property="data2" column="data_2" javaType="int" jdbcType="INTEGER" />
+		<!--扩展3-->
+		<result property="data3" column="data_3" javaType="String" jdbcType="VARCHAR" />
+		<!--扩展4-->
+		<result property="data4" column="data_4" javaType="String" jdbcType="VARCHAR" />
+		<!--扩展5-->
+		<result property="data5" column="data_5" javaType="String" jdbcType="VARCHAR" />
+	</resultMap>
+
+
+	<!--删除：根据主键ID逻辑删除-->
+	<delete id="delete" parameterType="java.lang.Long">
+		 update tb_customer_recharge
+		 set status=2  WHERE id = #{id}
+	</delete>
+
+	<!-- 添加 -->
+	<insert id="add" parameterType="com.xgh.paotui.entity.CustomerRecharge">
+		 INSERT INTO tb_customer_recharge
+ 		(id,customer_id,recharge_money,give_money,recharge_before_money,recharge_after_money,recharge_from,recharge_transaction_id,recharge_date,status,data_1,data_2,data_3,data_4,data_5) 
+		 VALUES 
+ 		(#{id},#{customerId},#{rechargeMoney},#{giveMoney},#{rechargeBeforeMoney},#{rechargeAfterMoney},#{rechargeFrom},#{rechargeTransactionId},#{rechargeDate},#{status},#{data1},#{data2},#{data3},#{data4},#{data5}) 
+	</insert>
+
+	<!-- 修 改-->
+	<update id="update" parameterType="com.xgh.paotui.entity.CustomerRecharge">
+		 UPDATE tb_customer_recharge
+		 SET 
+			 customer_id = #{customerId},
+			 recharge_money = #{rechargeMoney},
+			 give_money = #{giveMoney},
+			 recharge_before_money = #{rechargeBeforeMoney},
+			 recharge_after_money = #{rechargeAfterMoney},
+			 recharge_from = #{rechargeFrom},
+			 recharge_transaction_id = #{rechargeTransactionId},
+			 recharge_date = #{rechargeDate},
+			 status = #{status},
+			 data_1 = #{data1},
+			 data_2 = #{data2},
+			 data_3 = #{data3},
+			 data_4 = #{data4},
+			 data_5 = #{data5}
+		 WHERE id = #{id}
+	</update>
+
+</mapper>

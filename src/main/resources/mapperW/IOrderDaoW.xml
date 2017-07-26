@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xgh.paotui.dao.write.IOrderDaoW">
+
+	<!--实体映射-->
+	<resultMap id="orderResultMap" type="com.xgh.paotui.entity.Order">
+		<!---->
+		<id property="id" column="id" />
+		<!--订单类型：1、帮送；2、帮取；3、帮买；4：代排队-->
+		<result property="orderType" column="order_type" javaType="int" jdbcType="INTEGER" />
+		<!--订单编号-->
+		<result property="orderNo" column="order_no" javaType="String" jdbcType="VARCHAR" />
+		<!--下单人id-->
+		<result property="customerId" column="customer_id" javaType="long" jdbcType="BIGINT" />
+		<!--下单人名字-->
+		<result property="customerName" column="customer_name" javaType="String" jdbcType="VARCHAR" />
+		<!--下单人电话-->
+		<result property="customerPhone" column="customer_phone" javaType="String" jdbcType="VARCHAR" />
+		<!--接单人id-->
+		<result property="deliveryManId" column="delivery_man_id" javaType="long" jdbcType="BIGINT" />
+		<!--接单人名称-->
+		<result property="deliveryManName" column="delivery_man_name" javaType="String" jdbcType="VARCHAR" />
+		<!--接单人电话-->
+		<result property="deliveryManPhone" column="delivery_man_phone" javaType="String" jdbcType="VARCHAR" />
+		<!--接单人头像路径-->
+		<result property="deliveryManHeadImage" column="delivery_man_head_image" javaType="String" jdbcType="VARCHAR" />
+		<!--抢单时间-->
+		<result property="deliveryOrderTime" column="delivery_order_time" javaType="Date" jdbcType="TIMESTAMP" />
+		<!--下单工具：1、微信；2、android；3、ios-->
+		<result property="shippingFrom" column="shipping_from" javaType="int" jdbcType="INTEGER" />
+		<!--订单经度；帮买：发货地；帮取：取货地；帮买：买货地；代排队：排队地-->
+		<result property="longitude" column="longitude" javaType="Double" jdbcType="DOUBLE" />
+		<!--订单纬度；帮买：发货地；帮取：取货地；帮买：买货地；代排队：排队地-->
+		<result property="latitude" column="latitude" javaType="Double" jdbcType="DOUBLE" />
+		<!--帮送、帮取：备注留言；-->
+		<result property="remark" column="remark" javaType="String" jdbcType="VARCHAR" />
+		<!--下单城市id-->
+		<result property="orderCity" column="order_city" javaType="long" jdbcType="BIGINT" />
+		<!--下单城市名称-->
+		<result property="orderCityName" column="order_city_name" javaType="String" jdbcType="VARCHAR" />
+		<!--订单预约类型：1、立即订单；2：预约订单-->
+		<result property="bookingType" column="booking_type" javaType="int" jdbcType="INTEGER" />
+		<!--预约时间-->
+		<result property="bookingTime" column="booking_time" javaType="Date" jdbcType="TIMESTAMP" />
+		<!--原始跑腿费-->
+		<result property="originalFreight" column="original_freight" javaType="BigDecimal" jdbcType="DECIMAL" />
+		<!--实际跑腿费-->
+		<result property="actualFreight" column="actual_freight" javaType="BigDecimal" jdbcType="DECIMAL" />
+		<!--是否使用优惠券：1、使用；0：未使用-->
+		<result property="isUseCoupons" column="is_use_coupons" javaType="int" jdbcType="INTEGER" />
+		<!--使用的优惠券id-->
+		<result property="useCouponsId" column="use_coupons_id" javaType="long" jdbcType="BIGINT" />
+		<!--优惠券优惠金额-->
+		<result property="couponsMoney" column="coupons_money" javaType="BigDecimal" jdbcType="DECIMAL" />
+		<!--小费，打赏费-->
+		<result property="tips" column="tips" javaType="BigDecimal" jdbcType="DECIMAL" />
+		<!--小费第三方支付返回的支付订单号-->
+		<result property="tipsTransactionId" column="tips_transaction_id" javaType="String" jdbcType="VARCHAR" />
+		<!--下单时间-->
+		<result property="createTime" column="create_time" javaType="Date" jdbcType="TIMESTAMP" />
+		<!--特殊要求（帮送、帮买、帮取使用）-->
+		<result property="specialRequire" column="special_require" javaType="String" jdbcType="VARCHAR" />
+		<!--跑腿费支付方式，1：余额支付；2：微信支付；3、支付宝支付-->
+		<result property="payType" column="pay_type" javaType="int" jdbcType="INTEGER" />
+		<!--跑腿费第三方支付返回的支付订单号-->
+		<result property="payTransactionId" column="pay_transaction_id" javaType="String" jdbcType="VARCHAR" />
+		<!--收货验证码（帮送、帮取、帮买）;验证码（代排队）-->
+		<result property="smsCode" column="sms_code" javaType="String" jdbcType="VARCHAR" />
+		<!--签收时间-->
+		<result property="signTime" column="sign_time" javaType="Date" jdbcType="TIMESTAMP" />
+		<!--订单中跑客当前操作步骤-->
+		<result property="actionStep" column="action_step" javaType="int" jdbcType="INTEGER" />
+		<!--订单取消原因-->
+		<result property="orderCancelReason" column="order_cancel_reason" javaType="String" jdbcType="VARCHAR" />
+		<!--订单状态；1：等待支付；2：等待接单；3、等待取货；4、进行中；5、待收货；6、已完成；9：已取消-->
+		<result property="orderStatus" column="order_status" javaType="int" jdbcType="INTEGER" />
+		<!--评价状态；1、已评价；2、未评价；3：订单未到评价状态-->
+		<result property="evaluationStatus" column="evaluation_status" javaType="int" jdbcType="INTEGER" />
+		<!--状态（1：正常 2：已删除）-->
+		<result property="status" column="status" javaType="int" jdbcType="INTEGER" />
+		<!--扩展1-->
+		<result property="data1" column="data_1" javaType="long" jdbcType="BIGINT" />
+		<!--扩展2-->
+		<result property="data2" column="data_2" javaType="int" jdbcType="INTEGER" />
+		<!--扩展3-->
+		<result property="data3" column="data_3" javaType="String" jdbcType="VARCHAR" />
+		<!--扩展4-->
+		<result property="data4" column="data_4" javaType="String" jdbcType="VARCHAR" />
+		<!--扩展5-->
+		<result property="data5" column="data_5" javaType="String" jdbcType="VARCHAR" />
+	</resultMap>
+
+
+	<!--删除：根据主键ID逻辑删除-->
+	<delete id="delete" parameterType="java.lang.Long">
+		 update tb_order
+		 set status=2  WHERE id = #{id}
+	</delete>
+
+	<!-- 添加 -->
+	<insert id="add" parameterType="com.xgh.paotui.entity.Order">
+		<selectKey keyProperty="id" resultType="long" order="AFTER">
+			SELECT max(id)  AS value  from tb_order
+		</selectKey>
+		 INSERT INTO tb_order
+ 		(id,order_type,order_no,customer_id,customer_name,customer_phone,delivery_man_id,delivery_man_name,delivery_man_phone,delivery_man_head_image,delivery_order_time,shipping_from,longitude,latitude,remark,order_city,order_city_name,booking_type,booking_time,original_freight,actual_freight,is_use_coupons,use_coupons_id,coupons_money,tips,tips_transaction_id,create_time,special_require,pay_type,pay_transaction_id,sms_code,sign_time,action_step,order_cancel_reason,order_status,evaluation_status,status,data_1,data_2,data_3,data_4,data_5) 
+		 VALUES 
+ 		(#{id},#{orderType},#{orderNo},#{customerId},#{customerName},#{customerPhone},#{deliveryManId},#{deliveryManName},#{deliveryManPhone},#{deliveryManHeadImage},#{deliveryOrderTime},#{shippingFrom},#{longitude},#{latitude},#{remark},#{orderCity},#{orderCityName},#{bookingType},#{bookingTime},#{originalFreight},#{actualFreight},#{isUseCoupons},#{useCouponsId},#{couponsMoney},#{tips},#{tipsTransactionId},#{createTime},#{specialRequire},#{payType},#{payTransactionId},#{smsCode},#{signTime},#{actionStep},#{orderCancelReason},#{orderStatus},#{evaluationStatus},#{status},#{data1},#{data2},#{data3},#{data4},#{data5}) 
+	</insert>
+
+	<!-- 修 改-->
+	<update id="update" parameterType="com.xgh.paotui.entity.Order">
+		 UPDATE tb_order
+		 SET 
+			 order_type = #{orderType},
+			 order_no = #{orderNo},
+			 customer_id = #{customerId},
+			 customer_name = #{customerName},
+			 customer_phone = #{customerPhone},
+			 delivery_man_id = #{deliveryManId},
+			 delivery_man_name = #{deliveryManName},
+			 delivery_man_phone = #{deliveryManPhone},
+			 delivery_man_head_image = #{deliveryManHeadImage},
+			 delivery_order_time = #{deliveryOrderTime},
+			 shipping_from = #{shippingFrom},
+			 longitude = #{longitude},
+			 latitude = #{latitude},
+			 remark = #{remark},
+			 order_city = #{orderCity},
+			 order_city_name = #{orderCityName},
+			 booking_type = #{bookingType},
+			 booking_time = #{bookingTime},
+			 original_freight = #{originalFreight},
+			 actual_freight = #{actualFreight},
+			 is_use_coupons = #{isUseCoupons},
+			 use_coupons_id = #{useCouponsId},
+			 coupons_money = #{couponsMoney},
+			 tips = #{tips},
+			 tips_transaction_id = #{tipsTransactionId},
+			 create_time = #{createTime},
+			 special_require = #{specialRequire},
+			 pay_type = #{payType},
+			 pay_transaction_id = #{payTransactionId},
+			 sms_code = #{smsCode},
+			 sign_time = #{signTime},
+			 action_step = #{actionStep},
+			 order_cancel_reason = #{orderCancelReason},
+			 order_status = #{orderStatus},
+			 evaluation_status = #{evaluationStatus},
+			 status = #{status},
+			 data_1 = #{data1},
+			 data_2 = #{data2},
+			 data_3 = #{data3},
+			 data_4 = #{data4},
+			 data_5 = #{data5}
+		 WHERE id = #{id}
+	</update>
+
+</mapper>

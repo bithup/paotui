@@ -1,0 +1,204 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xgh.mng.dao.write.IFileDataDaoW">
+
+	<resultMap type="com.xgh.mng.entity.FileData" id="fileDataMap">
+		<result property="id" column="id" javaType="long" jdbcType="BIGINT" />
+		<result property="nid" column="nid" javaType="long" jdbcType="BIGINT" />
+		<result property="instId" column="inst_id" javaType="long" jdbcType="BIGINT" />
+		<result property="instNid" column="inst_nid" javaType="long" jdbcType="BIGINT" />
+		<result property="instCode" column="inst_code" javaType="string" jdbcType="VARCHAR" />
+		<result property="unitId" column="unit_id" javaType="long" jdbcType="BIGINT" />
+		<result property="unitNid" column="unit_nid" javaType="long" jdbcType="BIGINT" />
+		<result property="unitCode" column="unit_code" javaType="string" jdbcType="VARCHAR" />
+		<result property="dataCode" column="data_code" javaType="string" jdbcType="VARCHAR" />
+		<result property="dataType" column="data_type" javaType="int" jdbcType="INTEGER" />
+		<result property="dataId" column="data_id" javaType="long" jdbcType="BIGINT" />
+		<result property="dataVersion" column="data_version" javaType="int" jdbcType="INTEGER" />
+		<result property="path" column="path" javaType="string" jdbcType="VARCHAR" />
+		<result property="relativePath" column="relative_path" javaType="string" jdbcType="VARCHAR" />
+		<result property="fileName" column="file_name" javaType="string" jdbcType="VARCHAR" />
+		<result property="oldName" column="old_name" javaType="string" jdbcType="VARCHAR" />
+		<result property="fileSize" column="file_size" javaType="long" jdbcType="BIGINT" />
+		<result property="fileSuffix" column="file_suffix" javaType="string" jdbcType="VARCHAR" />
+		<result property="status" column="status" javaType="int" jdbcType="INTEGER" />
+		<result property="createDate" column="create_date" javaType="date" jdbcType="TIMESTAMP" />
+		<result property="ord" column="ord" javaType="int" jdbcType="INTEGER" />
+		<result property="type" column="type" javaType="int" jdbcType="INTEGER" />
+	</resultMap>
+	
+	<insert id="add" parameterType="com.xgh.mng.entity.FileData">
+		<selectKey keyProperty="id" resultType="long" order="AFTER"> 
+			SELECT max(id)  AS value  from tb_file_data 
+		</selectKey>  
+		insert into tb_file_data
+		(
+		nid,
+		inst_id,
+		inst_nid,
+		inst_code,
+		unit_id,
+		unit_nid,
+		unit_code,
+		data_code,
+		data_type,
+		data_id,
+		data_version,
+		path,
+		relative_path,
+		file_name,
+		old_name,
+		file_size,
+		file_suffix,
+		status,
+		create_date,
+		ord,
+		type
+		)
+		values (
+		#{nid,jdbcType=BIGINT},
+		#{instId,jdbcType=BIGINT},
+		#{instNid,jdbcType=BIGINT},
+		#{instCode,jdbcType=VARCHAR},
+		#{unitId,jdbcType=BIGINT},
+		#{unitNid,jdbcType=BIGINT},
+		#{unitCode,jdbcType=VARCHAR},
+		#{dataCode,jdbcType=VARCHAR},
+		#{dataType,jdbcType=INTEGER},
+		#{dataId,jdbcType=BIGINT},
+		#{dataVersion,jdbcType=INTEGER},
+		#{path,jdbcType=VARCHAR},
+		#{relativePath,jdbcType=VARCHAR},
+		#{fileName,jdbcType=VARCHAR},
+		#{oldName,jdbcType=VARCHAR},
+		#{fileSize,jdbcType=BIGINT},
+		#{fileSuffix,jdbcType=VARCHAR},
+		#{status,jdbcType=INTEGER},
+		#{createDate,jdbcType=TIMESTAMP},
+		#{ord,jdbcType=INTEGER},
+		#{type,jdbcType=INTEGER}
+		)
+	</insert>
+
+	<update id="update" parameterType="com.xgh.mng.entity.FileData">
+		update tb_file_data
+		set
+		nid = #{nid,jdbcType=BIGINT},
+		inst_id = #{instId,jdbcType=BIGINT},
+		inst_nid = #{instNid,jdbcType=BIGINT},
+		inst_code = #{instCode,jdbcType=VARCHAR},
+		unit_id = #{unitId,jdbcType=BIGINT},
+		unit_nid = #{unitNid,jdbcType=BIGINT},
+		unit_code = #{unitCode,jdbcType=VARCHAR},
+		data_code = #{dataCode,jdbcType=VARCHAR},
+		data_type = #{dataType,jdbcType=INTEGER},
+		data_id = #{dataId,jdbcType=BIGINT},
+		data_version = #{dataVersion,jdbcType=INTEGER},
+		path = #{path,jdbcType=VARCHAR},
+		relative_path = #{relativePath,jdbcType=VARCHAR},
+		file_name = #{fileName,jdbcType=VARCHAR},
+		old_name = #{oldName,jdbcType=VARCHAR},
+		file_size = #{fileSize,jdbcType=BIGINT},
+		file_suffix = #{fileSuffix,jdbcType=VARCHAR},
+		status = #{status,jdbcType=INTEGER},
+		create_date = #{createDate,jdbcType=TIMESTAMP},
+		ord = #{ord,jdbcType=INTEGER},
+		type = #{type,jdbcType=INTEGER}
+		where id = #{id}
+	</update>
+
+	<delete id="deleteById" parameterType="long">
+		delete from
+		tb_file_data
+		where
+		id = #{id} 
+	</delete>
+	
+	<delete id="deleteByNid" parameterType="long">
+		delete from
+		tb_file_data
+		where
+		nid = #{nid}
+	</delete>
+
+	<update id="updateByDataSource" parameterType="hashmap">
+		update tb_file_data
+		set status = -1
+		where
+		unit_id = #{unitId}
+		AND data_id = #{dataId}
+		AND data_code = #{dataCode}
+		AND data_version = #{dataVersion}
+		and type =#{type}
+		<if test="dataType!=null and dataType!=''">
+			AND data_type = #{dataType}
+		</if>
+	</update>
+
+	<insert id="addBatch" parameterType="com.xgh.mng.entity.FileData">
+		insert into tb_file_data
+		(
+		nid,
+		inst_id,
+		inst_nid,
+		inst_code,
+		unit_id,
+		unit_nid,
+		unit_code,
+		data_code,
+		data_type,
+		data_id,
+		data_version,
+		path,
+		relative_path,
+		file_name,
+		old_name,
+		file_size,
+		file_suffix,
+		status,
+		create_date,
+		ord,
+		type
+		)
+		values
+		<foreach collection="list" item="item" separator=",">
+			(
+			#{item.nid,jdbcType=BIGINT},
+			#{item.instId,jdbcType=BIGINT},
+			#{item.instNid,jdbcType=BIGINT},
+			#{item.instCode,jdbcType=VARCHAR},
+			#{item.unitId,jdbcType=BIGINT},
+			#{item.unitNid,jdbcType=BIGINT},
+			#{item.unitCode,jdbcType=VARCHAR},
+			#{item.dataCode,jdbcType=VARCHAR},
+			#{item.dataType,jdbcType=INTEGER},
+			#{item.dataId,jdbcType=BIGINT},
+			#{item.dataVersion,jdbcType=INTEGER},
+			#{item.path,jdbcType=VARCHAR},
+			#{item.relativePath,jdbcType=VARCHAR},
+			#{item.fileName,jdbcType=VARCHAR},
+			#{item.oldName,jdbcType=VARCHAR},
+			#{item.fileSize,jdbcType=BIGINT},
+			#{item.fileSuffix,jdbcType=VARCHAR},
+			#{item.status,jdbcType=INTEGER},
+			#{item.createDate,jdbcType=TIMESTAMP},
+			#{item.ord,jdbcType=INTEGER},
+			#{item.type,jdbcType=INTEGER}
+			)
+		</foreach>
+	</insert>
+
+	<update id="updateIfDeleteByUnitId" parameterType="hashmap">
+		update tb_sys_units_file
+		set
+		if_delete = -1
+		where unit_id = #{unitId}
+		<if test="filterIdList !=null ">
+			and id not in
+			<foreach collection="filterIdList" item="id" open="(" separator=","
+					 close=")"> #{id}
+			</foreach>
+		</if>
+	</update>
+</mapper>

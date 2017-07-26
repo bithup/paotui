@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xgh.paotui.dao.write.IDeliveryManWithdrawalsDaoW">
+	<!--实体映射-->
+	<resultMap id="deliveryManWithdrawalsResultMap" type="com.xgh.paotui.entity.DeliveryManWithdrawals">
+		<!--唯一id-->
+		<id property="id" column="id" />
+		<!--跑客id-->
+		<result property="deliverManId" column="deliver_man_id" javaType="long" jdbcType="BIGINT" />
+		<!--提现前账户余额-->
+		<result property="withdrawalsBeforeMoney" column="withdrawals_before_money" javaType="BigDecimal" jdbcType="DECIMAL" />
+		<!--提现金额-->
+		<result property="withdrawalsMoney" column="withdrawals_money" javaType="BigDecimal" jdbcType="DECIMAL" />
+		<!--提现后账户余额-->
+		<result property="withdrawalsAfterMoney" column="withdrawals_after_money" javaType="BigDecimal" jdbcType="DECIMAL" />
+		<!--提现时间-->
+		<result property="withdrawalsDate" column="withdrawals_date" javaType="Date" jdbcType="TIMESTAMP" />
+		<!--备注-->
+		<result property="remark" column="remark" javaType="String" jdbcType="VARCHAR" />
+		<!--创建时间-->
+		<result property="createDate" column="create_date" javaType="Date" jdbcType="TIMESTAMP" />
+		<!--提现审核人id-->
+		<result property="checkUserId" column="check_user_id" javaType="long" jdbcType="BIGINT" />
+		<!--提现审核时间-->
+		<result property="checkDate" column="check_date" javaType="Date" jdbcType="TIMESTAMP" />
+		<!--提现审核状态（1：已审核 2：未审核 3：审核未通过 ）-->
+		<result property="checkState" column="check_state" javaType="int" jdbcType="INTEGER" />
+		<!--状态（1：正常 2：已删除）-->
+		<result property="status" column="status" javaType="int" jdbcType="INTEGER" />
+		<!--扩展1-->
+		<result property="data1" column="data_1" javaType="long" jdbcType="BIGINT" />
+		<!--扩展2-->
+		<result property="data2" column="data_2" javaType="int" jdbcType="INTEGER" />
+		<!--扩展3-->
+		<result property="data3" column="data_3" javaType="String" jdbcType="VARCHAR" />
+		<!--扩展4-->
+		<result property="data4" column="data_4" javaType="String" jdbcType="VARCHAR" />
+		<!--扩展5-->
+		<result property="data5" column="data_5" javaType="String" jdbcType="VARCHAR" />
+	</resultMap>
+
+
+	<!--删除：根据主键ID逻辑删除-->
+	<delete id="delete" parameterType="java.lang.Long">
+		 update tb_delivery_man_withdrawals
+		 set status=2  WHERE id = #{id}
+	</delete>
+
+	<!-- 添加 -->
+	<insert id="add" parameterType="com.xgh.paotui.entity.DeliveryManWithdrawals">
+		 INSERT INTO tb_delivery_man_withdrawals
+ 		(id,deliver_man_id,withdrawals_before_money,withdrawals_money,withdrawals_after_money,withdrawals_date,remark,create_date,check_user_id,check_date,check_state,status,data_1,data_2,data_3,data_4,data_5) 
+		 VALUES 
+ 		(#{id},#{deliverManId},#{withdrawalsBeforeMoney},#{withdrawalsMoney},#{withdrawalsAfterMoney},#{withdrawalsDate},#{remark},#{createDate},#{checkUserId},#{checkDate},#{checkState},#{status},#{data1},#{data2},#{data3},#{data4},#{data5}) 
+	</insert>
+
+	<!-- 修 改-->
+	<update id="update" parameterType="com.xgh.paotui.entity.DeliveryManWithdrawals">
+		 UPDATE tb_delivery_man_withdrawals
+		 SET 
+			 deliver_man_id = #{deliverManId},
+			 withdrawals_before_money = #{withdrawalsBeforeMoney},
+			 withdrawals_money = #{withdrawalsMoney},
+			 withdrawals_after_money = #{withdrawalsAfterMoney},
+			 withdrawals_date = #{withdrawalsDate},
+			 remark = #{remark},
+			 create_date = #{createDate},
+			 check_user_id = #{checkUserId},
+			 check_date = #{checkDate},
+			 check_state = #{checkState},
+			 status = #{status},
+			 data_1 = #{data1},
+			 data_2 = #{data2},
+			 data_3 = #{data3},
+			 data_4 = #{data4},
+			 data_5 = #{data5}
+		 WHERE id = #{id}
+	</update>
+
+</mapper>

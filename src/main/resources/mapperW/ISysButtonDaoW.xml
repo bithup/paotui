@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xgh.mng.dao.write.ISysButtonDaoW">
+
+	<resultMap id="sysButtonMap" type="com.xgh.mng.entity.SysButton">
+		<result column="id" javaType="long" jdbcType="BIGINT" property="id"/>
+		<result column="nid" javaType="long" jdbcType="BIGINT" property="nid"/>
+		<result column="menu_id" javaType="long" jdbcType="BIGINT" property="menuId"/>
+		<result column="menu_nid" javaType="long" jdbcType="BIGINT" property="menuNid"/>
+		<result column="button_name" javaType="string" jdbcType="VARCHAR" property="buttonName"/>
+		<result column="button_url" javaType="string" jdbcType="VARCHAR" property="buttonUrl"/>
+		<result column="button_icon" javaType="string" jdbcType="VARCHAR" property="buttonIcon"/>
+		<result column="button_click" javaType="string" jdbcType="VARCHAR" property="buttonClick"/>
+		<result column="is_visible" javaType="long" jdbcType="BIGINT" property="isVisible"/>
+		<result column="is_public" javaType="long" jdbcType="BIGINT" property="isPublic"/>
+		<result column="is_sys" javaType="long" jdbcType="BIGINT" property="isSys"/>
+		<result column="ord" javaType="long" jdbcType="BIGINT" property="ord"/>
+		<result column="create_date" javaType="date" jdbcType="TIMESTAMP" property="createDate"/>
+		<result column="update_date" javaType="date" jdbcType="TIMESTAMP" property="updateDate"/>
+		<result column="status" javaType="int" jdbcType="INTEGER" property="status"/>
+		<result column="remark" javaType="string" jdbcType="VARCHAR" property="remark"/>
+	</resultMap>
+
+	<insert id="add" parameterType="com.xgh.mng.entity.SysButton">
+		<selectKey keyProperty="id" order="AFTER" resultType="long">
+			SELECT max(id) AS value from tb_sys_button
+		</selectKey>
+		insert into tb_sys_button
+		(
+		nid,
+		menu_id,
+		menu_nid,
+		button_name,
+		button_url,
+		button_icon,
+		button_click,
+		is_visible,
+		is_public,
+		is_sys,
+		ord,
+		create_date,
+		update_date,
+		status,
+		remark
+		)
+		values (
+		#{nid,jdbcType=BIGINT},
+		#{menuId,jdbcType=BIGINT},
+		#{menuNid,jdbcType=BIGINT},
+		#{buttonName,jdbcType=VARCHAR},
+		#{buttonUrl,jdbcType=VARCHAR},
+		#{buttonIcon,jdbcType=VARCHAR},
+		#{buttonClick,jdbcType=VARCHAR},
+		#{isVisible,jdbcType=BIGINT},
+		#{isPublic,jdbcType=BIGINT},
+		#{isSys,jdbcType=BIGINT},
+		#{ord,jdbcType=BIGINT},
+		#{createDate,jdbcType=TIMESTAMP},
+		#{updateDate,jdbcType=TIMESTAMP},
+		#{status,jdbcType=INTEGER},
+		#{remark,jdbcType=VARCHAR}
+		)
+	</insert>
+
+	<update id="update" parameterType="com.xgh.mng.entity.SysButton">
+		update tb_sys_button
+		set
+		nid = #{nid,jdbcType=BIGINT},
+		menu_id = #{menuId,jdbcType=BIGINT},
+		menu_nid = #{menuNid,jdbcType=BIGINT},
+		button_name = #{buttonName,jdbcType=VARCHAR},
+		button_url = #{buttonUrl,jdbcType=VARCHAR},
+		button_icon = #{buttonIcon,jdbcType=VARCHAR},
+		button_click = #{buttonClick,jdbcType=VARCHAR},
+		is_visible = #{isVisible,jdbcType=BIGINT},
+		is_public = #{isPublic,jdbcType=BIGINT},
+		is_sys = #{isSys,jdbcType=BIGINT},
+		ord = #{ord,jdbcType=BIGINT},
+		create_date = #{createDate,jdbcType=TIMESTAMP},
+		update_date = #{updateDate,jdbcType=TIMESTAMP},
+		status = #{status,jdbcType=INTEGER},
+		remark = #{remark,jdbcType=VARCHAR}
+		where id = #{id}
+	</update>
+
+	<delete id="deleteById" parameterType="long">
+		delete from
+		tb_sys_button
+		where
+		id = #{id}
+	</delete>
+
+	<delete id="deleteByNid" parameterType="long">
+		delete from
+		tb_sys_button
+		where
+		nid = #{nid}
+	</delete>
+
+	<delete id="deleteByIds">
+		delete from
+		tb_sys_button
+		where
+		id in
+		<foreach close=")" collection="list" item="id" open="("
+				 separator=",">#{id}
+		</foreach>
+	</delete>
+
+	<delete id="deleteByMenuId" parameterType="hashmap">
+		delete from
+		tb_sys_button
+		where
+		menu_id = #{menuId}
+		<if test="filterIdList!=null">
+			and id not in
+			<foreach close=")" collection="filterIdList" item="id" open="("
+					 separator=",">#{id}
+			</foreach>
+		</if>
+	</delete>
+
+	<insert id="addBatch" parameterType="com.xgh.mng.entity.SysButton">
+		insert into tb_sys_button
+		(
+		nid,
+		menu_id,
+		menu_nid,
+		button_name,
+		button_url,
+		button_icon,
+		button_click,
+		is_visible,
+		is_public,
+		is_sys,
+		ord,
+		create_date,
+		update_date,
+		status,
+		remark
+		)
+		values
+		<foreach collection="list" item="item" separator=",">
+			(
+			#{item.nid,jdbcType=BIGINT},
+			#{item.menuId,jdbcType=BIGINT},
+			#{item.menuNid,jdbcType=BIGINT},
+			#{item.buttonName,jdbcType=VARCHAR},
+			#{item.buttonUrl,jdbcType=VARCHAR},
+			#{item.buttonIcon,jdbcType=VARCHAR},
+			#{item.buttonClick,jdbcType=VARCHAR},
+			#{item.isVisible,jdbcType=BIGINT},
+			#{item.isPublic,jdbcType=BIGINT},
+			#{item.isSys,jdbcType=BIGINT},
+			#{item.ord,jdbcType=BIGINT},
+			#{item.createDate,jdbcType=TIMESTAMP},
+			#{item.updateDate,jdbcType=TIMESTAMP},
+			#{item.status,jdbcType=INTEGER},
+			#{item.remark,jdbcType=VARCHAR}
+			)
+		</foreach>
+	</insert>
+</mapper>

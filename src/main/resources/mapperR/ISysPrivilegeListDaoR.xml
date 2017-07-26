@@ -1,0 +1,195 @@
+<?xml version="1.0" encoding="UTF-8" ?><!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xgh.mng.dao.read.ISysPrivilegeListDaoR">
+
+	<resultMap id="sysPrivilegeListMap" type="com.xgh.mng.entity.SysPrivilegeList">
+		<result column="id" javaType="long" jdbcType="BIGINT" property="id"/>
+		<result column="nid" javaType="long" jdbcType="BIGINT" property="nid"/>
+		<result column="unit_id" javaType="long" jdbcType="BIGINT" property="unitId"/>
+		<result column="unit_nid" javaType="long" jdbcType="BIGINT" property="unitNid"/>
+		<result column="privilege_master" javaType="string" jdbcType="VARCHAR" property="privilegeMaster"/>
+		<result column="privilege_master_value" javaType="long" jdbcType="BIGINT" property="privilegeMasterValue"/>
+		<result column="privilege_access" javaType="string" jdbcType="VARCHAR" property="privilegeAccess"/>
+		<result column="privilege_access_value" javaType="long" jdbcType="BIGINT" property="privilegeAccessValue"/>
+	</resultMap>
+
+	<resultMap id="sysPrivilegeListMap2" type="java.util.Map">
+		<result column="id" javaType="long" jdbcType="BIGINT" property="ID"/>
+		<result column="nid" javaType="long" jdbcType="BIGINT" property="NID"/>
+		<result column="unit_id" javaType="long" jdbcType="BIGINT" property="UNIT_ID"/>
+		<result column="unit_nid" javaType="long" jdbcType="BIGINT" property="UNIT_NID"/>
+		<result column="privilege_master" javaType="string" jdbcType="VARCHAR" property="PRIVILEGE_MASTER"/>
+		<result column="privilege_master_value" javaType="long" jdbcType="BIGINT" property="PRIVILEGE_MASTER_VALUE"/>
+		<result column="privilege_access" javaType="string" jdbcType="VARCHAR" property="PRIVILEGE_ACCESS"/>
+		<result column="privilege_access_value" javaType="long" jdbcType="BIGINT" property="PRIVILEGE_ACCESS_VALUE"/>
+	</resultMap>
+
+	<select id="get" parameterType="long" resultMap="sysPrivilegeListMap">
+		select * from tb_sys_privilege_list where id = #{id}
+	</select>
+
+	<select id="getList" parameterType="com.xgh.mng.entity.SysPrivilegeList"
+			resultMap="sysPrivilegeListMap">
+		select * from
+		tb_sys_privilege_list
+		<trim prefix="WHERE" prefixOverrides="AND |OR ">
+
+			<if test="id!= null">
+				and id = #{id}
+			</if>
+			<if test="nid!= null">
+				and nid = #{nid}
+			</if>
+			<if test="unitId!= null">
+				and unit_id = #{unitId}
+			</if>
+			<if test="unitNid!= null">
+				and unit_nid = #{unitNid}
+			</if>
+			<if test="privilegeMaster!= null and privilegeMaster!=''">
+				and privilege_master = #{privilegeMaster}
+			</if>
+			<if test="privilegeMasterValue!= null">
+				and privilege_master_value = #{privilegeMasterValue}
+			</if>
+			<if test="privilegeAccess!= null and privilegeAccess!=''">
+				and privilege_access = #{privilegeAccess}
+			</if>
+			<if test="privilegeAccessValue!= null">
+				and privilege_access_value = #{privilegeAccessValue}
+			</if>
+		</trim>
+	</select>
+
+
+	<select id="getListPage" parameterType="hashmap" resultMap="sysPrivilegeListMap">
+		select
+		*
+		from
+		tb_sys_privilege_list
+		<if test="keySysPrivilegeList!= null">
+			<trim prefix="WHERE" prefixOverrides="AND |OR ">
+
+				<if test="keySysPrivilegeList.id!= null">
+					and id = #{keySysPrivilegeList.id}
+				</if>
+				<if test="keySysPrivilegeList.nid!= null">
+					and nid = #{keySysPrivilegeList.nid}
+				</if>
+				<if test="keySysPrivilegeList.unitId!= null">
+					and unit_id = #{keySysPrivilegeList.unitId}
+				</if>
+				<if test="keySysPrivilegeList.unitNid!= null">
+					and unit_nid = #{keySysPrivilegeList.unitNid}
+				</if>
+				<if test="keySysPrivilegeList.privilegeMaster!= null and keySysPrivilegeList.privilegeMaster!=''">
+					and privilege_master = #{keySysPrivilegeList.privilegeMaster}
+				</if>
+				<if test="keySysPrivilegeList.privilegeMasterValue!= null">
+					and privilege_master_value = #{keySysPrivilegeList.privilegeMasterValue}
+				</if>
+				<if test="keySysPrivilegeList.privilegeAccess!= null and keySysPrivilegeList.privilegeAccess!=''">
+					and privilege_access = #{keySysPrivilegeList.privilegeAccess}
+				</if>
+				<if test="keySysPrivilegeList.privilegeAccessValue!= null">
+					and privilege_access_value = #{keySysPrivilegeList.privilegeAccessValue}
+				</if>
+			</trim>
+		</if>
+		limit ${(page-1)*pagesize},${pagesize}
+	</select>
+
+	<select id="getRows" parameterType="hashmap" resultType="long">
+		select
+		count(*) from
+		tb_sys_privilege_list
+		<if test="keySysPrivilegeList!= null">
+			<trim prefix="WHERE" prefixOverrides="AND |OR ">
+				<if test="keySysPrivilegeList.id!= null">
+					and id = #{keySysPrivilegeList.id}
+				</if>
+				<if test="keySysPrivilegeList.nid!= null">
+					and nid = #{keySysPrivilegeList.nid}
+				</if>
+				<if test="keySysPrivilegeList.unitId!= null">
+					and unit_id = #{keySysPrivilegeList.unitId}
+				</if>
+				<if test="keySysPrivilegeList.unitNid!= null">
+					and unit_nid = #{keySysPrivilegeList.unitNid}
+				</if>
+				<if test="keySysPrivilegeList.privilegeMaster!= null and keySysPrivilegeList.privilegeMaster!=''">
+					and privilege_master = #{keySysPrivilegeList.privilegeMaster}
+				</if>
+				<if test="keySysPrivilegeList.privilegeMasterValue!= null">
+					and privilege_master_value = #{keySysPrivilegeList.privilegeMasterValue}
+				</if>
+				<if test="keySysPrivilegeList.privilegeAccess!= null and keySysPrivilegeList.privilegeAccess!=''">
+					and privilege_access = #{keySysPrivilegeList.privilegeAccess}
+				</if>
+				<if test="keySysPrivilegeList.privilegeAccessValue!= null">
+					and privilege_access_value = #{keySysPrivilegeList.privilegeAccessValue}
+				</if>
+			</trim>
+		</if>
+	</select>
+
+	<select id="getRoleIdsByUserId" parameterType="long" resultType="long">
+        SELECT
+	 	CASE
+		  	WHEN pc = 0 THEN 0
+			ELSE t.privilege_access_value
+		END AS privilege_access_value
+		FROM(
+        SELECT
+        pl.privilege_access_value,COUNT(pl.privilege_access_value) as pc
+        FROM
+        tb_sys_privilege_list pl,tb_sys_role role
+        WHERE
+        pl.privilege_master = 'user'
+        AND pl.privilege_master_value = #{userId}
+        AND pl.privilege_access = 'role'
+        AND pl.privilege_access_value = role.id
+        and role.status = 1) t;
+    </select>
+
+	<select id="getSysRoleIdByUnitId" parameterType="long" resultType="long">
+		SELECT
+	 	CASE
+		  	WHEN pc = 0 THEN 0
+			ELSE t.privilege_access_value
+		END AS privilege_access_value
+		FROM(
+		SELECT
+		privilege_access_value,
+		count(privilege_access_value)AS pc
+		FROM
+		tb_sys_privilege_list
+		WHERE
+		privilege_master = 'unit'
+		AND privilege_master_value = #{unitId}
+		AND privilege_access = 'role'
+		LIMIT 0,1
+		)t
+    </select>
+
+
+	<!-- 根据公司id获取 -->
+	<select id="getSysPrivilegeListByMaster" parameterType="hashmap" resultMap="sysPrivilegeListMap">
+		SELECT
+		*
+		FROM
+		tb_sys_privilege_list
+		<trim prefix="WHERE" prefixOverrides="AND || OR">
+			<if test="1==1">
+				AND privilege_master = #{master}
+				AND privilege_master_value = #{masterValue}
+				AND privilege_access = 'role'
+			</if>
+			<if test="unitId!=null and unitId!=''">
+				AND unit_id = #{unitId}
+			</if>
+		</trim>
+		limit 0,1
+	</select>
+
+</mapper>

@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xgh.mng.dao.write.ISysMenuDaoW">
+
+	<resultMap id="sysMenuMap" type="com.xgh.mng.entity.SysMenu">
+		<result column="id" javaType="long" jdbcType="BIGINT" property="id"/>
+		<result column="parent_id" javaType="long" jdbcType="BIGINT" property="parentId"/>
+		<result column="nid" javaType="long" jdbcType="BIGINT" property="nid"/>
+		<result column="parent_nid" javaType="long" jdbcType="BIGINT" property="parentNid"/>
+		<result column="inst_id" javaType="long" jdbcType="BIGINT" property="instId"/>
+		<result column="inst_nid" javaType="long" jdbcType="BIGINT" property="instNid"/>
+		<result column="menu_name" javaType="string" jdbcType="VARCHAR" property="menuName"/>
+		<result column="menu_url" javaType="string" jdbcType="VARCHAR" property="menuUrl"/>
+		<result column="menu_icon" javaType="string" jdbcType="VARCHAR" property="menuIcon"/>
+		<result column="is_visible" javaType="long" jdbcType="BIGINT" property="isVisible"/>
+		<result column="is_main" javaType="int" jdbcType="INTEGER" property="isMain"/>
+		<result column="is_grid" javaType="int" jdbcType="INTEGER" property="isGrid"/>
+		<result column="is_query" javaType="int" jdbcType="INTEGER" property="isQuery"/>
+		<result column="is_validate" javaType="int" jdbcType="INTEGER" property="isValidate"/>
+		<result column="is_sys" javaType="int" jdbcType="INTEGER" property="isSys"/>
+		<result column="ord" javaType="long" jdbcType="BIGINT" property="ord"/>
+		<result column="create_date" javaType="date" jdbcType="TIMESTAMP" property="createDate"/>
+		<result column="update_date" javaType="date" jdbcType="TIMESTAMP" property="updateDate"/>
+		<result column="status" javaType="int" jdbcType="INTEGER" property="status"/>
+		<result column="remark" javaType="string" jdbcType="VARCHAR" property="remark"/>
+	</resultMap>
+
+	<insert id="add" parameterType="com.xgh.mng.entity.SysMenu">
+		<selectKey keyProperty="id" order="AFTER" resultType="long">
+			SELECT max(id) AS value from tb_sys_menu
+		</selectKey>
+		insert into tb_sys_menu
+		(
+		parent_id,
+		nid,
+		parent_nid,
+		inst_id,
+		inst_nid,
+		menu_name,
+		menu_url,
+		menu_icon,
+		is_visible,
+		is_main,
+		is_grid,
+		is_query,
+		is_validate,
+		is_sys,
+		ord,
+		create_date,
+		update_date,
+		status,
+		remark
+		)
+		values (
+		#{parentId,jdbcType=BIGINT},
+		#{nid,jdbcType=BIGINT},
+		#{parentNid,jdbcType=BIGINT},
+		#{instId,jdbcType=BIGINT},
+		#{instNid,jdbcType=BIGINT},
+		#{menuName,jdbcType=VARCHAR},
+		#{menuUrl,jdbcType=VARCHAR},
+		#{menuIcon,jdbcType=VARCHAR},
+		#{isVisible,jdbcType=BIGINT},
+		#{isMain,jdbcType=INTEGER},
+		#{isGrid,jdbcType=INTEGER},
+		#{isQuery,jdbcType=INTEGER},
+		#{isValidate,jdbcType=INTEGER},
+		#{isSys,jdbcType=INTEGER},
+		#{ord,jdbcType=BIGINT},
+		#{createDate,jdbcType=TIMESTAMP},
+		#{updateDate,jdbcType=TIMESTAMP},
+		#{status,jdbcType=INTEGER},
+		#{remark,jdbcType=VARCHAR}
+		)
+	</insert>
+
+	<update id="update" parameterType="com.xgh.mng.entity.SysMenu">
+        update tb_sys_menu
+        set
+        parent_id = #{parentId,jdbcType=BIGINT},
+        nid = #{nid,jdbcType=BIGINT},
+        parent_nid = #{parentNid,jdbcType=BIGINT},
+        inst_id = #{instId,jdbcType=BIGINT},
+        inst_nid = #{instNid,jdbcType=BIGINT},
+        menu_name = #{menuName,jdbcType=VARCHAR},
+        menu_url = #{menuUrl,jdbcType=VARCHAR},
+        menu_icon = #{menuIcon,jdbcType=VARCHAR},
+        is_visible = #{isVisible,jdbcType=BIGINT},
+        is_main = #{isMain,jdbcType=INTEGER},
+        is_grid = #{isGrid,jdbcType=INTEGER},
+        is_query = #{isQuery,jdbcType=INTEGER},
+        is_validate = #{isValidate,jdbcType=INTEGER},
+        is_sys = #{isSys,jdbcType=INTEGER},
+        ord = #{ord,jdbcType=BIGINT},
+        create_date = #{createDate,jdbcType=TIMESTAMP},
+        update_date = #{updateDate,jdbcType=TIMESTAMP},
+        status = #{status,jdbcType=INTEGER},
+        remark = #{remark,jdbcType=VARCHAR}
+        where id = #{id}
+    </update>
+
+	<delete id="deleteById" parameterType="long">
+		delete from
+		tb_sys_menu
+		where
+		id = #{id}
+	</delete>
+
+	<delete id="deleteByNid" parameterType="long">
+		delete from
+		tb_sys_menu
+		where
+		nid = #{nid}
+	</delete>
+
+	<delete id="deleteByIds">
+		delete from
+		tb_sys_menu
+		where
+		id in
+		<foreach close=")" collection="list" item="id" open="("
+				 separator=",">#{id}
+		</foreach>
+	</delete>
+</mapper>
